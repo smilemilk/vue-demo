@@ -1,8 +1,3 @@
-<style lang="less">
-    @import '../../styles/common.less';
-    @import './components/table.less';
-</style>
-
 <template>
     <div>
         <Card>
@@ -49,21 +44,6 @@
                     }
                 }
                 return res;
-            },
-            handleSearch1 () {
-                this.data1 = this.initTable1;
-                this.data1 = this.search(this.data1, {name: this.searchConName1});
-            },
-            handleSearch2 () {
-                this.data2 = this.initTable2;
-                this.data2 = this.search(this.data2, {name: this.searchConName2, tel: this.searchConTel2});
-            },
-            handleSearch3 () {
-                this.data3 = this.initTable3;
-                this.data3 = this.search(this.data3, {name: this.searchConName3});
-            },
-            handleCancel3 () {
-                this.data3 = this.initTable3;
             }
         },
         mounted () {

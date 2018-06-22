@@ -1,13 +1,13 @@
-import Main from '@/views/Main.vue';
+import Layout from '@/views/layout/layout.vue';
 
 // 不作为Main组件的子页面展示的页面单独写，如下
 export const loginRouter = {
-    path: '/login',
+    path: 'login',
     name: 'login',
     meta: {
         title: 'Login - 登录'
     },
-    component: () => import('@/views/login.vue')
+    component: () => import('@/views/login/login.vue')
 };
 
 export const page404 = {
@@ -16,7 +16,7 @@ export const page404 = {
     meta: {
         title: '404-页面不存在'
     },
-    component: () => import('@/views/error-page/404.vue')
+    component: () => import('@/views/error/404.vue')
 };
 
 export const page403 = {
@@ -25,7 +25,7 @@ export const page403 = {
         title: '403-权限不足'
     },
     name: 'error-403',
-    component: () => import('@//views/error-page/403.vue')
+    component: () => import('@//views/error/403.vue')
 };
 
 export const page500 = {
@@ -34,13 +34,13 @@ export const page500 = {
         title: '500-服务端错误'
     },
     name: 'error-500',
-    component: () => import('@/views/error-page/500.vue')
+    component: () => import('@/views/error/500.vue')
 };
 
 export const locking = {
     path: '/locking',
     name: 'locking',
-    component: () => import('@/views/layout/lockscreen/components/locking-page.vue')
+    component: () => import('@/views/layout/components/lockscreen/components/locking-page.vue')
 };
 
 // 作为Main组件的子页面展示但是不在左侧菜单显示的路由写在otherRouter里
@@ -48,12 +48,10 @@ export const otherRouter = {
     path: '/',
     name: 'otherRouter',
     redirect: '/home',
-    component: Main,
+    component: Layout,
     children: [
         { path: 'home', title: {i18n: 'home'}, name: 'home_index', component: () => import('@/views/home/home.vue') },
-        { path: 'ownspace', title: '个人中心', name: 'ownspace_index', component: () => import('@/views/own-space/own-space.vue') },
-        { path: 'order/:order_id', title: '订单详情', name: 'order-info', component: () => import('@/views/advanced-router/component/order-info.vue') }, // 用于展示动态路由
-        { path: 'shopping', title: '购物详情', name: 'shopping', component: () => import('@/views/advanced-router/component/shopping-info.vue') }, // 用于展示带参路由
+        { path: 'ownspace', title: '个人中心', name: 'ownspace_index', component: () => import('@/views/personInfo/personInfo.vue') },
         { path: 'message', title: '消息中心', name: 'message_index', component: () => import('@/views/message/message.vue') }
     ]
 };
@@ -65,19 +63,19 @@ export const appRouter = [
         icon: 'ios-grid-view',
         name: 'tables',
         title: '表格',
-        component: Main,
+        component: Layout,
         children: [
             { path: 'demo', title: 'demo', name: 'demo', icon: 'search', component: () => import('@/views/tables/demo.vue') }
         ]
     },
     {
-        path: '/error-page',
+        path: '/error',
         icon: 'android-sad',
         title: '错误页面',
         name: 'errorpage',
-        component: Main,
+        component: Layout,
         children: [
-            { path: 'index', title: '错误页面', name: 'errorpage_index', component: () => import('@/views/error-page/error-page.vue') }
+            { path: 'index', title: '错误页面', name: 'error_index', component: () => import('@/views/error/error.vue') }
         ]
     }
 ];
