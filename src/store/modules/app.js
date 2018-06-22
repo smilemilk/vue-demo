@@ -9,7 +9,7 @@ const app = {
         lang: '',
         isFullScreen: false,
         openedSubmenuArr: [], // 要展开的菜单数组
-        menuTheme: 'dark', // 主题
+        // menuTheme: 'dark', // 主题
         themeColor: '',
         pageOpenedList: [{
             title: '首页',
@@ -87,12 +87,12 @@ const app = {
             });
             state.menuList = menuList;
         },
-        changeMenuTheme (state, theme) {
-            state.menuTheme = theme;
-        },
-        changeMainTheme (state, mainTheme) {
-            state.themeColor = mainTheme;
-        },
+        // changeMenuTheme (state, theme) {
+        //     state.menuTheme = theme;
+        // },
+        // changeMainTheme (state, mainTheme) {
+        //     state.themeColor = mainTheme;
+        // },
         addOpenSubmenu (state, name) {
             let hasThisName = false;
             let isEmpty = false;

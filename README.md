@@ -1,6 +1,6 @@
 ## VUE ADMIN
 
-- Webpack4 + Vue-cli3.0 + iVew
+- Webpack4 + Vue-cli3.0 + iView
 - ......
 
 ## Install

@@ -5,7 +5,6 @@
                 <shrinkable-menu
                     :shrink="shrink"
                     @on-change="handleSubmenuChange"
-                    :theme="menuTheme"
                     :before-push="beforePush"
                     :open-names="openedSubmenuArr"
                     :menu-list="menuList">
@@ -38,7 +37,7 @@
                                 </a>
                                 <DropdownMenu slot="list">
                                     <DropdownItem name="ownSpace">个人中心</DropdownItem>
-                                    <DropdownItem name="loginout" divided>退出登录</DropdownItem>
+                                    <DropdownItem name="loginOut" divided>退出登录</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                             <Avatar :src="avatorPath" style="background: #619fe7;margin-left: 10px;"></Avatar>
@@ -105,9 +104,9 @@
             // lang () {
             //     return this.$store.state.app.lang;
             // },
-            menuTheme () {
-                return this.$store.state.app.menuTheme;
-            },
+            // menuTheme () {
+            //     return this.$store.state.app.menuTheme;
+            // },
             mesCount () {
                 return this.$store.state.app.messageCount;
             }
@@ -134,10 +133,10 @@
                     this.$router.push({
                         name: 'ownspace_index'
                     });
-                } else if (name === 'loginout') {
+                } else if (name === 'loginOut') {
                     // 退出登录
                     this.$store.commit('logout', this);
-                    this.$store.commit('clearOpenedSubmenu');
+                    // this.$store.commit('clearOpenedSubmenu');
                     this.$router.push({
                         name: 'login'
                     });
@@ -181,9 +180,9 @@
                 this.checkTag(to.name);
                 localStorage.currentPageName = to.name;
             },
-            lang () {
-                util.setCurrentPath(this, this.$route.name); // 在切换语言时用于刷新面包屑
-            },
+            // lang () {
+            //     util.setCurrentPath(this, this.$route.name); // 在切换语言时用于刷新面包屑
+            // },
             openedSubmenuArr () {
                 setTimeout(() => {
                     this.scrollBarResize();
