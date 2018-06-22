@@ -5,13 +5,15 @@ import {appRouter} from './router/router';
 import store from './store';
 import App from './app.vue';
 // import '@/locale';
+
+import locale from 'iview/dist/locale/zh-CN'
 import 'iview/dist/styles/iview.css';
 import '@/styles/index.less';
 // import VueI18n from 'vue-i18n';
 import util from './libs/util';
 
 // Vue.use(VueI18n);
-Vue.use(iView);
+Vue.use(iView, {locale});
 
 new Vue({
     el: '#app',
