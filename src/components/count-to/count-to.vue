@@ -1,8 +1,3 @@
-<style lang="less">
-    @import '../../../styles/common.less';
-    @import './count-to.less';
-</style>
-
 <template>
     <div>
         <Row>
@@ -185,3 +180,18 @@ export default {
     }
 };
 </script>
+
+<style lang="less" scoped>
+    .countto-page-row{
+        height: 200px;
+    }
+    .count-to-con{
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    .pre-code-show-con p{
+        height: 30px;
+        margin: 0;
+    }
+</style>

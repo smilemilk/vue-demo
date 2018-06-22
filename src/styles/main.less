@@ -40,6 +40,14 @@
     &-content-container{
         position: relative;
     }
+    &-header{
+        [type=button] {
+            -webkit-appearance: none;
+            &.ivu-btn-text:focus {
+                box-shadow: none;
+            }
+        }
+    }
     &-header-con{
         box-sizing: border-box;
         position: fixed;
@@ -205,3 +213,31 @@
         width: auto;
     }
 }
+@media screen and (max-height: 786px){
+    .main{
+        .single-page-con{
+            top: 82px;
+            .single-page {
+                margin: 10px;
+            }
+        }
+    }
+    .main-header-con {
+        height: 83px;
+    }
+    .main-header {
+        height: 42px;
+        .navicon-con {
+            .ivu-btn {
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+        }
+        .header-avator-con{
+            .message-con, .lock-screen-btn-con {
+                padding: 10px 0;
+            }
+        }
+    }
+}
+

@@ -1,12 +1,8 @@
-<style lang="less">
-    @import './split-pane.less';
-</style>
-
 <template>
-    <div 
-        :class="wraperClasses" 
+    <div
+        :class="wraperClasses"
         ref="wraper"
-        @mouseup="handleMouseup" 
+        @mouseup="handleMouseup"
         @mousemove="handleMousemove"
         @mouseleave="handleMouseout">
         <div v-if="direction === 'horizontal'" :class="`${prefix}-container`">
@@ -14,9 +10,9 @@
                 <slot name="left"></slot>
             </div>
             <slot name="trigger">
-                <div 
-                    :class="`${prefix}-trigger`" 
-                    ref="trigger" 
+                <div
+                    :class="`${prefix}-trigger`"
+                    ref="trigger"
                     :style="horizontalTriggerStyle"
                     @mousedown="handleMousedown"
                     unselectable="on">
@@ -33,8 +29,8 @@
                 <slot name="top"></slot>
             </div>
             <slot name="trigger">
-                <div 
-                    :class="`${prefix}-trigger`" 
+                <div
+                    :class="`${prefix}-trigger`"
                     ref="trigger"
                     :style="verticalTriggerStyle"
                     @mousedown="handleMousedown"
@@ -228,3 +224,99 @@ export default {
     }
 };
 </script>
+
+<style lang="less" scoped>
+    @prefix: ~"split-pane";
+    @container: ~"@{prefix}-container";
+    @trigger: ~"@{prefix}-trigger";
+
+    .@{prefix}{
+        position: relative;
+        &-container{
+            height: 100%;
+            width: 100%;
+        }
+
+        &-horizontal{
+            & > div > .@{trigger}{
+                transform: translateX(-50%);
+                cursor: col-resize;
+                width: 8px;
+                height: 100%;
+                margin: 0 1px;
+                .trigger-middle-point{
+                    width: 3px;
+                    height: 20px;
+                    p{
+                        width: 100%;
+                        height: 1px;
+                        margin-top: 2px;
+                    }
+                }
+            }
+        }
+
+        &-vertical{
+            & > div > .@{trigger}{
+                transform: translateY(-50%);
+                cursor: row-resize;
+                height: 8px;
+                width: 100%;
+                margin: 1px 0;
+                .trigger-middle-point{
+                    width: 20px;
+                    height: 3px;
+                    p{
+                        height: 100%;
+                        width: 1px;
+                        display: inline-block;
+                        margin-left: 2px;
+                    }
+                }
+            }
+        }
+
+        &-trigger{
+            position: absolute;
+            z-index: 3;
+            background: #F8F8F9;
+            box-shadow: 0 0 4px 0 rgba(28,36,56,0.32);
+            .trigger-middle-point{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-87%);
+                line-height: 0px;
+                p{
+                    background: rgba(23,35,61,0.25);
+                }
+            }
+        }
+
+        &-left-area{
+            height: 100%;
+            float: left;
+            z-index: 2;
+            // overflow: auto;
+        }
+
+        &-right-area{
+            height: 100%;
+            float: left;
+            z-index: 2;
+            // overflow: auto;
+        }
+
+        &-top-area{
+            width: 100%;
+            z-index: 2;
+            // overflow: auto;
+        }
+
+        &-bottom-area{
+            width: 100%;
+            z-index: 2;
+            // overflow: auto;
+        }
+    }
+</style>

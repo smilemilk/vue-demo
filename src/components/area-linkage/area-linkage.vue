@@ -13,7 +13,7 @@
                         基础示例
                     </p>
                     <Row class="area-linkage-page-row1">
-                        <al-selector 
+                        <al-selector
                             v-model="resDefault"
                             level="3"
                             auto
@@ -155,8 +155,8 @@
                     </p>
                     <Row class="area-linkage-page-row2">
                         <al-cascader
-                            v-model="res1" 
-                            size="large" 
+                            v-model="res1"
+                            size="large"
                             level="3"
                             placeholder="这是级联模式"
                             :render-format="label => label.join(' > ')"
@@ -170,7 +170,7 @@
                         可搜索
                     </p>
                     <Row class="area-linkage-page-row2">
-                        <al-selector 
+                        <al-selector
                             :value="res1"
                             searchable
                         />
@@ -225,3 +225,14 @@ export default {
     }
 };
 </script>
+
+<style lang="less" scoped>
+    .area-linkage-page{
+        &-row1{
+            height: 366px !important;
+        }
+        &-row2{
+            height: 112px !important;
+        }
+    }
+</style>
