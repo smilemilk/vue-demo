@@ -64,7 +64,7 @@ module.exports = merge(webpackBaseConfig, {
                 to: 'fonts'
             },
             {
-                from: 'src/views/my-components/text-editor/tinymce'
+                from: 'src/components/text-editor/tinymce'
             }
         ], {
             ignore: [

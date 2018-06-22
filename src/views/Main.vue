@@ -67,7 +67,7 @@
     import messageTip from './layout/message-tip.vue';
     import Cookies from 'js-cookie';
     import util from '@/libs/util.js';
-    import scrollBar from '@/views/my-components/scroll-bar/vue-scroller-bars';
+    import scrollBar from '@/components/scroll-bar/vue-scroller-bars';
 
     export default {
         components: {
