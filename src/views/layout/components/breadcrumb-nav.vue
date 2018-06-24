@@ -16,11 +16,11 @@ export default {
     },
     methods: {
         itemTitle (item) {
-            // if (typeof item.title === 'object') {
-            //     return this.$t(item.title.i18n);
-            // } else {
+            if (typeof item.title === 'object') {
+                return item.title.i18n;
+            } else {
                 return item.title;
-            // }
+            }
         }
     }
 };
