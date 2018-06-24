@@ -52,6 +52,7 @@
 <script>
     import * as table from './store/reconciliations';
     import {parseTime} from '@/filters';
+    import ajax from '@/api/statistics';
 
     export default {
         name: 'searchable-table',
@@ -69,6 +70,9 @@
                 dataList: [],
                 initTable3: []
             };
+        },
+        created() {
+            this.getList();
         },
         computed: {
             dataListComputed () {
@@ -94,6 +98,19 @@
                     this.queryParams.billStartTime = '';
                     this.queryParams.billEndTime = '';
                 }
+            },
+            getList () {
+                console.log('00000000009999999');
+                ajax.refundList({
+                    page: 1,
+                    limit: 50,
+                    billStartTime: '2018-06-24',
+                    // billEndTime: '',
+                }).then(response => {
+                    console.log('0000000');
+                    console.log(response);
+                }).catch(() => {
+                });
             },
             search (data, argumentObj) {
                 let res = data;

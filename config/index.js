@@ -10,7 +10,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/admin': 'http://10.1.11.48:8030',
+      '/unioncheck': 'http://test.weimaipay.com:8070/',
     },
 
     // Various Dev Server settings

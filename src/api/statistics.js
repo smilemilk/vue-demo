@@ -4,7 +4,7 @@ import request from '@/libs/request';
 
 export function refundList (params) {
     return request({
-        url: 'merchantCheck/checkList',
+        url: 'unioncheck/merchantCheck/checkList',
         method: 'get',
         params: params
     });

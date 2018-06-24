@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import ajax from '@/api/agency';
+    // import ajax from '@/api/agency';
 
     export default {
         name: 'home',
