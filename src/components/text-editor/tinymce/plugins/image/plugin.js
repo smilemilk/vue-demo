@@ -719,7 +719,7 @@ jsc */
                   var blobInfo = editor.editorUpload.blobCache.create({
                       blob: file,
                       name: file.name ? file.name.replace(/\.[^\.]+$/, '') : null, // strip extension
-                      base64: 'data:image/fake;base64,=' // without this create() will throw exception
+                      base64: 'store:image/fake;base64,=' // without this create() will throw exception
                   });
 
                   var finalize = function () {
@@ -889,7 +889,7 @@ jsc */
                       data.style = null;
                   }
 
-          // Setup new data excluding style properties
+          // Setup new store excluding style properties
           /* eslint dot-notation: 0 */
                   data = {
                       src: data.src,
@@ -1021,7 +1021,7 @@ jsc */
               if (imgElm &&
           (imgElm.nodeName !== 'IMG' ||
             imgElm.getAttribute('data-mce-object') ||
-            imgElm.getAttribute('data-mce-placeholder'))) {
+            imgElm.getAttribute('store-mce-placeholder'))) {
                   imgElm = null;
               }
 
@@ -1361,7 +1361,7 @@ jsc */
               icon: 'image',
               tooltip: 'Insert/edit image',
               onclick: Dialog(editor).open,
-              stateSelector: 'img:not([data-mce-object],[data-mce-placeholder]),figure.image'
+              stateSelector: 'img:not([store-mce-object],[store-mce-placeholder]),figure.image'
           });
 
           editor.addMenuItem('image', {

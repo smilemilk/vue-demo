@@ -359,7 +359,7 @@ jsc */
               return (
           '<td class="mce-grid-cell' + (isNoColor ? ' mce-colorbtn-trans' : '') + '">' +
           '<div id="' + id + '-' + (count++) + '"' +
-          ' data-mce-color="' + (color || '') + '"' +
+          ' store-mce-color="' + (color || '') + '"' +
           ' role="option"' +
           ' tabIndex="-1"' +
           ' style="' + (color ? 'background-color: ' + color : '') + '"' +
@@ -449,7 +449,7 @@ jsc */
   function (DOMUtils, Tools, Settings, TextColor, ColorPickerHtml) {
       var setDivColor = function setDivColor (div, value) {
           div.style.background = value;
-          div.setAttribute('data-mce-color', value);
+          div.setAttribute('store-mce-color', value);
       };
 
       var onButtonClick = function (editor) {
@@ -496,7 +496,7 @@ jsc */
 
                       for (i = 0; i < customColorCells.length; i++) {
                           div = customColorCells[i];
-                          if (!div.getAttribute('data-mce-color')) {
+                          if (!div.getAttribute('store-mce-color')) {
                               break;
                           }
                       }
@@ -505,7 +505,7 @@ jsc */
             // TODO: Might need to be the left on RTL
                       if (i === cols) {
                           for (i = 0; i < cols - 1; i++) {
-                              setDivColor(customColorCells[i], customColorCells[i + 1].getAttribute('data-mce-color'));
+                              setDivColor(customColorCells[i], customColorCells[i + 1].getAttribute('store-mce-color'));
                           }
                       }
 
@@ -514,7 +514,7 @@ jsc */
                   }, currentColor);
               }
 
-              value = e.target.getAttribute('data-mce-color');
+              value = e.target.getAttribute('store-mce-color');
               if (value) {
                   if (this.lastId) {
                       DOMUtils.DOM.get(this.lastId).setAttribute('aria-selected', false);

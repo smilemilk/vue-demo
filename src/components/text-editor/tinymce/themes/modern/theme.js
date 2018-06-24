@@ -68,7 +68,7 @@
         define(id, [], function () { return ref; });
     };
 /* jsc
-["tinymce.themes.modern.Theme","global!window","tinymce.core.ThemeManager","tinymce.themes.modern.api.ThemeApi","tinymce.ui.Api","tinymce.ui.FormatControls","global!tinymce.util.Tools.resolve","tinymce.themes.modern.ui.Render","tinymce.themes.modern.ui.Resize","tinymce.ui.NotificationManagerImpl","tinymce.ui.WindowManagerImpl","tinymce.core.ui.Factory","tinymce.core.util.Tools","tinymce.ui.AbsoluteLayout","tinymce.ui.BrowseButton","tinymce.ui.Button","tinymce.ui.ButtonGroup","tinymce.ui.Checkbox","tinymce.ui.Collection","tinymce.ui.ColorBox","tinymce.ui.ColorButton","tinymce.ui.ColorPicker","tinymce.ui.ComboBox","tinymce.ui.Container","tinymce.ui.Control","tinymce.ui.DragHelper","tinymce.ui.DropZone","tinymce.ui.ElementPath","tinymce.ui.FieldSet","tinymce.ui.FilePicker","tinymce.ui.FitLayout","tinymce.ui.FlexLayout","tinymce.ui.FloatPanel","tinymce.ui.FlowLayout","tinymce.ui.Form","ephox.katamari.api.Fun","ephox.sugar.api.node.Element","ephox.sugar.api.search.SelectorFind","global!document","tinymce.core.EditorManager","tinymce.core.Env","tinymce.ui.Widget","tinymce.ui.editorui.Align","tinymce.ui.editorui.FontSelect","tinymce.ui.editorui.FontSizeSelect","tinymce.ui.editorui.FormatSelect","tinymce.ui.editorui.Formats","tinymce.ui.editorui.InsertButton","tinymce.ui.editorui.SimpleControls","tinymce.ui.editorui.UndoRedo","tinymce.ui.editorui.VisualAid","tinymce.ui.FormItem","tinymce.ui.GridLayout","tinymce.ui.Iframe","tinymce.ui.InfoBox","tinymce.ui.KeyboardNavigation","tinymce.ui.Label","tinymce.ui.Layout","tinymce.ui.ListBox","tinymce.ui.Menu","tinymce.ui.MenuBar","tinymce.ui.MenuButton","tinymce.ui.MenuItem","tinymce.ui.MessageBox","tinymce.ui.Movable","tinymce.ui.Notification","tinymce.ui.Panel","tinymce.ui.PanelButton","tinymce.ui.Path","tinymce.ui.Progress","tinymce.ui.Radio","tinymce.ui.ReflowQueue","tinymce.ui.Resizable","tinymce.ui.ResizeHandle","tinymce.ui.Scrollable","tinymce.ui.SelectBox","tinymce.ui.Selector","tinymce.ui.Slider","tinymce.ui.Spacer","tinymce.ui.SplitButton","tinymce.ui.StackLayout","tinymce.ui.TabPanel","tinymce.ui.TextBox","tinymce.ui.Throbber","tinymce.ui.Toolbar","tinymce.ui.Tooltip","tinymce.ui.Window","tinymce.themes.modern.api.Settings","tinymce.themes.modern.modes.Iframe","tinymce.themes.modern.modes.Inline","tinymce.themes.modern.ui.ProgressState","tinymce.core.dom.DOMUtils","tinymce.themes.modern.api.Events","ephox.katamari.api.Arr","global!setTimeout","tinymce.ui.DomUtils","tinymce.core.dom.DomQuery","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.ui.BoxUtils","tinymce.ui.ClassList","tinymce.ui.data.ObservableObject","tinymce.core.util.Delay","global!RegExp","tinymce.core.util.VK","tinymce.core.util.Color","global!Array","global!Error","tinymce.ui.content.LinkTargets","global!console","ephox.sugar.api.search.PredicateFind","ephox.sugar.api.search.Selectors","ephox.sugar.impl.ClosestOrAncestor","tinymce.ui.editorui.FormatUtils","tinymce.ui.fmt.FontInfo","tinymce.themes.modern.ui.A11y","tinymce.themes.modern.ui.ContextToolbars","tinymce.themes.modern.ui.Menubar","tinymce.themes.modern.ui.Sidebar","tinymce.themes.modern.ui.SkinLoaded","tinymce.themes.modern.ui.Toolbar","tinymce.ui.data.Binding","tinymce.core.util.Observable","ephox.katamari.api.Option","global!String","ephox.katamari.api.Id","ephox.sugar.api.search.SelectorFilter","ephox.katamari.api.Type","ephox.sugar.api.node.Body","ephox.sugar.api.dom.Compare","ephox.sugar.api.node.NodeTypes","ephox.sugar.api.node.Node","tinymce.core.geom.Rect","global!Object","global!Date","global!Math","ephox.sugar.api.search.PredicateFilter","ephox.katamari.api.Thunk","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.sugar.api.search.Traverse","ephox.sand.util.Global","ephox.sand.core.PlatformDetection","global!navigator","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.katamari.api.Resolve","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.katamari.api.Global","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.katamari.api.Obj","ephox.katamari.util.BagUtils","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
+["tinymce.themes.modern.Theme","global!window","tinymce.core.ThemeManager","tinymce.themes.modern.api.ThemeApi","tinymce.ui.Api","tinymce.ui.FormatControls","global!tinymce.util.Tools.resolve","tinymce.themes.modern.ui.Render","tinymce.themes.modern.ui.Resize","tinymce.ui.NotificationManagerImpl","tinymce.ui.WindowManagerImpl","tinymce.core.ui.Factory","tinymce.core.util.Tools","tinymce.ui.AbsoluteLayout","tinymce.ui.BrowseButton","tinymce.ui.Button","tinymce.ui.ButtonGroup","tinymce.ui.Checkbox","tinymce.ui.Collection","tinymce.ui.ColorBox","tinymce.ui.ColorButton","tinymce.ui.ColorPicker","tinymce.ui.ComboBox","tinymce.ui.Container","tinymce.ui.Control","tinymce.ui.DragHelper","tinymce.ui.DropZone","tinymce.ui.ElementPath","tinymce.ui.FieldSet","tinymce.ui.FilePicker","tinymce.ui.FitLayout","tinymce.ui.FlexLayout","tinymce.ui.FloatPanel","tinymce.ui.FlowLayout","tinymce.ui.Form","ephox.katamari.api.Fun","ephox.sugar.api.node.Element","ephox.sugar.api.search.SelectorFind","global!document","tinymce.core.EditorManager","tinymce.core.Env","tinymce.ui.Widget","tinymce.ui.editorui.Align","tinymce.ui.editorui.FontSelect","tinymce.ui.editorui.FontSizeSelect","tinymce.ui.editorui.FormatSelect","tinymce.ui.editorui.Formats","tinymce.ui.editorui.InsertButton","tinymce.ui.editorui.SimpleControls","tinymce.ui.editorui.UndoRedo","tinymce.ui.editorui.VisualAid","tinymce.ui.FormItem","tinymce.ui.GridLayout","tinymce.ui.Iframe","tinymce.ui.InfoBox","tinymce.ui.KeyboardNavigation","tinymce.ui.Label","tinymce.ui.Layout","tinymce.ui.ListBox","tinymce.ui.Menu","tinymce.ui.MenuBar","tinymce.ui.MenuButton","tinymce.ui.MenuItem","tinymce.ui.MessageBox","tinymce.ui.Movable","tinymce.ui.Notification","tinymce.ui.Panel","tinymce.ui.PanelButton","tinymce.ui.Path","tinymce.ui.Progress","tinymce.ui.Radio","tinymce.ui.ReflowQueue","tinymce.ui.Resizable","tinymce.ui.ResizeHandle","tinymce.ui.Scrollable","tinymce.ui.SelectBox","tinymce.ui.Selector","tinymce.ui.Slider","tinymce.ui.Spacer","tinymce.ui.SplitButton","tinymce.ui.StackLayout","tinymce.ui.TabPanel","tinymce.ui.TextBox","tinymce.ui.Throbber","tinymce.ui.Toolbar","tinymce.ui.Tooltip","tinymce.ui.Window","tinymce.themes.modern.api.Settings","tinymce.themes.modern.modes.Iframe","tinymce.themes.modern.modes.Inline","tinymce.themes.modern.ui.ProgressState","tinymce.core.dom.DOMUtils","tinymce.themes.modern.api.Events","ephox.katamari.api.Arr","global!setTimeout","tinymce.ui.DomUtils","tinymce.core.dom.DomQuery","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.ui.BoxUtils","tinymce.ui.ClassList","tinymce.ui.store.ObservableObject","tinymce.core.util.Delay","global!RegExp","tinymce.core.util.VK","tinymce.core.util.Color","global!Array","global!Error","tinymce.ui.content.LinkTargets","global!console","ephox.sugar.api.search.PredicateFind","ephox.sugar.api.search.Selectors","ephox.sugar.impl.ClosestOrAncestor","tinymce.ui.editorui.FormatUtils","tinymce.ui.fmt.FontInfo","tinymce.themes.modern.ui.A11y","tinymce.themes.modern.ui.ContextToolbars","tinymce.themes.modern.ui.Menubar","tinymce.themes.modern.ui.Sidebar","tinymce.themes.modern.ui.SkinLoaded","tinymce.themes.modern.ui.Toolbar","tinymce.ui.store.Binding","tinymce.core.util.Observable","ephox.katamari.api.Option","global!String","ephox.katamari.api.Id","ephox.sugar.api.search.SelectorFilter","ephox.katamari.api.Type","ephox.sugar.api.node.Body","ephox.sugar.api.dom.Compare","ephox.sugar.api.node.NodeTypes","ephox.sugar.api.node.Node","tinymce.core.geom.Rect","global!Object","global!Date","global!Math","ephox.sugar.api.search.PredicateFilter","ephox.katamari.api.Thunk","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.sugar.api.search.Traverse","ephox.sand.util.Global","ephox.sand.core.PlatformDetection","global!navigator","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.katamari.api.Resolve","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.katamari.store.Immutable","ephox.katamari.store.MixedBag","ephox.katamari.api.Global","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.katamari.api.Obj","ephox.katamari.util.BagUtils","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
 jsc */
     defineGlobal('global!window', window);
     defineGlobal('global!tinymce.util.Tools.resolve', tinymce.util.Tools.resolve);
@@ -730,7 +730,7 @@ jsc */
                   relRect = Rect.relativePosition(panelRect, elementRect, relPos);
                   movePanelTo(panel, userConstrain(handler, relRect.x, relRect.y, elementRect, contentAreaRect, panelRect));
               } else {
-          // Allow overflow below the editor to avoid placing toolbars ontop of tables
+          // Allow overflow below the editor to avoid placing toolbars ontop of statistics
                   contentAreaRect.h += panelRect.h;
 
                   elementRect = Rect.intersect(contentAreaRect, elementRect);
@@ -3517,7 +3517,7 @@ jsc */
       });
 
     // Extend tinymce.ui.Collection prototype with some property methods
-      Tools.each('text name disabled active selected checked visible parent value data'.split(' '), function (name) {
+      Tools.each('text name disabled active selected checked visible parent value store'.split(' '), function (name) {
           proto[name] = function (value) {
               return this.prop(name, value);
           };
@@ -3655,7 +3655,7 @@ jsc */
     define(
   'tinymce.ui.data.ObservableObject',
         [
-            'tinymce.ui.data.Binding',
+            'tinymce.ui.store.Binding',
             'tinymce.core.util.Class',
             'tinymce.core.util.Observable',
             'tinymce.core.util.Tools'
@@ -3728,7 +3728,7 @@ jsc */
        * Constructs a new observable object instance.
        *
        * @constructor
-       * @param {Object} data Initial data for the object.
+       * @param {Object} data Initial store for the object.
        */
                 init: function (data) {
                     var name, value;
@@ -3947,7 +3947,7 @@ jsc */
             'tinymce.ui.BoxUtils',
             'tinymce.ui.ClassList',
             'tinymce.ui.Collection',
-            'tinymce.ui.data.ObservableObject',
+            'tinymce.ui.store.ObservableObject',
             'tinymce.ui.DomUtils',
             'tinymce.ui.ReflowQueue'
         ],
@@ -5249,7 +5249,7 @@ jsc */
       'use strict';
 
       var hasTabstopData = function (elm) {
-          return !!elm.getAttribute('data-mce-tabstop');
+          return !!elm.getAttribute('store-mce-tabstop');
       };
 
     /**
@@ -5575,7 +5575,7 @@ jsc */
        * Calls the click event on the currently focused control. This is normally done using the Enter/Space keys.
        *
        * @private
-       * @param {Object} aria Optional aria data to pass along with the enter event.
+       * @param {Object} aria Optional aria store to pass along with the enter event.
        */
           function enter (aria) {
               aria = aria || {};
@@ -5986,12 +5986,12 @@ jsc */
           },
 
       /**
-       * Populates the form fields from the specified JSON data object.
+       * Populates the form fields from the specified JSON store object.
        *
-       * Control items in the form that matches the data will have it's value set.
+       * Control items in the form that matches the store will have it's value set.
        *
        * @method fromJSON
-       * @param {Object} data JSON data object to set control values by.
+       * @param {Object} data JSON store object to set control values by.
        * @return {tinymce.ui.Container} Current form instance.
        */
           fromJSON: function (data) {
@@ -6009,7 +6009,7 @@ jsc */
        * that has a name and a value.
        *
        * @method toJSON
-       * @return {Object} JSON object with form data.
+       * @return {Object} JSON object with form store.
        */
           toJSON: function () {
               var self = this, data = {};
@@ -8689,7 +8689,7 @@ jsc */
                   closeCallback(win);
               });
 
-        // Handle data
+        // Handle store
               if (args.data) {
                   win.on('postRender', function () {
                       this.find('*').each(function (ctrl) {
@@ -9680,7 +9680,7 @@ jsc */
                           }
                       });
 
-            // Fire event on current text box with the serialized data of the whole form
+            // Fire event on current text box with the serialized store of the whole form
                       self.fire('submit', { data: rootControl.toJSON() });
                   }
               });
@@ -10817,7 +10817,7 @@ jsc */
               self.on('click', function (e) {
                   var index, target = e.target;
 
-                  if ((index = target.getAttribute('data-index'))) {
+                  if ((index = target.getAttribute('store-index'))) {
                       self.fire('select', { value: self.row()[index], index: index });
                   }
               });
@@ -10840,7 +10840,7 @@ jsc */
           },
 
       /**
-       * Sets/gets the data to be used for the path.
+       * Sets/gets the store to be used for the path.
        *
        * @method row
        * @param {Array} row Array with row name is rendered to path.
@@ -10887,7 +10887,7 @@ jsc */
               for (i = 0, l = parts.length; i < l; i++) {
                   html += (
             (i > 0 ? '<div class="' + prefix + 'divider" aria-hidden="true"> ' + self.settings.delimiter + ' </div>' : '') +
-            '<div role="button" class="' + prefix + 'path-item' + (i == l - 1 ? ' ' + prefix + 'last' : '') + '" data-index="' +
+            '<div role="button" class="' + prefix + 'path-item' + (i == l - 1 ? ' ' + prefix + 'last' : '') + '" store-index="' +
             i + '" tabindex="-1" id="' + self._id + '-' + i + '" aria-level="' + (i + 1) + '">' + parts[i].name + '</div>'
           );
               }
@@ -11794,8 +11794,8 @@ jsc */
   'ephox.katamari.api.Struct',
 
         [
-            'ephox.katamari.data.Immutable',
-            'ephox.katamari.data.MixedBag'
+            'ephox.katamari.store.Immutable',
+            'ephox.katamari.store.MixedBag'
         ],
 
   function (Immutable, MixedBag) {
@@ -13000,7 +13000,7 @@ jsc */
                       return true;
                   }
 
-                  if (node.getAttribute('data-mce-contenteditable') === value) {
+                  if (node.getAttribute('store-mce-contenteditable') === value) {
                       return true;
                   }
               }
@@ -17069,7 +17069,7 @@ jsc */
                           }
                       });
 
-            // Fire event on current text box with the serialized data of the whole form
+            // Fire event on current text box with the serialized store of the whole form
                       self.fire('submit', { data: rootControl.toJSON() });
                   }
               });
@@ -17815,7 +17815,7 @@ jsc */
                               }
                           });
 
-              // Fire event on current text box with the serialized data of the whole form
+              // Fire event on current text box with the serialized store of the whole form
                           self.fire('submit', { data: rootControl.toJSON() });
                       }
                   });

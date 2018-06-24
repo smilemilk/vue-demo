@@ -59,13 +59,13 @@ export const otherRouter = {
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [
     {
-        path: '/tables',
+        path: '/statistics',
         icon: 'ios-grid-view',
-        name: 'tables',
+        name: 'statistics',
         title: '表格',
         component: Layout,
         children: [
-            { path: 'demo', title: 'demo', name: 'demo', icon: 'search', component: () => import('@/views/tables/demo.vue') }
+            { path: 'reconciliations', title: ' 商户统一对账', name: 'reconciliations', icon: 'search', component: () => import('@/views/statistics/reconciliations.vue') }
         ]
     },
     {

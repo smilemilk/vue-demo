@@ -163,7 +163,7 @@ jsc */
       };
 
       var getPlaceholderHtml = function () {
-          return '<img src="' + Env.transparentSrc + '" class="' + getPageBreakClass() + '" data-mce-resize="false" data-mce-placeholder />';
+          return '<img src="' + Env.transparentSrc + '" class="' + getPageBreakClass() + '" store-mce-resize="false" store-mce-placeholder />';
       };
 
       var setup = function (editor) {

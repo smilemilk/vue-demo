@@ -477,7 +477,7 @@ jsc */
                   }
 
                   var clone = match.stencil.cloneNode(false);
-                  clone.setAttribute('data-mce-index', matchIndex);
+                  clone.setAttribute('store-mce-index', matchIndex);
 
                   if (fill) {
                       clone.appendChild(dom.doc.createTextNode(fill));
@@ -560,7 +560,7 @@ jsc */
               index = typeof index === 'number' ? '' + index : null;
 
               for (var i = 0; i < elements.length; i++) {
-                  var element = elements[i], dataIndex = element.getAttribute('data-mce-index');
+                  var element = elements[i], dataIndex = element.getAttribute('store-mce-index');
 
                   if (dataIndex !== null && dataIndex.length && hasClass(element)) {
                       if (dataIndex === index || index === null) {
@@ -647,7 +647,7 @@ jsc */
       * Finds the specified regexp and adds them to the matches collection.
       *
       * @param {RegExp} regex Global regexp to search the current node by.
-      * @param {Object} [data] Optional custom data element for the match.
+      * @param {Object} [data] Optional custom store element for the match.
       * @return {DomTextMatcher} Current DomTextMatcher instance.
       */
           function find (regex, data) {
@@ -684,7 +684,7 @@ jsc */
       * @return {Object} Match object for the specified element.
       */
           function matchFromElement (element) {
-              return matches[element.getAttribute('data-mce-index')];
+              return matches[element.getAttribute('store-mce-index')];
           }
 
       /**
@@ -703,7 +703,7 @@ jsc */
       *
       * @param {Number} start Start offset.
       * @param {Number} length Length of the text.
-      * @param {Object} data Custom data object for match.
+      * @param {Object} data Custom store object for match.
       * @return {DomTextMatcher} Current DomTextMatcher instance.
       */
           function add (start, length, data) {
@@ -937,7 +937,7 @@ jsc */
       };
 
       var getElmIndex = function (elm) {
-          var value = elm.getAttribute('data-mce-index');
+          var value = elm.getAttribute('store-mce-index');
 
           if (typeof value === 'number') {
               return '' + value;

@@ -934,7 +934,7 @@ jsc */
 
       var getHref = function (elm) {
       // Returns the real href value not the resolved a.href value
-          var href = elm.getAttribute('data-mce-href');
+          var href = elm.getAttribute('store-mce-href');
           return href || elm.getAttribute('href');
       };
 

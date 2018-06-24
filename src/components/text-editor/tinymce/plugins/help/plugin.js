@@ -68,7 +68,7 @@
         define(id, [], function () { return ref; });
     };
 /* jsc
-["tinymce.plugins.help.Plugin","tinymce.core.PluginManager","tinymce.plugins.help.api.Commands","tinymce.plugins.help.ui.Buttons","tinymce.plugins.help.ui.Dialog","global!tinymce.util.Tools.resolve","tinymce.core.EditorManager","tinymce.plugins.help.ui.KeyboardShortcutsTab","tinymce.plugins.help.ui.PluginsTab","tinymce.plugins.help.ui.ButtonsRow","ephox.katamari.api.Arr","tinymce.core.util.I18n","tinymce.plugins.help.data.KeyboardShortcuts","ephox.katamari.api.Fun","ephox.katamari.api.Obj","ephox.katamari.api.Strings","tinymce.plugins.help.data.PluginUrls","ephox.katamari.api.Option","global!Array","global!Error","global!String","tinymce.core.Env","global!Object","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
+["tinymce.plugins.help.Plugin","tinymce.core.PluginManager","tinymce.plugins.help.api.Commands","tinymce.plugins.help.ui.Buttons","tinymce.plugins.help.ui.Dialog","global!tinymce.util.Tools.resolve","tinymce.core.EditorManager","tinymce.plugins.help.ui.KeyboardShortcutsTab","tinymce.plugins.help.ui.PluginsTab","tinymce.plugins.help.ui.ButtonsRow","ephox.katamari.api.Arr","tinymce.core.util.I18n","tinymce.plugins.help.store.KeyboardShortcuts","ephox.katamari.api.Fun","ephox.katamari.api.Obj","ephox.katamari.api.Strings","tinymce.plugins.help.store.PluginUrls","ephox.katamari.api.Option","global!Array","global!Error","global!String","tinymce.core.Env","global!Object","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
 jsc */
     defineGlobal('global!tinymce.util.Tools.resolve', tinymce.util.Tools.resolve);
 /**
@@ -796,7 +796,7 @@ jsc */
         [
             'ephox.katamari.api.Arr',
             'tinymce.core.util.I18n',
-            'tinymce.plugins.help.data.KeyboardShortcuts'
+            'tinymce.plugins.help.store.KeyboardShortcuts'
         ],
   function (Arr, I18n, KeyboardShortcuts) {
       var makeTab = function () {
@@ -804,7 +804,7 @@ jsc */
               return 'aria-label="Action: ' + shortcut.action + ', Shortcut: ' + shortcut.shortcut.replace(/Ctrl/g, 'Control') + '"';
           };
           var shortcutLisString = Arr.map(KeyboardShortcuts.shortcuts, function (shortcut) {
-              return '<tr data-mce-tabstop="1" tabindex="-1" ' + makeAriaLabel(shortcut) + '>' +
+              return '<tr store-mce-tabstop="1" tabindex="-1" ' + makeAriaLabel(shortcut) + '>' +
                   '<td>' + I18n.translate(shortcut.action) + '</td>' +
                   '<td>' + shortcut.shortcut + '</td>' +
                 '</tr>';
@@ -1225,7 +1225,7 @@ jsc */
             'ephox.katamari.api.Strings',
             'tinymce.core.EditorManager',
             'tinymce.core.util.I18n',
-            'tinymce.plugins.help.data.PluginUrls'
+            'tinymce.plugins.help.store.PluginUrls'
         ],
   function (Arr, Fun, Obj, Strings, tinymce, I18n, PluginUrls) {
       var makeLink = Fun.curry(Strings.supplant, '<a href="${url}" target="_blank" rel="noopener">${name}</a>');
@@ -1263,7 +1263,7 @@ jsc */
       var installedPlugins = function (editor) {
           return {
               type: 'container',
-              html: '<div style="overflow-y: auto; overflow-x: hidden; max-height: 230px; height: 230px;" data-mce-tabstop="1" tabindex="-1">' +
+              html: '<div style="overflow-y: auto; overflow-x: hidden; max-height: 230px; height: 230px;" store-mce-tabstop="1" tabindex="-1">' +
                 pluginLister(editor) +
               '</div>',
               flex: 1
@@ -1273,7 +1273,7 @@ jsc */
       var availablePlugins = function () {
           return {
               type: 'container',
-              html: '<div style="padding: 10px; background: #e3e7f4; height: 100%;" data-mce-tabstop="1" tabindex="-1">' +
+              html: '<div style="padding: 10px; background: #e3e7f4; height: 100%;" store-mce-tabstop="1" tabindex="-1">' +
                 '<p><b>' + I18n.translate('Premium plugins:') + '</b></p>' +
                 '<ul>' +
                   '<li>PowerPaste</li>' +

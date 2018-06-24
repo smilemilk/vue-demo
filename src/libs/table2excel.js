@@ -79,7 +79,7 @@ function Cleanup () {
     // CollectGarbage();
 }
 let tableToExcel = (function () {
-    let uri = 'data:application/vnd.ms-excel;base64,';
+    let uri = 'store:application/vnd.ms-excel;base64,';
     let template = '<html><head><meta charset="UTF-8"></head><body><table>{table}</table></body></html>';
     let base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))); };
     let format = function (s, c) {

@@ -401,7 +401,7 @@ define(
       function guessMimeType (uri) {
           var parts, ext, mimes, matches;
 
-          if (uri.indexOf('data:') === 0) {
+          if (uri.indexOf('store:') === 0) {
               uri = uri.split(',');
               matches = /data:([^;]+)/.exec(uri[0]);
               return matches ? matches[1] : '';
@@ -488,7 +488,7 @@ define(
                   return blobUriToBlob(src);
               }
 
-              if (src.indexOf('data:') === 0) {
+              if (src.indexOf('store:') === 0) {
                   return dataUriToBlob(src);
               }
 
@@ -576,7 +576,7 @@ define(
               return blobUriToBlob(url);
           }
 
-          if (url.indexOf('data:') === 0) {
+          if (url.indexOf('store:') === 0) {
               return dataUriToBlob(url);
           }
 
@@ -1774,7 +1774,7 @@ define(
               if (width || height) {
                   img.style.width = size.w + 'px';
                   img.style.height = size.h + 'px';
-                  img.removeAttribute('data-mce-style');
+                  img.removeAttribute('store-mce-style');
               }
 
               width = img.width;
@@ -2895,7 +2895,7 @@ define(
 
               Tools.each(blockers, function (blocker) {
                   DomQuery('#' + id, containerElm).append(
-            '<div id="' + id + '-' + blocker + '"class="' + prefix + 'croprect-block" style="display: none" data-mce-bogus="all">'
+            '<div id="' + id + '-' + blocker + '"class="' + prefix + 'croprect-block" style="display: none" store-mce-bogus="all">'
           );
               });
 
@@ -2903,7 +2903,7 @@ define(
                   DomQuery('#' + id, containerElm).append(
             '<div id="' + id + '-' + handle.name + '" class="' + prefix +
             'croprect-handle ' + prefix + 'croprect-handle-' + handle.name + '"' +
-            'style="display: none" data-mce-bogus="all" role="gridcell" tabindex="-1"' +
+            'style="display: none" store-mce-bogus="all" role="gridcell" tabindex="-1"' +
             ' aria-label="' + handle.label + '" aria-grabbed="false">'
           );
               });
@@ -3870,7 +3870,7 @@ define(
       var count = 0;
 
       var isEditableImage = function (editor, img) {
-          var selectorMatched = editor.dom.is(img, 'img:not([data-mce-object],[data-mce-placeholder])');
+          var selectorMatched = editor.dom.is(img, 'img:not([store-mce-object],[store-mce-placeholder])');
 
           return selectorMatched && (isLocalImage(editor, img) || isCorsImage(editor, img) || editor.settings.imagetools_proxy);
       };
@@ -3901,7 +3901,7 @@ define(
       var isLocalImage = function (editor, img) {
           var url = img.src;
 
-          return url.indexOf('data:') === 0 || url.indexOf('blob:') === 0 || new URI(url).host === editor.documentBaseURI.host;
+          return url.indexOf('store:') === 0 || url.indexOf('blob:') === 0 || new URI(url).host === editor.documentBaseURI.host;
       };
 
       var isCorsImage = function (editor, img) {

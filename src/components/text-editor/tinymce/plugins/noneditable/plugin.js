@@ -196,7 +196,7 @@ jsc */
               }
 
               return (
-          '<span class="' + cls + '" data-mce-content="' + editor.dom.encode(args[0]) + '">' +
+          '<span class="' + cls + '" store-mce-content="' + editor.dom.encode(args[0]) + '">' +
           editor.dom.encode(typeof args[1] === 'string' ? args[1] : args[0]) + '</span>'
               );
           };
@@ -257,11 +257,11 @@ jsc */
                           continue;
                       }
 
-                      if (nonEditableRegExps.length > 0 && node.attr('data-mce-content')) {
+                      if (nonEditableRegExps.length > 0 && node.attr('store-mce-content')) {
                           node.name = '#text';
                           node.type = 3;
                           node.raw = true;
-                          node.value = node.attr('data-mce-content');
+                          node.value = node.attr('store-mce-content');
                       } else {
                           node.attr(contentEditableAttrName, null);
                       }

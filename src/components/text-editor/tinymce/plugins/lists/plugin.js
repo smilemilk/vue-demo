@@ -273,7 +273,7 @@ jsc */
       var isEmpty = function (dom, elm, keepBookmarks) {
           var empty = dom.isEmpty(elm);
 
-          if (keepBookmarks && dom.select('span[data-mce-type=bookmark]', elm).length > 0) {
+          if (keepBookmarks && dom.select('span[store-mce-type=bookmark]', elm).length > 0) {
               return false;
           }
 
@@ -373,7 +373,7 @@ jsc */
      * added to them since they can be restored after a dom operation.
      *
      * So this: <p><b>|</b><b>|</b></p>
-     * becomes: <p><b><span data-mce-type="bookmark">|</span></b><b data-mce-type="bookmark">|</span></b></p>
+     * becomes: <p><b><span store-mce-type="bookmark">|</span></b><b store-mce-type="bookmark">|</span></b></p>
      *
      * @param  {DOMRange} rng DOM Range to get bookmark on.
      * @return {Object} Bookmark object.
@@ -431,7 +431,7 @@ jsc */
                           return idx;
                       }
 
-            // Skip data-mce-type=bookmark nodes
+            // Skip store-mce-type=bookmark nodes
                       if (node.nodeType !== 1 || node.getAttribute('data-mce-type') !== 'bookmark') {
                           idx++;
                       }
@@ -749,7 +749,7 @@ jsc */
               DOM.remove(targetNode);
           };
 
-          bookmarks = DOM.select('span[data-mce-type="bookmark"]', ul);
+          bookmarks = DOM.select('span[store-mce-type="bookmark"]', ul);
           newBlock = newBlock || TextBlock.createNewTextBlock(editor, li);
           tmpRng = DOM.createRng();
           tmpRng.setStartAfter(li);

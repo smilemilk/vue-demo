@@ -68,7 +68,7 @@
         define(id, [], function () { return ref; });
     };
 /* jsc
-["tinymce.themes.inlite.Theme","global!window","tinymce.core.ThemeManager","tinymce.themes.inlite.api.ThemeApi","tinymce.themes.inlite.ui.Buttons","tinymce.themes.inlite.ui.Panel","tinymce.ui.Api","tinymce.ui.FormatControls","global!tinymce.util.Tools.resolve","tinymce.themes.inlite.core.Render","tinymce.ui.NotificationManagerImpl","tinymce.ui.WindowManagerImpl","global!document","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.core.util.Tools","tinymce.themes.inlite.api.Events","tinymce.themes.inlite.api.Settings","tinymce.themes.inlite.core.Layout","tinymce.themes.inlite.core.Measure","tinymce.themes.inlite.ui.Forms","tinymce.themes.inlite.ui.Toolbar","tinymce.themes.inlite.file.Conversions","tinymce.themes.inlite.file.Picker","tinymce.themes.inlite.core.Actions","tinymce.ui.AbsoluteLayout","tinymce.ui.BrowseButton","tinymce.ui.Button","tinymce.ui.ButtonGroup","tinymce.ui.Checkbox","tinymce.ui.Collection","tinymce.ui.ColorBox","tinymce.ui.ColorButton","tinymce.ui.ColorPicker","tinymce.ui.ComboBox","tinymce.ui.Container","tinymce.ui.Control","tinymce.ui.DragHelper","tinymce.ui.DropZone","tinymce.ui.ElementPath","tinymce.ui.FieldSet","tinymce.ui.FilePicker","tinymce.ui.FitLayout","tinymce.ui.FlexLayout","tinymce.ui.FloatPanel","tinymce.ui.FlowLayout","tinymce.ui.Form","ephox.katamari.api.Fun","ephox.sugar.api.node.Element","ephox.sugar.api.search.SelectorFind","tinymce.core.EditorManager","tinymce.core.Env","tinymce.ui.Widget","tinymce.ui.editorui.Align","tinymce.ui.editorui.FontSelect","tinymce.ui.editorui.FontSizeSelect","tinymce.ui.editorui.FormatSelect","tinymce.ui.editorui.Formats","tinymce.ui.editorui.InsertButton","tinymce.ui.editorui.SimpleControls","tinymce.ui.editorui.UndoRedo","tinymce.ui.editorui.VisualAid","tinymce.ui.FormItem","tinymce.ui.GridLayout","tinymce.ui.Iframe","tinymce.ui.InfoBox","tinymce.ui.KeyboardNavigation","tinymce.ui.Label","tinymce.ui.Layout","tinymce.ui.ListBox","tinymce.ui.Menu","tinymce.ui.MenuBar","tinymce.ui.MenuButton","tinymce.ui.MenuItem","tinymce.ui.MessageBox","tinymce.ui.Movable","tinymce.ui.Notification","tinymce.ui.Panel","tinymce.ui.PanelButton","tinymce.ui.Path","tinymce.ui.Progress","tinymce.ui.Radio","tinymce.ui.ReflowQueue","tinymce.ui.Resizable","tinymce.ui.ResizeHandle","tinymce.ui.Scrollable","tinymce.ui.SelectBox","tinymce.ui.Selector","tinymce.ui.Slider","tinymce.ui.Spacer","tinymce.ui.SplitButton","tinymce.ui.StackLayout","tinymce.ui.TabPanel","tinymce.ui.TextBox","tinymce.ui.Throbber","tinymce.ui.Toolbar","tinymce.ui.Tooltip","tinymce.ui.Window","tinymce.core.util.Delay","tinymce.themes.inlite.alien.Arr","tinymce.themes.inlite.core.ElementMatcher","tinymce.themes.inlite.core.Matcher","tinymce.themes.inlite.core.PredicateId","tinymce.themes.inlite.core.SelectionMatcher","tinymce.themes.inlite.core.SkinLoader","ephox.katamari.api.Arr","global!setTimeout","tinymce.ui.DomUtils","tinymce.core.dom.DomQuery","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.ui.BoxUtils","tinymce.ui.ClassList","tinymce.ui.data.ObservableObject","tinymce.themes.inlite.alien.EditorSettings","tinymce.core.geom.Rect","tinymce.themes.inlite.core.Convert","tinymce.core.util.Promise","tinymce.themes.inlite.alien.Uuid","tinymce.themes.inlite.alien.Unlink","tinymce.themes.inlite.core.UrlType","tinymce.themes.inlite.alien.Type","ephox.sand.api.FileReader","global!RegExp","tinymce.core.util.VK","tinymce.core.util.Color","global!Array","global!Error","tinymce.ui.content.LinkTargets","global!console","ephox.sugar.api.search.PredicateFind","ephox.sugar.api.search.Selectors","ephox.sugar.impl.ClosestOrAncestor","tinymce.ui.editorui.FormatUtils","tinymce.ui.fmt.FontInfo","ephox.katamari.api.Option","global!String","tinymce.ui.data.Binding","tinymce.core.util.Observable","tinymce.themes.inlite.alien.Bookmark","tinymce.core.dom.TreeWalker","tinymce.core.dom.RangeUtils","ephox.sand.util.Global","ephox.katamari.api.Id","ephox.sugar.api.search.SelectorFilter","ephox.katamari.api.Type","ephox.sugar.api.node.Body","ephox.sugar.api.dom.Compare","ephox.sugar.api.node.NodeTypes","ephox.sugar.api.node.Node","global!Object","ephox.katamari.api.Resolve","global!Date","global!Math","ephox.sugar.api.search.PredicateFilter","ephox.katamari.api.Thunk","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.katamari.api.Global","ephox.sugar.api.search.Traverse","ephox.sand.core.PlatformDetection","global!navigator","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.katamari.api.Obj","ephox.katamari.util.BagUtils","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
+["tinymce.themes.inlite.Theme","global!window","tinymce.core.ThemeManager","tinymce.themes.inlite.api.ThemeApi","tinymce.themes.inlite.ui.Buttons","tinymce.themes.inlite.ui.Panel","tinymce.ui.Api","tinymce.ui.FormatControls","global!tinymce.util.Tools.resolve","tinymce.themes.inlite.core.Render","tinymce.ui.NotificationManagerImpl","tinymce.ui.WindowManagerImpl","global!document","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.core.util.Tools","tinymce.themes.inlite.api.Events","tinymce.themes.inlite.api.Settings","tinymce.themes.inlite.core.Layout","tinymce.themes.inlite.core.Measure","tinymce.themes.inlite.ui.Forms","tinymce.themes.inlite.ui.Toolbar","tinymce.themes.inlite.file.Conversions","tinymce.themes.inlite.file.Picker","tinymce.themes.inlite.core.Actions","tinymce.ui.AbsoluteLayout","tinymce.ui.BrowseButton","tinymce.ui.Button","tinymce.ui.ButtonGroup","tinymce.ui.Checkbox","tinymce.ui.Collection","tinymce.ui.ColorBox","tinymce.ui.ColorButton","tinymce.ui.ColorPicker","tinymce.ui.ComboBox","tinymce.ui.Container","tinymce.ui.Control","tinymce.ui.DragHelper","tinymce.ui.DropZone","tinymce.ui.ElementPath","tinymce.ui.FieldSet","tinymce.ui.FilePicker","tinymce.ui.FitLayout","tinymce.ui.FlexLayout","tinymce.ui.FloatPanel","tinymce.ui.FlowLayout","tinymce.ui.Form","ephox.katamari.api.Fun","ephox.sugar.api.node.Element","ephox.sugar.api.search.SelectorFind","tinymce.core.EditorManager","tinymce.core.Env","tinymce.ui.Widget","tinymce.ui.editorui.Align","tinymce.ui.editorui.FontSelect","tinymce.ui.editorui.FontSizeSelect","tinymce.ui.editorui.FormatSelect","tinymce.ui.editorui.Formats","tinymce.ui.editorui.InsertButton","tinymce.ui.editorui.SimpleControls","tinymce.ui.editorui.UndoRedo","tinymce.ui.editorui.VisualAid","tinymce.ui.FormItem","tinymce.ui.GridLayout","tinymce.ui.Iframe","tinymce.ui.InfoBox","tinymce.ui.KeyboardNavigation","tinymce.ui.Label","tinymce.ui.Layout","tinymce.ui.ListBox","tinymce.ui.Menu","tinymce.ui.MenuBar","tinymce.ui.MenuButton","tinymce.ui.MenuItem","tinymce.ui.MessageBox","tinymce.ui.Movable","tinymce.ui.Notification","tinymce.ui.Panel","tinymce.ui.PanelButton","tinymce.ui.Path","tinymce.ui.Progress","tinymce.ui.Radio","tinymce.ui.ReflowQueue","tinymce.ui.Resizable","tinymce.ui.ResizeHandle","tinymce.ui.Scrollable","tinymce.ui.SelectBox","tinymce.ui.Selector","tinymce.ui.Slider","tinymce.ui.Spacer","tinymce.ui.SplitButton","tinymce.ui.StackLayout","tinymce.ui.TabPanel","tinymce.ui.TextBox","tinymce.ui.Throbber","tinymce.ui.Toolbar","tinymce.ui.Tooltip","tinymce.ui.Window","tinymce.core.util.Delay","tinymce.themes.inlite.alien.Arr","tinymce.themes.inlite.core.ElementMatcher","tinymce.themes.inlite.core.Matcher","tinymce.themes.inlite.core.PredicateId","tinymce.themes.inlite.core.SelectionMatcher","tinymce.themes.inlite.core.SkinLoader","ephox.katamari.api.Arr","global!setTimeout","tinymce.ui.DomUtils","tinymce.core.dom.DomQuery","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.ui.BoxUtils","tinymce.ui.ClassList","tinymce.ui.store.ObservableObject","tinymce.themes.inlite.alien.EditorSettings","tinymce.core.geom.Rect","tinymce.themes.inlite.core.Convert","tinymce.core.util.Promise","tinymce.themes.inlite.alien.Uuid","tinymce.themes.inlite.alien.Unlink","tinymce.themes.inlite.core.UrlType","tinymce.themes.inlite.alien.Type","ephox.sand.api.FileReader","global!RegExp","tinymce.core.util.VK","tinymce.core.util.Color","global!Array","global!Error","tinymce.ui.content.LinkTargets","global!console","ephox.sugar.api.search.PredicateFind","ephox.sugar.api.search.Selectors","ephox.sugar.impl.ClosestOrAncestor","tinymce.ui.editorui.FormatUtils","tinymce.ui.fmt.FontInfo","ephox.katamari.api.Option","global!String","tinymce.ui.store.Binding","tinymce.core.util.Observable","tinymce.themes.inlite.alien.Bookmark","tinymce.core.dom.TreeWalker","tinymce.core.dom.RangeUtils","ephox.sand.util.Global","ephox.katamari.api.Id","ephox.sugar.api.search.SelectorFilter","ephox.katamari.api.Type","ephox.sugar.api.node.Body","ephox.sugar.api.dom.Compare","ephox.sugar.api.node.NodeTypes","ephox.sugar.api.node.Node","global!Object","ephox.katamari.api.Resolve","global!Date","global!Math","ephox.sugar.api.search.PredicateFilter","ephox.katamari.api.Thunk","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.katamari.api.Global","ephox.sugar.api.search.Traverse","ephox.sand.core.PlatformDetection","global!navigator","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.katamari.store.Immutable","ephox.katamari.store.MixedBag","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.katamari.api.Obj","ephox.katamari.util.BagUtils","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
 jsc */
     defineGlobal('global!window', window);
     defineGlobal('global!tinymce.util.Tools.resolve', tinymce.util.Tools.resolve);
@@ -2898,7 +2898,7 @@ jsc */
       });
 
     // Extend tinymce.ui.Collection prototype with some property methods
-      Tools.each('text name disabled active selected checked visible parent value data'.split(' '), function (name) {
+      Tools.each('text name disabled active selected checked visible parent value store'.split(' '), function (name) {
           proto[name] = function (value) {
               return this.prop(name, value);
           };
@@ -3036,7 +3036,7 @@ jsc */
     define(
   'tinymce.ui.data.ObservableObject',
         [
-            'tinymce.ui.data.Binding',
+            'tinymce.ui.store.Binding',
             'tinymce.core.util.Class',
             'tinymce.core.util.Observable',
             'tinymce.core.util.Tools'
@@ -3109,7 +3109,7 @@ jsc */
        * Constructs a new observable object instance.
        *
        * @constructor
-       * @param {Object} data Initial data for the object.
+       * @param {Object} data Initial store for the object.
        */
                 init: function (data) {
                     var name, value;
@@ -3328,7 +3328,7 @@ jsc */
             'tinymce.ui.BoxUtils',
             'tinymce.ui.ClassList',
             'tinymce.ui.Collection',
-            'tinymce.ui.data.ObservableObject',
+            'tinymce.ui.store.ObservableObject',
             'tinymce.ui.DomUtils',
             'tinymce.ui.ReflowQueue'
         ],
@@ -5593,7 +5593,7 @@ jsc */
       'use strict';
 
       var hasTabstopData = function (elm) {
-          return !!elm.getAttribute('data-mce-tabstop');
+          return !!elm.getAttribute('store-mce-tabstop');
       };
 
     /**
@@ -5919,7 +5919,7 @@ jsc */
        * Calls the click event on the currently focused control. This is normally done using the Enter/Space keys.
        *
        * @private
-       * @param {Object} aria Optional aria data to pass along with the enter event.
+       * @param {Object} aria Optional aria store to pass along with the enter event.
        */
           function enter (aria) {
               aria = aria || {};
@@ -6330,12 +6330,12 @@ jsc */
           },
 
       /**
-       * Populates the form fields from the specified JSON data object.
+       * Populates the form fields from the specified JSON store object.
        *
-       * Control items in the form that matches the data will have it's value set.
+       * Control items in the form that matches the store will have it's value set.
        *
        * @method fromJSON
-       * @param {Object} data JSON data object to set control values by.
+       * @param {Object} data JSON store object to set control values by.
        * @return {tinymce.ui.Container} Current form instance.
        */
           fromJSON: function (data) {
@@ -6353,7 +6353,7 @@ jsc */
        * that has a name and a value.
        *
        * @method toJSON
-       * @return {Object} JSON object with form data.
+       * @return {Object} JSON object with form store.
        */
           toJSON: function () {
               var self = this, data = {};
@@ -7972,7 +7972,7 @@ jsc */
                   closeCallback(win);
               });
 
-        // Handle data
+        // Handle store
               if (args.data) {
                   win.on('postRender', function () {
                       this.find('*').each(function (ctrl) {
@@ -8166,7 +8166,7 @@ jsc */
      * added to them since they can be restored after a dom operation.
      *
      * So this: <p><b>|</b><b>|</b></p>
-     * becomes: <p><b><span data-mce-type="bookmark">|</span></b><b data-mce-type="bookmark">|</span></b></p>
+     * becomes: <p><b><span store-mce-type="bookmark">|</span></b><b store-mce-type="bookmark">|</span></b></p>
      *
      * @param  {DOMRange} rng DOM Range to get bookmark on.
      * @return {Object} Bookmark object.
@@ -8229,7 +8229,7 @@ jsc */
                           return idx;
                       }
 
-            // Skip data-mce-type=bookmark nodes
+            // Skip store-mce-type=bookmark nodes
                       if (node.nodeType != 1 || node.getAttribute('data-mce-type') != 'bookmark') {
                           idx++;
                       }
@@ -8427,7 +8427,7 @@ jsc */
       var createTableHtml = function (cols, rows) {
           var x, y, html;
 
-          html = '<table data-mce-id="mce" style="width: 100%">';
+          html = '<table store-mce-id="mce" style="width: 100%">';
           html += '<tbody>';
 
           for (y = 0; y < rows; y++) {
@@ -8447,7 +8447,7 @@ jsc */
       };
 
       var getInsertedElement = function (editor) {
-          var elms = editor.dom.select('*[data-mce-id]');
+          var elms = editor.dom.select('*[store-mce-id]');
           return elms[0];
       };
 
@@ -8458,7 +8458,7 @@ jsc */
               editor.insertContent(createTableHtml(cols, rows));
 
               tableElm = getInsertedElement(editor);
-              tableElm.removeAttribute('data-mce-id');
+              tableElm.removeAttribute('store-mce-id');
               cellElm = editor.dom.select('td,th', tableElm);
               editor.selection.setCursorLocation(cellElm[0], 0);
           });
@@ -10166,7 +10166,7 @@ jsc */
                           }
                       });
 
-            // Fire event on current text box with the serialized data of the whole form
+            // Fire event on current text box with the serialized store of the whole form
                       self.fire('submit', { data: rootControl.toJSON() });
                   }
               });
@@ -11303,7 +11303,7 @@ jsc */
               self.on('click', function (e) {
                   var index, target = e.target;
 
-                  if ((index = target.getAttribute('data-index'))) {
+                  if ((index = target.getAttribute('store-index'))) {
                       self.fire('select', { value: self.row()[index], index: index });
                   }
               });
@@ -11326,7 +11326,7 @@ jsc */
           },
 
       /**
-       * Sets/gets the data to be used for the path.
+       * Sets/gets the store to be used for the path.
        *
        * @method row
        * @param {Array} row Array with row name is rendered to path.
@@ -11373,7 +11373,7 @@ jsc */
               for (i = 0, l = parts.length; i < l; i++) {
                   html += (
             (i > 0 ? '<div class="' + prefix + 'divider" aria-hidden="true"> ' + self.settings.delimiter + ' </div>' : '') +
-            '<div role="button" class="' + prefix + 'path-item' + (i == l - 1 ? ' ' + prefix + 'last' : '') + '" data-index="' +
+            '<div role="button" class="' + prefix + 'path-item' + (i == l - 1 ? ' ' + prefix + 'last' : '') + '" store-index="' +
             i + '" tabindex="-1" id="' + self._id + '-' + i + '" aria-level="' + (i + 1) + '">' + parts[i].name + '</div>'
           );
               }
@@ -12280,8 +12280,8 @@ jsc */
   'ephox.katamari.api.Struct',
 
         [
-            'ephox.katamari.data.Immutable',
-            'ephox.katamari.data.MixedBag'
+            'ephox.katamari.store.Immutable',
+            'ephox.katamari.store.MixedBag'
         ],
 
   function (Immutable, MixedBag) {
@@ -13397,7 +13397,7 @@ jsc */
                       return true;
                   }
 
-                  if (node.getAttribute('data-mce-contenteditable') === value) {
+                  if (node.getAttribute('store-mce-contenteditable') === value) {
                       return true;
                   }
               }
@@ -17559,7 +17559,7 @@ jsc */
                           }
                       });
 
-            // Fire event on current text box with the serialized data of the whole form
+            // Fire event on current text box with the serialized store of the whole form
                       self.fire('submit', { data: rootControl.toJSON() });
                   }
               });
@@ -18305,7 +18305,7 @@ jsc */
                               }
                           });
 
-              // Fire event on current text box with the serialized data of the whole form
+              // Fire event on current text box with the serialized store of the whole form
                           self.fire('submit', { data: rootControl.toJSON() });
                       }
                   });

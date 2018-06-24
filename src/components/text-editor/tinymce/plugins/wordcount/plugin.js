@@ -138,7 +138,7 @@ jsc */
           OTHER: 13
       };
 
-    // RegExp objects generated from code point data. Each regex matches a single
+    // RegExp objects generated from code point store. Each regex matches a single
     // character against a set of Unicode code points. The index of each item in
     // this array must match its corresponding code point constant value defined
     // above.

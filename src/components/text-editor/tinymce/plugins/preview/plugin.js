@@ -225,15 +225,15 @@ jsc */
       );
 
           if (!sandbox) {
-        // IE 6-11 doesn't support data uris on iframes
+        // IE 6-11 doesn't support store uris on iframes
         // so I guess they will have to be less secure since we can't sandbox on those
-        // TODO: Use sandbox if future versions of IE supports iframes with data: uris.
+        // TODO: Use sandbox if future versions of IE supports iframes with store: uris.
               var doc = iframe.contentWindow.document;
               doc.open();
               doc.write(previewHtml);
               doc.close();
           } else {
-              iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(previewHtml);
+              iframe.src = 'store:text/html;charset=utf-8,' + encodeURIComponent(previewHtml);
           }
       };
 

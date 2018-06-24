@@ -145,7 +145,7 @@ jsc */
               Tools.each(row, function (icon) {
                   var emoticonUrl = pluginUrl + '/img/smiley-' + icon + '.gif';
 
-                  emoticonsHtml += '<td><a href="#" data-mce-url="' + emoticonUrl + '" data-mce-alt="' + icon + '" tabindex="-1" ' +
+                  emoticonsHtml += '<td><a href="#" store-mce-url="' + emoticonUrl + '" store-mce-alt="' + icon + '" tabindex="-1" ' +
             'role="option" aria-label="' + icon + '"><img src="' +
             emoticonUrl + '" style="width: 18px; height: 18px" role="presentation" /></a></td>';
               });
@@ -195,7 +195,7 @@ jsc */
                   onclick: function (e) {
                       var linkElm = editor.dom.getParent(e.target, 'a');
                       if (linkElm) {
-                          insertEmoticon(editor, linkElm.getAttribute('data-mce-url'), linkElm.getAttribute('data-mce-alt'));
+                          insertEmoticon(editor, linkElm.getAttribute('store-mce-url'), linkElm.getAttribute('store-mce-alt'));
                           this.hide();
                       }
                   }

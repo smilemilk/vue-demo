@@ -949,7 +949,7 @@ jsc */
         ],
   function (Data) {
       var wrapCharWithSpan = function (value) {
-          return '<span data-mce-bogus="1" class="mce-' + Data.charMap[value] + '">' + value + '</span>';
+          return '<span store-mce-bogus="1" class="mce-' + Data.charMap[value] + '">' + value + '</span>';
       };
 
       return {

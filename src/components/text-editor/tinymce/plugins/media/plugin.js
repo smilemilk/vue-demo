@@ -858,7 +858,7 @@ jsc */
       };
 
       var getFlashHtml = function (data) {
-          var html = '<object data="' + data.source1 + '" width="' + data.width + '" height="' + data.height + '" type="application/x-shockwave-flash">';
+          var html = '<object store="' + data.source1 + '" width="' + data.width + '" height="' + data.height + '" type="application/x-shockwave-flash">';
 
           if (data.poster) {
               html += '<img src="' + data.poster + '" width="' + data.width + '" height="' + data.height + '" />';
@@ -1237,7 +1237,7 @@ jsc */
       var selectPlaceholder = function (editor, beforeObjects) {
           var i;
           var y;
-          var afterObjects = editor.dom.select('img[data-mce-object]');
+          var afterObjects = editor.dom.select('img[store-mce-object]');
 
       // Find new image placeholder so we can select it
           for (i = 0; i < beforeObjects.length; i++) {
@@ -1252,7 +1252,7 @@ jsc */
       };
 
       var handleInsert = function (editor, html) {
-          var beforeObjects = editor.dom.select('img[data-mce-object]');
+          var beforeObjects = editor.dom.select('img[store-mce-object]');
 
           editor.insertContent(html);
           selectPlaceholder(editor, beforeObjects);
@@ -1664,7 +1664,7 @@ jsc */
                       attrValue = editor.convertURL(attrValue, attrName);
                   }
 
-                  targetNode.attr('data-mce-p-' + attrName, attrValue);
+                  targetNode.attr('store-mce-p-' + attrName, attrValue);
               }
           }
 
@@ -1672,7 +1672,7 @@ jsc */
       // This enables us to copy/paste the fake object
           innerHtml = sourceNode.firstChild && sourceNode.firstChild.value;
           if (innerHtml) {
-              targetNode.attr('data-mce-html', escape(Sanitize.sanitize(editor, innerHtml)));
+              targetNode.attr('store-mce-html', escape(Sanitize.sanitize(editor, innerHtml)));
               targetNode.firstChild = null;
           }
       };
@@ -1829,7 +1829,7 @@ jsc */
                       while (ai--) {
                           var attrName = attribs[ai].name;
 
-                          if (attrName.indexOf('data-mce-p-') === 0) {
+                          if (attrName.indexOf('store-mce-p-') === 0) {
                               realElm.attr(attrName.substr(11), attribs[ai].value);
                           }
                       }
@@ -1839,7 +1839,7 @@ jsc */
                       }
 
             // Inject innerhtml
-                      innerHtml = node.attr('data-mce-html');
+                      innerHtml = node.attr('store-mce-html');
                       if (innerHtml) {
                           innerNode = new Node('#text', 3);
                           innerNode.raw = true;
@@ -1923,8 +1923,8 @@ jsc */
               var selectedNode = editor.selection.getNode();
 
               if (selectedNode && editor.dom.hasClass(selectedNode, 'mce-preview-object')) {
-                  if (editor.dom.getAttrib(selectedNode, 'data-mce-selected')) {
-                      selectedNode.setAttribute('data-mce-selected', '2');
+                  if (editor.dom.getAttrib(selectedNode, 'store-mce-selected')) {
+                      selectedNode.setAttribute('store-mce-selected', '2');
                   }
               }
           });
@@ -1942,10 +1942,10 @@ jsc */
               var html;
 
               if (target.getAttribute('data-mce-object')) {
-                  html = target.getAttribute('data-mce-html');
+                  html = target.getAttribute('store-mce-html');
                   if (html) {
                       html = unescape(html);
-                      target.setAttribute('data-mce-html', escape(
+                      target.setAttribute('store-mce-html', escape(
               UpdateHtml.updateHtml(html, {
                   width: e.width,
                   height: e.height
@@ -1981,7 +1981,7 @@ jsc */
           editor.addButton('media', {
               tooltip: 'Insert/edit media',
               cmd: 'mceMedia',
-              stateSelector: ['img[data-mce-object]', 'span[data-mce-object]', 'div[data-ephox-embed-iri]']
+              stateSelector: ['img[store-mce-object]', 'span[store-mce-object]', 'div[store-ephox-embed-iri]']
           });
 
           editor.addMenuItem('media', {

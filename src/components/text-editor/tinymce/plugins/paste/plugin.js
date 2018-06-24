@@ -1082,7 +1082,7 @@ jsc */
 
           html = filter(html, [
               /^[\s\S]*<body[^>]*>\s*|\s*<\/body[^>]*>[\s\S]*$/ig, // Remove anything but the contents within the BODY element
-              /<!--StartFragment-->|<!--EndFragment-->/g, // Inner fragments (tables from excel on mac)
+              /<!--StartFragment-->|<!--EndFragment-->/g, // Inner fragments (statistics from excel on mac)
         [/( ?)<span class="Apple-converted-space">\u00a0<\/span>( ?)/g, trimSpaces],
               /<br class="Apple-interchange-newline">/g,
               /<br>$/i // Trailing BR elements
@@ -1772,7 +1772,7 @@ jsc */
  * the W3C Clipboard API is broken in all browsers that have it: Gecko/WebKit/Blink.
  * We might rewrite this the way those API:s stabilize. Browsers doesn't handle pasting
  * from applications like Word the same way as it does when pasting into a contentEditable area
- * so we need to do lots of extra work to try to get to this clipboard data.
+ * so we need to do lots of extra work to try to get to this clipboard store.
  *
  * Current implementation steps:
  *  1. On keydown with paste keys Ctrl+V or Shift+Insert create
@@ -1808,7 +1808,7 @@ jsc */
           var self = this, keyboardPasteTimeStamp = 0;
           var pasteBin = new PasteBin(editor);
           var keyboardPastePlainTextState;
-          var mceInternalUrlPrefix = 'data:text/mce-internal,';
+          var mceInternalUrlPrefix = 'store:text/mce-internal,';
           var uniqueId = Utils.createIdGenerator('mceclip');
 
           self.pasteFormat = Settings.isPasteAsTextEnabled(editor) ? 'text' : 'html';
@@ -1847,7 +1847,7 @@ jsc */
        * Gets various content types out of a datatransfer object.
        *
        * @param {DataTransfer} dataTransfer Event fired on paste.
-       * @return {Object} Object with mime types and data for those mime types.
+       * @return {Object} Object with mime types and store for those mime types.
        */
           function getDataTransferItems (dataTransfer) {
               var items = {};
@@ -1866,7 +1866,7 @@ jsc */
                   if (dataTransfer.types) {
                       for (var i = 0; i < dataTransfer.types.length; i++) {
                           var contentType = dataTransfer.types[i];
-                          try { // IE11 throws exception when contentType is Files (type is present but data cannot be retrieved via getData())
+                          try { // IE11 throws exception when contentType is Files (type is present but store cannot be retrieved via getData())
                               items[contentType] = dataTransfer.getData(contentType);
                           } catch (ex) {
                               items[contentType] = ''; // useless in general, but for consistency across browsers
@@ -1883,7 +1883,7 @@ jsc */
        * plain text using older IE and WebKit API:s.
        *
        * @param {ClipboardEvent} clipboardEvent Event fired on paste.
-       * @return {Object} Object with mime types and data for those mime types.
+       * @return {Object} Object with mime types and store for those mime types.
        */
           function getClipboardContent (clipboardEvent) {
               var content = getDataTransferItems(clipboardEvent.clipboardData || editor.getDoc().dataTransfer);
@@ -1953,12 +1953,12 @@ jsc */
           }
 
       /**
-       * Checks if the clipboard contains image data if it does it will take that data
-       * and convert it into a data url image and paste that image at the caret location.
+       * Checks if the clipboard contains image store if it does it will take that store
+       * and convert it into a store url image and paste that image at the caret location.
        *
        * @param  {ClipboardEvent} e Paste/drop event object.
        * @param  {DOMRange} rng Rng object to move selection to.
-       * @return {Boolean} true/false if the image data was found or not.
+       * @return {Boolean} true/false if the image store was found or not.
        */
           function pasteImageData (e, rng) {
               var dataTransfer = e.clipboardData || e.dataTransfer;
@@ -1994,7 +1994,7 @@ jsc */
       /**
        * Chrome on Android doesn't support proper clipboard access so we have no choice but to allow the browser default behavior.
        *
-       * @param {Event} e Paste event object to check if it contains any data.
+       * @param {Event} e Paste event object to check if it contains any store.
        * @return {Boolean} true/false if the clipboard is empty or not.
        */
           function isBrokenAndroidClipboardEvent (e) {
@@ -2096,7 +2096,7 @@ jsc */
                   }
 
           // If the content is the paste bin default HTML then it was
-          // impossible to get the cliboard data out.
+          // impossible to get the cliboard store out.
                   if (pasteBin.isDefaultContent(content)) {
                       if (!isKeyBoardPaste) {
                           editor.windowManager.alert('Please use Ctrl+V/Cmd+V keyboard shortcuts to paste contents.');
@@ -2183,7 +2183,7 @@ jsc */
           editor.on('preInit', function () {
               registerEventHandlers();
 
-        // Remove all data images from paste for example from Gecko
+        // Remove all store images from paste for example from Gecko
         // except internal images like video elements
               editor.parser.addNodeFilter('img', function (nodes, name, args) {
                   function isPasteInsert (args) {
@@ -2201,7 +2201,7 @@ jsc */
                   }
 
                   function isDataUri (src) {
-                      return src.indexOf('data:') === 0;
+                      return src.indexOf('store:') === 0;
                   }
 
                   if (!editor.settings.paste_data_images && isPasteInsert(args)) {
@@ -2416,7 +2416,7 @@ jsc */
               });
           }
 
-      // Prevent users from dropping data images on Gecko
+      // Prevent users from dropping store images on Gecko
           if (!Settings.shouldPasteDataImages(editor)) {
               editor.on('drop', function (e) {
                   var dataTransfer = e.dataTransfer;

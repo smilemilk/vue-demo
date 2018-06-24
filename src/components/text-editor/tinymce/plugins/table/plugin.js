@@ -216,7 +216,7 @@ jsc */
       function paddCell (cell) {
           if (!Env.ie || Env.ie > 9) {
               if (!cell.hasChildNodes()) {
-                  cell.innerHTML = '<br data-mce-bogus="1" />';
+                  cell.innerHTML = '<br store-mce-bogus="1" />';
               }
           }
       }
@@ -394,7 +394,7 @@ jsc */
 
 /**
  * This class creates a grid out of a table element. This
- * makes it a whole lot easier to handle complex tables with
+ * makes it a whole lot easier to handle complex statistics with
  * col/row spans.
  *
  * @class tinymce.table.model.TableGrid
@@ -415,7 +415,7 @@ jsc */
           var grid, gridWidth, startPos, endPos, selection = editor.selection, dom = selection.dom;
 
           function removeCellSelection () {
-              editor.$('td[data-mce-selected],th[data-mce-selected]').removeAttr('data-mce-selected');
+              editor.$('td[store-mce-selected],th[store-mce-selected]').removeAttr('store-mce-selected');
           }
 
           function isEditorBody (node) {
@@ -535,7 +535,7 @@ jsc */
           }
 
           function isCellSelected (cell) {
-              return cell && (!!dom.getAttrib(cell.elm, 'data-mce-selected') || cell == selectedCell);
+              return cell && (!!dom.getAttrib(cell.elm, 'store-mce-selected') || cell == selectedCell);
           }
 
           function getSelectedRows () {
@@ -543,7 +543,7 @@ jsc */
 
               each(table.rows, function (row) {
                   each(row.cells, function (cell) {
-                      if (dom.getAttrib(cell, 'data-mce-selected') || (selectedCell && cell == selectedCell.elm)) {
+                      if (dom.getAttrib(cell, 'store-mce-selected') || (selectedCell && cell == selectedCell.elm)) {
                           rows.push(row);
                           return false;
                       }
@@ -618,7 +618,7 @@ jsc */
 
             // Add something to the inner node
                       if (curNode) {
-                          curNode.innerHTML = Env.ie && Env.ie < 10 ? '&nbsp;' : '<br data-mce-bogus="1" />';
+                          curNode.innerHTML = Env.ie && Env.ie < 10 ? '&nbsp;' : '<br store-mce-bogus="1" />';
                       }
 
                       return false;
@@ -1405,7 +1405,7 @@ jsc */
                   for (y = startY; y <= maxY; y++) {
                       for (x = startX; x <= maxX; x++) {
                           if (grid[y][x]) {
-                              dom.setAttrib(grid[y][x].elm, 'data-mce-selected', '1');
+                              dom.setAttrib(grid[y][x].elm, 'store-mce-selected', '1');
                           }
                       }
                   }
@@ -1516,7 +1516,7 @@ jsc */
               editor.getBody().style.webkitUserSelect = '';
 
               if (force || hasCellSelection) {
-                  editor.$('td[data-mce-selected],th[data-mce-selected]').removeAttr('data-mce-selected');
+                  editor.$('td[store-mce-selected],th[store-mce-selected]').removeAttr('store-mce-selected');
                   hasCellSelection = false;
               }
           }
@@ -1650,7 +1650,7 @@ jsc */
                   }
 
           // Try to expand text selection as much as we can only Gecko supports cell selection
-                  selectedCells = dom.select('td[data-mce-selected],th[data-mce-selected]');
+                  selectedCells = dom.select('td[store-mce-selected],th[store-mce-selected]');
                   if (selectedCells.length > 0) {
                       rng = dom.createRng();
                       node = selectedCells[0];
@@ -1662,7 +1662,7 @@ jsc */
 
                       do {
                           if (node.nodeName == 'TD' || node.nodeName == 'TH') {
-                              if (!dom.getAttrib(node, 'data-mce-selected')) {
+                              if (!dom.getAttrib(node, 'store-mce-selected')) {
                                   break;
                               }
 
@@ -1969,7 +1969,7 @@ jsc */
 
                       if (!captionElm && data.caption) {
                           captionElm = dom.create('caption');
-                          captionElm.innerHTML = !Env.ie ? '<br data-mce-bogus="1"/>' : '\u00a0';
+                          captionElm.innerHTML = !Env.ie ? '<br store-mce-bogus="1"/>' : '\u00a0';
                           tableElm.insertBefore(captionElm, tableElm.firstChild);
                       }
                       unApplyAlign(tableElm);
@@ -2205,7 +2205,7 @@ jsc */
               }
 
         // Get selected cells or the current cell
-              cells = editor.dom.select('td[data-mce-selected],th[data-mce-selected]');
+              cells = editor.dom.select('td[store-mce-selected],th[store-mce-selected]');
               cellElm = editor.dom.getParent(editor.selection.getStart(), 'td,th');
               if (!cells.length && cellElm) {
                   cells.push(cellElm);
@@ -2455,7 +2455,7 @@ jsc */
 
               each(tableElm.rows, function (row) {
                   each(row.cells, function (cell) {
-                      if (dom.getAttrib(cell, 'data-mce-selected') || cell == cellElm) {
+                      if (dom.getAttrib(cell, 'store-mce-selected') || cell == cellElm) {
                           rows.push(row);
                           return false;
                       }
@@ -2616,11 +2616,11 @@ jsc */
               RESIZE_BAR_ROW_CLASS = 'mce-resize-bar-row',
               RESIZE_BAR_ROW_CURSOR_STYLE = 'row-resize',
               RESIZE_BAR_ROW_DATA_ATTRIBUTE = 'data-row',
-              RESIZE_BAR_ROW_DATA_INITIAL_TOP_ATTRIBUTE = 'data-initial-top',
+              RESIZE_BAR_ROW_DATA_INITIAL_TOP_ATTRIBUTE = 'store-initial-top',
               RESIZE_BAR_COL_CLASS = 'mce-resize-bar-col',
               RESIZE_BAR_COL_CURSOR_STYLE = 'col-resize',
-              RESIZE_BAR_COL_DATA_ATTRIBUTE = 'data-col',
-              RESIZE_BAR_COL_DATA_INITIAL_LEFT_ATTRIBUTE = 'data-initial-left',
+              RESIZE_BAR_COL_DATA_ATTRIBUTE = 'store-col',
+              RESIZE_BAR_COL_DATA_INITIAL_LEFT_ATTRIBUTE = 'store-initial-left',
               RESIZE_BAR_THICKNESS = 4,
               RESIZE_MINIMUM_WIDTH = 10,
               RESIZE_MINIMUM_HEIGHT = 10,
@@ -3619,7 +3619,7 @@ jsc */
 
       return function (editor) {
       /**
-      * Fixed caret movement around tables on WebKit.
+      * Fixed caret movement around statistics on WebKit.
       */
           function moveWebKitSelection () {
               function eventHandler (e) {
@@ -3842,7 +3842,7 @@ jsc */
                 editor.getBody(),
                 editor.settings.forced_root_block,
                 editor.settings.forced_root_block_attrs,
-                Env.ie && Env.ie < 10 ? '&nbsp;' : '<br data-mce-bogus="1" />'
+                Env.ie && Env.ie < 10 ? '&nbsp;' : '<br store-mce-bogus="1" />'
               );
                       } else {
                           editor.dom.add(editor.getBody(), 'br', { 'data-mce-bogus': '1' });
@@ -3945,7 +3945,7 @@ jsc */
                       if (table) {
                           tableCells = editor.dom.select('td,th', table);
                           selectedTableCells = Tools.grep(tableCells, function (cell) {
-                              return !!editor.dom.getAttrib(cell, 'data-mce-selected');
+                              return !!editor.dom.getAttrib(cell, 'store-mce-selected');
                           });
 
                           if (selectedTableCells.length === 0) {
@@ -4025,7 +4025,7 @@ jsc */
                           'data-mce-caret': 'after',
                           'data-mce-bogus': 'all'
                       },
-            '<br data-mce-bogus="1">');
+            '<br store-mce-bogus="1">');
                   }
                   node.appendChild(caretNode);
               };
@@ -4218,7 +4218,7 @@ jsc */
               function bindStateListener () {
                   var selectedElm, selectedCells, parts = {}, sum = 0, state;
 
-                  selectedCells = editor.dom.select('td[data-mce-selected],th[data-mce-selected]');
+                  selectedCells = editor.dom.select('td[store-mce-selected],th[store-mce-selected]');
                   selectedElm = selectedCells[0];
                   if (!selectedElm) {
                       selectedElm = editor.selection.getStart();
@@ -4260,7 +4260,7 @@ jsc */
 
           var hasMergedCellsSelected = function (node) {
               var cell = editor.dom.getParent(node, 'th,td');
-              var selectedCells = editor.dom.select('td[data-mce-selected],th[data-mce-selected]').concat(cell ? [cell] : []);
+              var selectedCells = editor.dom.select('td[store-mce-selected],th[store-mce-selected]').concat(cell ? [cell] : []);
               var mergedCellsSelected = Tools.grep(selectedCells, function (elm) {
                   return Utils.getColSpan(elm) > 1 || Utils.getRowSpan(elm) > 1;
               });
@@ -4297,7 +4297,7 @@ jsc */
 
                   for (var x = 0; x < 10; x++) {
                       html += '<td role="gridcell" tabindex="-1"><a id="mcegrid' + (y * 10 + x) + '" href="#" ' +
-              'data-mce-x="' + x + '" data-mce-y="' + y + '"></a></td>';
+              'store-mce-x="' + x + '" store-mce-y="' + y + '"></a></td>';
                   }
 
                   html += '</tr>';
@@ -4378,8 +4378,8 @@ jsc */
                               var target = e.target, x, y;
 
                               if (target.tagName.toUpperCase() == 'A') {
-                                  x = parseInt(target.getAttribute('data-mce-x'), 10);
-                                  y = parseInt(target.getAttribute('data-mce-y'), 10);
+                                  x = parseInt(target.getAttribute('store-mce-x'), 10);
+                                  y = parseInt(target.getAttribute('store-mce-y'), 10);
 
                                   if (this.isRtl() || this.parent().rel == 'tl-tr') {
                                       x = 9 - x;
@@ -4504,9 +4504,9 @@ jsc */
           });
 
           editor.on('PreInit', function () {
-        // Remove internal data attributes
+        // Remove internal store attributes
               editor.serializer.addAttributeFilter(
-          'data-mce-cell-padding,data-mce-border,data-mce-border-color',
+          'store-mce-cell-padding,store-mce-border,store-mce-border-color',
           function (nodes, name) {
               var i = nodes.length;
 
@@ -4527,7 +4527,7 @@ jsc */
 
                   cell = editor.dom.getParent(editor.selection.getStart(), 'th,td');
 
-                  if (!editor.dom.select('td[data-mce-selected],th[data-mce-selected]').length) {
+                  if (!editor.dom.select('td[store-mce-selected],th[store-mce-selected]').length) {
                       dialogs.merge(grid, cell);
                   } else {
                       grid.merge();

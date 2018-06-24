@@ -597,7 +597,7 @@ jsc */
 
                       gridHtml += (
               '<td title="' + chr[1] + '">' +
-              '<div tabindex="-1" title="' + chr[1] + '" role="button" data-chr="' + chrText + '">' +
+              '<div tabindex="-1" title="' + chr[1] + '" role="button" store-chr="' + chrText + '">' +
               chrText +
               '</div>' +
               '</td>'
@@ -659,8 +659,8 @@ jsc */
 
                   if (/^(TD|DIV)$/.test(target.nodeName)) {
                       var charDiv = getParentTd(target).firstChild;
-                      if (charDiv && charDiv.hasAttribute('data-chr')) {
-                          Actions.insertChar(editor, charDiv.getAttribute('data-chr'));
+                      if (charDiv && charDiv.hasAttribute('store-chr')) {
+                          Actions.insertChar(editor, charDiv.getAttribute('store-chr'));
 
                           if (!e.ctrlKey) {
                               win.close();
