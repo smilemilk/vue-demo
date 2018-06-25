@@ -9,7 +9,6 @@ const app = {
         lang: '',
         isFullScreen: false,
         openedSubmenuArr: [], // 要展开的菜单数组
-        // menuTheme: 'dark', // 主题
         themeColor: '',
         pageOpenedList: [{
             title: '首页',
@@ -17,13 +16,13 @@ const app = {
             name: 'home_index'
         }],
         currentPageName: '',
-        currentPath: [
-            {
-                title: '首页',
-                path: '',
-                name: 'home_index'
-            }
-        ], // 面包屑数组
+        // currentPath: [
+        //     {
+        //         title: '首页',
+        //         path: '',
+        //         name: 'home_index'
+        //     }
+        // ], // 面包屑数组
         menuList: [],
         routers: [
             otherRouter,
@@ -172,13 +171,6 @@ const app = {
         },
         setAvator (state, path) {
             localStorage.avatorImgPath = path;
-        },
-        switchLang (state, lang) {
-            state.lang = lang;
-            Vue.config.lang = lang;
-        },
-        clearOpenedSubmenu (state) {
-            state.openedSubmenuArr.length = 0;
         },
         setMessageCount (state, count) {
             state.messageCount = count;

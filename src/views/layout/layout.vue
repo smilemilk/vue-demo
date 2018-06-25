@@ -166,9 +166,9 @@
             // fullscreenChange (isFullScreen) {
             //     // console.log(isFullScreen);
             // },
-            scrollBarResize () {
-                this.$refs.scrollBar.resize();
-            }
+            // scrollBarResize () {
+            //     this.$refs.scrollBar.resize();
+            // }
         },
         watch: {
             '$route' (to) {
@@ -184,21 +184,21 @@
             //     util.setCurrentPath(this, this.$route.name); // 在切换语言时用于刷新面包屑
             // },
             openedSubmenuArr () {
-                setTimeout(() => {
-                    this.scrollBarResize();
-                }, 300);
+                // setTimeout(() => {
+                    // this.scrollBarResize();
+                // }, 300);
             }
         },
         mounted () {
             this.init();
-            window.addEventListener('resize', this.scrollBarResize);
+            // window.addEventListener('resize', this.scrollBarResize);
         },
         created () {
             // 显示打开的页面的列表
             this.$store.commit('setOpenedList');
         },
         dispatch () {
-            window.removeEventListener('resize', this.scrollBarResize);
+            // window.removeEventListener('resize', this.scrollBarResize);
         }
     };
 </script>

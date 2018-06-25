@@ -3,10 +3,13 @@
         <div class="header">
             <img src="../../images/login-logo.png">
         </div>
+        <div class="background">
+            <img src="../../images/login-bg.jpg"/>
+        </div>
         <div class="login-con">
             <Card :bordered="false">
                 <div class="form-con">
-                    <Form ref="loginForm" :model="form" :rules="rules">
+                    <Form ref="form" :model="form" :rules="rules">
                         <FormItem prop="userName">
                             <Input v-model="form.userName" placeholder="请输入用户名">
                             <span slot="prepend">
@@ -25,7 +28,7 @@
                             <Button @click="handleSubmit" type="primary" long>登录</Button>
                         </FormItem>
                     </Form>
-                    <p class="login-tip">输入任意用户名和密码即可</p>
+                    <p class="login-tip">忘记密码?</p>
                 </div>
             </Card>
         </div>
@@ -43,8 +46,8 @@
 <script>
     import Cookies from 'js-cookie';
     import ajax from '@/api/login';
-    import RSAUtils from '@/libs/RSA'
 
+    let RSA = require('@/libs/RSA');
     export default {
         data () {
             return {
@@ -82,36 +85,47 @@
                     console.log('laile---')
                     console.log(response.data.modulus)
                     console.log(response.data.exponent)
-                    console.log(RSAUtils.getKeyPair(exponent, '', modulus));
+                    console.log(RSA)
+                    // console.log(RSA.getKeyPair(exponent, '', modulus));
                     console.log('laile---')
 
                 }).catch(() => {
-                    console.log('catch---')
                 });
             },
             handleSubmit () {
-                ajax.login({
-                    login_name: this.form.userName,
-                    login_pwd:  this.form.password
-                }).then(response => {
-                    console.log(response )
-                }).catch(() => {
+
+                this.$refs.form.validate((valid) => {
+                    if (valid) {
+                        ajax.login({
+                            login_name: this.form.userName,
+                            login_pwd:  this.form.password
+                        }).then(response => {
+                            console.log(response )
+                            if (!response.success == true) {
+                                this.$Notice.open({
+                                    title: '登陆出错',
+                                    desc: response.msg ? response.msg : '登陆出错'
+                                });
+                                return;
+                            }
+                            Cookies.set('user', this.form.userName);
+                            Cookies.set('password', this.form.password);
+                            this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
+                            if (this.form.userName === 'admin') {
+                                Cookies.set('access', 0);
+                            } else {
+                                Cookies.set('access', 1);
+                            }
+                            this.$router.push({
+                                name: 'home_index'
+                            });
+                        }).catch((err) => {
+                            // console.log(err)
+                            this.$Message.error(err ? err : '未成功请求接口');
+                        });
+
+                    }
                 });
-                // this.$refs.loginForm.validate((valid) => {
-                //     if (valid) {
-                //         Cookies.set('user', this.form.userName);
-                //         Cookies.set('password', this.form.password);
-                //         this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
-                //         if (this.form.userName === 'admin') {
-                //             Cookies.set('access', 0);
-                //         } else {
-                //             Cookies.set('access', 1);
-                //         }
-                //         this.$router.push({
-                //             name: 'home_index'
-                //         });
-                //     }
-                // });
             }
         }
     };
@@ -140,10 +154,17 @@
         position: relative;
         &-con {
             position: absolute;
-            right: 160px;
             top: 50%;
-            transform: translateY(-60%);
-            width: 300px;
+            left: 50%;
+            width: 340px;
+            transform: translate(-50%,-60%);
+            background-color: rgba(0, 0, 0, 0.5);
+            .ivu-card {
+                background-color: transparent;
+                padding-left: 30px;
+                padding-right: 30px;
+                padding-top: 20px;
+            }
             &-header {
                 font-size: 16px;
                 font-weight: 300;
@@ -155,7 +176,7 @@
             }
             .login-tip {
                 font-size: 10px;
-                text-align: center;
+                text-align: left;
                 color: #c3c3c3;
             }
         }
@@ -183,6 +204,16 @@
                     vertical-align: middle;
                 }
             }
+        }
+    }
+    .background {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        img {
+            display: inline-block;
+            height: 100%;
+            width: 100%;
         }
     }
 </style>

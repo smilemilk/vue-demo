@@ -6,17 +6,17 @@ import {jsCookie} from '@/libs/auth';
 import util from '@/libs/util';
 // import { getToken } from '@/utils/auth'
 
-axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8';
+axios.defaults.headers.common['Content-Type'] = 'application/json; charset=UTF-8';
 
 // 创建axios实例
 const service = axios.create({
     baseURL: util.ajax.baseURL, // api的base_url
     timeout: 15000, // 请求超时时间
-    contentType: 'application/json;charset=UTF-8',
+    contentType: 'application/json; charset=UTF-8',
     responseType: 'json',
     withCredentials: false // 是否允许带cookie这些
 });
-service.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
 
 // request拦截器
 // service.interceptors.request.use(config => {
@@ -74,13 +74,8 @@ service.interceptors.response.use(
             return response.data;
         }
     },
-    error => {
-        console.log('err' + error);// for debug
-        iView.Message.error({
-            message: error.des,
-            type: 'error',
-            duration: 5 * 1000
-        });
+    (error) => {
+        this.$Message.error(error ? error : '未成功请求接口');
         return Promise.reject(error);
     }
 );

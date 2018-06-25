@@ -7,7 +7,6 @@ const user = {
             Cookies.remove('user');
             Cookies.remove('password');
             Cookies.remove('access');
-            console.log('login-----------------------')
             localStorage.clear();
         }
     }

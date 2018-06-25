@@ -15,7 +15,8 @@ export function login (params) {
     return request({
         url: '/unioncheck/user/mechantlogin',
         method: 'post',
-        data: JSON.stringify(params)
+        data: params,
+        params: params
     });
 }
 
