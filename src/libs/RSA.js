@@ -6,21 +6,20 @@
  * changed by Fuchun, 2010-05-06
  * fcrpg2005@gmail.com
  */
-let RSAUtils = {};
 
+module.exports = function($w) {
 
-    // if(typeof $w.RSAUtils === 'undefined')
-    //     var RSAUtils = $w.RSAUtils = {};
-    //
-    // var biRadixBase = 2;
-    // var biRadixBits = 16;
-    // var bitsPerDigit = biRadixBits;
+    if(typeof $w.RSAUtils === 'undefined')
+        var RSAUtils = $w.RSAUtils = {};
+
+    var biRadixBase = 2;
+    var biRadixBits = 16;
+    var bitsPerDigit = biRadixBits;
     var biRadix = 1 << 16; // = 2^16 = 65536
-    // var biHalfRadix = biRadix >>> 1;
-    // var biRadixSquared = biRadix * biRadix;
+    var biHalfRadix = biRadix >>> 1;
+    var biRadixSquared = biRadix * biRadix;
     var maxDigitVal = biRadix - 1;
-    // var maxInteger = 9999999999999998;
-
+    var maxInteger = 9999999999999998;
 
 //maxDigits:
 //Change this to accommodate your largest number size. Use setMaxDigits()
@@ -34,8 +33,8 @@ let RSAUtils = {};
     var maxDigits;
     var ZERO_ARRAY;
     var bigZero, bigOne;
-//
-    var BigInt  = function(flag) {
+
+    var BigInt = $w.BigInt = function(flag) {
         if (typeof flag == "boolean" && flag == true) {
             this.digits = null;
         } else {
@@ -554,7 +553,8 @@ let RSAUtils = {};
         return result;
     };
 
-    function BarrettMu(m) {
+
+    $w.BarrettMu = function(m) {
         this.modulus = RSAUtils.biCopy(m);
         this.k = RSAUtils.biHighIndex(this.modulus) + 1;
         var b2k = new BigInt();
@@ -621,18 +621,19 @@ let RSAUtils = {};
         // already been subtracted.
         this.chunkSize = 2 * $dmath.biHighIndex(this.m);
         this.radix = 16;
-        this.barrett = new BarrettMu(this.m);
+        this.barrett = new $w.BarrettMu(this.m);
     };
 
     RSAUtils.getKeyPair = function(encryptionExponent, decryptionExponent, modulus) {
+        console.log('jinlaile-------')
         return new RSAKeyPair(encryptionExponent, decryptionExponent, modulus);
     };
 
-    // if(typeof twoDigit === 'undefined') {
-    //     twoDigit = function(n) {
-    //         return (n < 10 ? "0" : "") + String(n);
-    //     };
-    // }
+    if(typeof $w.twoDigit === 'undefined') {
+        $w.twoDigit = function(n) {
+            return (n < 10 ? "0" : "") + String(n);
+        };
+    }
 
 // Altered by Rob Saunders (rob@robsaunders.net). New routine pads the
 // string after it has been converted to an array. This fixes an
@@ -694,4 +695,6 @@ let RSAUtils = {};
 
     RSAUtils.setMaxDigits(130);
 
-export default RESUtils;
+    return RSAUtils;
+
+};

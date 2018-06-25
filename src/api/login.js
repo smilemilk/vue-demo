@@ -10,6 +10,16 @@ export function getToken (params) {
     });
 }
 
+
+export function login (params) {
+    return request({
+        url: '/unioncheck/user/mechantlogin',
+        method: 'post',
+        data: JSON.stringify(params)
+    });
+}
+
 export default {
-    getToken
+    getToken,
+    login
 };
