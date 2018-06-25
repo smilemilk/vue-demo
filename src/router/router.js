@@ -5,7 +5,7 @@ export const loginRouter = {
     path: 'login',
     name: 'login',
     meta: {
-        title: 'Login - 登录'
+        title: '微脉在线支付结算平台'
     },
     component: () => import('@/views/login/login.vue')
 };

@@ -12,7 +12,7 @@
                                 @change="dateChange"></DatePicker>
                 </FormItem>
                 <div class="dateSearchQuick">
-                    <a>最近一周</a>
+                    <a @click="dateWeekAction">最近一周</a>
                     <a>最近30天</a>
                 </div>
             </Form>
@@ -27,7 +27,7 @@
                     <Col span="12" :md="12" :sm="24" :xs="24">
                         <Button type="primary">查询</Button>
                         <Button type="primary">导出</Button>
-                        <Button type="primary">开始对账</Button>
+                        <Button type="primary" @click="reconciliationsOpera">开始对账</Button>
                         <Button type="primary">对账结果下载</Button>
                     </Col>
                 </Row>
@@ -46,6 +46,40 @@
                   show-elevator
                   show-sizer></Page>
         </Card>
+        <Modal
+                class-name="reconciliationsDialog"
+                width="70%"
+                v-model="showDialog">
+            <div slot="header">
+                <figure>
+                    <span>{{this.queryParams.billStartTime ? this.queryParams.billStartTime : '——'}}</span>至
+                    <span>{{this.queryParams.billEndTime ? this.queryParams.billEndTime : '——'}}</span>
+                </figure>
+                <title>开始对账</title>
+            </div>
+            <div>
+                <section>
+                    <p>医院账单</p>
+                    <div>
+
+                    </div>
+                </section>
+            </div>
+            <div slot="footer">
+                <Row>
+                    <Col span="12">
+                        <div class="reconciliationsBottom">
+                            <label>历史对账结果</label>
+                            <Button type="primary" shape="circle" size="small">保留</Button>
+                            <Button type="default" shape="circle" size="small">不保留</Button>
+                        </div>
+                    </Col>
+                    <Col span="12">
+                        <Button type="primary" size="large">开始对账</Button>
+                    </Col>
+                </Row>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -65,21 +99,23 @@
                     billEndTime: '',
                     page: 1
                 },
-                dateSearch: '',
+                dateSearch: [],
                 columnsTable: table.columnsTable,
                 dataList: [],
-                initTable3: []
+                initTable3: [],
+
+                showDialog: false
             };
         },
-        created() {
+        created () {
             this.getList();
         },
         computed: {
             dataListComputed () {
-                console.log('8888888')
-                console.log(this.$refs.table)
+                console.log('8888888');
+                console.log(this.$refs.table);
                 if (this.$refs.table) {
-                    console.log('--------------')
+                    console.log('--------------');
                     this.tableHeight =
                         window.innerHeight - this.$refs.table.$el.offsetTop - 400;
                     if (this.tableHeight < 200) {
@@ -92,12 +128,17 @@
         methods: {
             dateChange (val) {
                 if (val) {
-                    this.queryParams.billStartTime = parseTime(this.dateSearch[0]);
-                    this.queryParams.billEndTime = parseTime(this.dateSearch[1]);
+                    this.queryParams.billStartTime = parseTime(this.dateSearch[0], '{y}-{m}-{d}');
+                    this.queryParams.billEndTime = parseTime(this.dateSearch[1], '{y}-{m}-{d}');
                 } else {
                     this.queryParams.billStartTime = '';
                     this.queryParams.billEndTime = '';
                 }
+            },
+            dateWeekAction() {
+                this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}');
+                this.queryParams.billStartTime = parseTime(new Date().getTime() - 7*24*60*60*1000, '{y}-{m}-{d}')
+                this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
             },
             getList () {
                 console.log('00000000009999999');
@@ -107,9 +148,68 @@
                     billStartTime: '2018-06-24',
                     // billEndTime: '',
                 }).then(response => {
-                    console.log('0000000');
+                    response = {
+                        'success': true,
+                        'msg': null,
+                        'data':
+                            {
+                                'page': 1,
+                                'start': 0,
+                                'limit': 10000,
+                                'jqGrid': true,
+                                'totalCount': 3,
+                                'pages': 1,
+                                'items':
+                                    [{
+                                        'checkOrderNo': 855302639452169,
+                                        'mchUserId': 829396034256942,
+                                        'billStartTime': 1529337600000,
+                                        'billEndTime': null,
+                                        'unioncheckorderStatus': '5',
+                                        'mchBusinessTotalAmount': 57479879,
+                                        'appBusinessTotalAmount': 57478279,
+                                        'fundTransactionTotalAmount': 60505679,
+                                        'appBusinessTotalCount': 1283,
+                                        'fundTransactionTotalCount': 1321
+                                    },
+                                        {
+                                            'checkOrderNo': 855302639452167,
+                                            'mchUserId': 829396034256942,
+                                            'billStartTime': 1529251200000,
+                                            'billEndTime': null,
+                                            'unioncheckorderStatus': '5',
+                                            'mchBusinessTotalAmount': 45001839,
+                                            'appBusinessTotalAmount': 45001839,
+                                            'fundTransactionTotalAmount': 45001839,
+                                            'appBusinessTotalCount': 1446,
+                                            'fundTransactionTotalCount': 1446
+                                        }, {
+                                        'checkOrderNo': 855302639452165,
+                                        'mchUserId': 829396034256942,
+                                        'billStartTime': 1529164800000,
+                                        'billEndTime': null,
+                                        'unioncheckorderStatus': '6',
+                                        'mchBusinessTotalAmount': 28932032,
+                                        'appBusinessTotalAmount': 28932032,
+                                        'fundTransactionTotalAmount': 28932032,
+                                        'appBusinessTotalCount': 1242,
+                                        'fundTransactionTotalCount': 1242
+                                    }],
+                                'orderColumn': null,
+                                'orderDir': 'DESC',
+                                'mchUserId': 829396034256942,
+                                'billStartTime': 1529164800000,
+                                'billEndTime': 1529769599000,
+                                'unioncheckorderStatus': '',
+                                'defaultOrderColumn': null
+                            }
+                    };
                     console.log(response);
+                    if (response.success == true) {
+                        console.log('======');
+                    }
                 }).catch(() => {
+                    console.log('erro');
                 });
             },
             search (data, argumentObj) {
@@ -124,6 +224,9 @@
                     }
                 }
                 return res;
+            },
+            reconciliationsOpera () {
+                this.showDialog = true;
             }
         }
     };
@@ -175,10 +278,24 @@
             margin-right: 15px;
         }
     }
+
     .dateSearchQuick {
         display: inline-block;
     }
-    .ivu-page.mini{
+
+    .ivu-page.mini {
         margin-top: 15px;
+    }
+
+    .reconciliationsDialog {
+        .reconciliationsBottom {
+            height: 36px;
+            overflow: hidden;
+            text-align: left;
+            line-height: 36px;
+            label{
+                display: inline-block;
+            }
+        }
     }
 </style>
