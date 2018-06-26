@@ -4,7 +4,6 @@ import iView from 'iview';
 import store from '../store';
 import {jsCookie} from '@/libs/auth';
 import util from '@/libs/util';
-// import { getToken } from '@/utils/auth'
 
 axios.defaults.headers.common['Content-Type'] = 'application/json; charset=UTF-8';
 
@@ -17,22 +16,6 @@ const service = axios.create({
     withCredentials: false // 是否允许带cookie这些
 });
 service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
-
-// request拦截器
-// service.interceptors.request.use(config => {
-//     // 在发送请求之前做某些事
-//     const hasToken = jsCookie.get('token');
-//     const operatorId = jsCookie.get('operatorId');
-//
-//     if (hasToken) {
-//         config.headers['token'] = hasToken; // 让每个请求携带自定义token
-//         config.headers['operatorId'] = operatorId;
-//     }
-//     return config;
-// }, error => {
-//     console.log(error); // for debug
-//     Promise.reject(error);
-// });
 
 // respone拦截器
 service.interceptors.response.use(
@@ -69,13 +52,11 @@ service.interceptors.response.use(
             // eslint-disable-next-line
             return Promise.reject('error');
         } else {
-            // console.log('return data')
-            // console.log(response.data)
             return response.data;
         }
     },
     (error) => {
-        this.$Message.error(error ? error : '未成功请求接口');
+        iView.$Message.error(error ? error : '未成功请求接口');
         return Promise.reject(error);
     }
 );

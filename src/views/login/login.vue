@@ -47,7 +47,11 @@
     import Cookies from 'js-cookie';
     import ajax from '@/api/login';
 
-    let RSA = require('@/libs/RSA');
+
+    // let RSA = require('@/libs/RSA');
+
+    console.log('jse')
+    // console.log(this.a)
     export default {
         data () {
             return {
@@ -67,6 +71,7 @@
         },
         created () {
             this.getToken();
+
         },
         methods: {
             getToken () {
@@ -85,7 +90,20 @@
                     console.log('laile---')
                     console.log(response.data.modulus)
                     console.log(response.data.exponent)
-                    console.log(RSA)
+                    console.log('a-----')
+                    console.log(this.$JE)
+                    let jse = new this.$JE.JSEncrypt()
+                    jse.setPublicKey(`-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8ygMKjJLSUpnfXqt8lRSAdDxA
+HWKi9GbTFkCbAjkRCR6VUakxxXLXHQUtPCizKcvNpuYqZ5bO8LEgpY7SL3JEdEI9
+OuMnZ6ToeHPfcHeS+EgN0oYmdQ49RB5wZkcBEFk80OBEAM6VhnE0IuHGkU5ko9oP
+Hq3boEQ3Ej6r3T+UhQIDAQAB
+-----END PUBLIC KEY-----`)
+                    // let jse = new this.a.JSEncrypt(response.data.modulus)
+                    // console.log(jse)
+                    console.log(jse.encrypt(response.data.modulus))
+                    console.log('jse')
+
                     // console.log(RSA.getKeyPair(exponent, '', modulus));
                     console.log('laile---')
 
@@ -93,14 +111,12 @@
                 });
             },
             handleSubmit () {
-
                 this.$refs.form.validate((valid) => {
                     if (valid) {
                         ajax.login({
                             login_name: this.form.userName,
                             login_pwd:  this.form.password
                         }).then(response => {
-                            console.log(response )
                             if (!response.success == true) {
                                 this.$Notice.open({
                                     title: '登陆出错',
@@ -108,6 +124,7 @@
                                 });
                                 return;
                             }
+
                             Cookies.set('user', this.form.userName);
                             Cookies.set('password', this.form.password);
                             this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
