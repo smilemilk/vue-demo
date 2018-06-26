@@ -19,6 +19,7 @@
   "dependencies": {
     "area-data": "^1.0.0",
     "axios": "^0.17.1",
+    "buffer": "^5.1.0",
     "clipboard": "^1.7.1",
     "countup": "^1.8.2",
     "cropperjs": "^1.2.2",
@@ -30,6 +31,7 @@
     "jsencrypt": "^3.0.0-rc.1",
     "rasterizehtml": "^1.2.4",
     "read-pkg": "^2.0.0",
+    "rsa-pem-from-mod-exp": "^0.8.4",
     "simplemde": "^1.11.2",
     "sortablejs": "^1.7.0",
     "tinymce": "^4.7.4",

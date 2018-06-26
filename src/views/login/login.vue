@@ -47,14 +47,16 @@
     import Cookies from 'js-cookie';
     import ajax from '@/api/login';
 
+    // import {JsEncrypt} from 'jsencrypt';
+    let rsa = require('@/libs/RSA');
+    // var getPem = require('rsa-pem-from-mod-exp');
 
-    // let RSA = require('@/libs/RSA');
-
-    console.log('jse')
+    // console.log('jse')
     // console.log(this.a)
     export default {
         data () {
             return {
+                rsaPassWord: '',
                 form: {
                     userName: 'admin',
                     password: ''
@@ -78,44 +80,115 @@
                 ajax.getToken({
                     _: new Date().getTime()
                 }).then(response => {
-                    if (!response.success == true) {
-                        this.$Notice.open({
-                            title: '登陆验证错误',
-                            desc: response.msg ? response.msg : '获取用户认证错误'
-                        });
-                        return;
+                    console.log(response)
+                    let b = response.data;
+                    // if (!response.success == true) {
+                    //     this.$Notice.open({
+                    //         title: '登陆验证错误',
+                    //         desc: response.msg ? response.msg : '获取用户认证错误'
+                    //     });
+                    //     return;
+                    // }
+                    console.log(rsa)
+                    // console.log(b.exponent, b.modulus)
+                    // let
+                    // console.log(typeof(rsa.RSAKeyPair()))
+                    var keypair = new rsa.RSAKeyPair(
+                       b.exponent, '', b.modulus, ''
+                    );
+                    console.log(keypair)
+
+                    global.Buffer = global.Buffer || require('buffer').Buffer;
+
+                    if (typeof btoa === 'undefined') {
+                        global.btoa = function (str) {
+                            return new Buffer(str, 'binary').toString('base64');
+                        };
                     }
-                    let modulus = response.data.modulus;
-                    let exponent = response.data.exponent;
-                    console.log('laile---')
-                    console.log(response.data.modulus)
-                    console.log(response.data.exponent)
-                    console.log('a-----')
-                    console.log(this.$JE)
-                    let jse = new this.$JE.JSEncrypt()
-                    jse.setPublicKey(`-----BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8ygMKjJLSUpnfXqt8lRSAdDxA
-HWKi9GbTFkCbAjkRCR6VUakxxXLXHQUtPCizKcvNpuYqZ5bO8LEgpY7SL3JEdEI9
-OuMnZ6ToeHPfcHeS+EgN0oYmdQ49RB5wZkcBEFk80OBEAM6VhnE0IuHGkU5ko9oP
-Hq3boEQ3Ej6r3T+UhQIDAQAB
------END PUBLIC KEY-----`)
-                    // let jse = new this.a.JSEncrypt(response.data.modulus)
-                    // console.log(jse)
-                    console.log(jse.encrypt(response.data.modulus))
-                    console.log('jse')
 
-                    // console.log(RSA.getKeyPair(exponent, '', modulus));
-                    console.log('laile---')
+                    if (typeof atob === 'undefined') {
+                        global.atob = function (b64Encoded) {
+                            return new Buffer(b64Encoded, 'base64').toString('binary');
+                        };
+                    }
 
+                    var ciphertext = rsa.encryptedString(keypair, 'type',
+                        rsa.RSAAPP.PKCS1Padding, rsa.RSAAPP.RawEncoding);
+                    // ciphertext is a string composed of the raw binary data. base-64 encode it.
+                    console.log('Encrypted String:  ' + btoa(ciphertext));
                 }).catch(() => {
                 });
+                // ajax.getTokenPK({
+                //     _: new Date().getTime()
+                // }).then(response => {
+                //     console.log(response)
+                //     let b = response.data;
+                //     console.log(b)
+                //     if (!response.success == true) {
+                //         this.$Notice.open({
+                //             title: '登陆验证错误',
+                //             desc: response.msg ? response.msg : '获取用户认证错误'
+                //         });
+                //         return;
+                //     }
+                //     let encryptor = new JsEncrypt();
+                //     console.log(encryptor)
+                //     console.log(b)
+                //     console.log(encryptor.setPublicKey(b))
+                //     console.log('666666----------')
+                //     console.log(encryptor.encrypt('666666'))
+                //     encryptor.encrypt('666666')
+                //     let c = encryptor.encrypt('666666');
+                //
+                //     console.log(c)
+                //     console.log('666666----------')
+                //     console.log('jse')
+                //     console.log('laile---')
+                //
+                // }).catch(() => {
+                // });
+                // ajax.getToken({
+                //     _: new Date().getTime()
+                // }).then(response => {
+                //     if (!response.success == true) {
+                //         this.$Notice.open({
+                //             title: '登陆验证错误',
+                //             desc: response.msg ? response.msg : '获取用户认证错误'
+                //         });
+                //         return;
+                //     }
+                //     let modulus = response.data.modulus;
+                //     let exponent = response.data.exponent;
+                //     console.log('laile---')
+                //     console.log(response.data.modulus)
+                //     console.log(response.data.exponent)
+                //     console.log('a-----')
+                //     let encryptor = new JSEncrypt();
+                //     console.log(encryptor)
+                //     // this.rsaPassWord = encryptor.encrypt(response.data.exponent)
+                //     // console.log(this.rsaPassWord)
+                //     let b = getPem(modulus, exponent);
+                //     console.log(getPem(response.data.modulus, response.data.exponent))
+                //     // let jse = new this.a.JSEncrypt(response.data.modulus)
+                //     // console.log(jse)
+                //     console.log(encryptor.setPublicKey(b))
+                //     console.log('jse')
+                //
+                //     // console.log(RSA.getKeyPair(exponent, '', modulus));
+                //     console.log('laile---')
+                //
+                // }).catch(() => {
+                // });
             },
             handleSubmit () {
                 this.$refs.form.validate((valid) => {
                     if (valid) {
+                        let encryptor = new JSEncrypt()
+                        // let name = this.rsaPassWord + this.form.password
                         ajax.login({
                             login_name: this.form.userName,
-                            login_pwd:  this.form.password
+                            login_pwd: encryptor.encrypt(this.form.password)
+                                // encryptor.decrypt(this.rsaPassWord, this.form.password).toString()
                         }).then(response => {
                             if (!response.success == true) {
                                 this.$Notice.open({

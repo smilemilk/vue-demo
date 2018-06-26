@@ -10,6 +10,14 @@ export function getToken (params) {
     });
 }
 
+export function getTokenPK (params) {
+    return request({
+        url: 'unioncheck/sec/publickey',
+        method: 'get',
+        params: params
+    });
+}
+
 
 export function login (params) {
     return request({
@@ -22,5 +30,6 @@ export function login (params) {
 
 export default {
     getToken,
-    login
+    login,
+    getTokenPK
 };
