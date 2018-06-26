@@ -48,7 +48,7 @@
     import ajax from '@/api/login';
 
     // import {JsEncrypt} from 'jsencrypt';
-    let rsa = require('@/libs/RSA');
+    let RSA = require('@/libs/RSA');
     // var getPem = require('rsa-pem-from-mod-exp');
 
     // console.log('jse')
@@ -89,18 +89,21 @@
                     //     });
                     //     return;
                     // }
-                    console.log(rsa)
+                    console.log(RSA)
                     // console.log(b.exponent, b.modulus)
                     // let
                     // console.log(typeof(rsa.RSAKeyPair()))
-                    var keypair = new rsa.RSAKeyPair(
+                    var keypair = new RSA.RSAKeyPair(
                        b.exponent, '', b.modulus, ''
                     );
+                    console.log('keypair-----------')
                     console.log(keypair)
-
+                    console.log('keypair-----------')
                     global.Buffer = global.Buffer || require('buffer').Buffer;
 
                     if (typeof btoa === 'undefined') {
+                        console.log('000000')
+
                         global.btoa = function (str) {
                             return new Buffer(str, 'binary').toString('base64');
                         };
@@ -111,11 +114,16 @@
                             return new Buffer(b64Encoded, 'base64').toString('binary');
                         };
                     }
+                    console.log('encry------')
+                    console.log(RSA.RSAAPP.PKCS1Padding)
+                    console.log(RSA.encryptedString(keypair,'type',RSA.RSAAPP.PKCS1Padding, '6666666'))
+                    //
 
-                    var ciphertext = rsa.encryptedString(keypair, 'type',
-                        rsa.RSAAPP.PKCS1Padding, rsa.RSAAPP.RawEncoding);
-                    // ciphertext is a string composed of the raw binary data. base-64 encode it.
-                    console.log('Encrypted String:  ' + btoa(ciphertext));
+                    //
+                    // var ciphertext = rsa.encryptedString(keypair, 'type',
+                    //     rsa.allParams.RSAAPP.PKCS1Padding, rsa.allParams.RSAAPP.RawEncoding);
+                    // // ciphertext is a string composed of the raw binary data. base-64 encode it.
+                    // console.log('Encrypted String:  ' + btoa(ciphertext));
                 }).catch(() => {
                 });
                 // ajax.getTokenPK({

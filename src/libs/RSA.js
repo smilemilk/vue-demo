@@ -363,10 +363,7 @@
 
     function biHighIndex(x)
     {
-        console.log(x)
         var result = x.digits.length - 1;
-        console.log('result---')
-        console.log(result)
         while (result > 0 && x.digits[result] == 0) --result;
         return result;
     }
@@ -409,8 +406,6 @@
 
     function biMultiplyDigit(x, y)
     {
-        console.log('x,y----')
-        console.log(x,y)
         var n, c, uv;
 
         var result = new BigInt();
@@ -582,10 +577,8 @@
             }
 
             b = biMultiplyByRadixPower(y, i - t - 1);
-            console.log('r-------------')
 
             r = biSubtract(r, biMultiplyDigit(b, q.digits[i - t - 1]));
-            console.log(r)
             if (r.isNeg) {
                 r = biAdd(r, b);
                 --q.digits[i - t - 1];
@@ -668,7 +661,6 @@
 
     function BarrettMu(m)
     {
-        console.log('2--------')
         this.modulus = biCopy(m);
         this.k = biHighIndex(this.modulus) + 1;
         var b2k = new BigInt();
@@ -698,9 +690,6 @@
             r = biSubtract(r, this.modulus);
             rgtem = biCompare(r, this.modulus) >= 0;
         }
-        console.log('r---')
-        console.log(r)
-        console.log('r---')
         return r;
     }
 
@@ -865,9 +854,6 @@
     * when this routine is invoked.
     */
     {
-        console.log('wolaile')
-        console.log(encryptionExponent)
-        console.log(modulus)
         /*
         * Convert from hexadecimal and save the encryption/decryption exponents and
         * modulus as big integers in the key object.
@@ -894,13 +880,7 @@
         /*
         * Precalculate the stuff used for Barrett modular reductions.
         */
-        console.log("---------m")
-        console.log(this.m)
-        console.log("---------m")
-        console.log('------------')
         this.barrett = new BarrettMu(this.m);
-        console.log(this.barrett)
-        console.log('------------')
     }
 
     /*****************************************************************************/
@@ -1208,7 +1188,7 @@
         /*
         * Return the result, removing the last space.
         */
-//result = (result.substring(0, result.length - 1));
+        result = (result.substring(0, result.length - 1));
         return result;
     }
 
