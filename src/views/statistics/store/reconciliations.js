@@ -1,26 +1,31 @@
+import {parseTime} from '@/filters';
+
 export const columnsTable = [
     {
         type: 'selection',
         width: 60,
-        align: 'center'
+        align: 'center',
     },
     {
-        key: 'name',
+        key: 'billStartTime',
         title: '账单日期',
-        align: 'center'
+        align: 'center',
+        render: (h, params) => {
+            return h('div', parseTime(params.row.billStartTime, '{y}-{m}-{d}'))
+        }
     },
     {
-        key: 'tel',
+        key: 'fundTransactionTotalCount',
         title: '资金笔数',
         align: 'center'
     },
     {
-        key: 'tel',
+        key: 'fundTransactionTotalAmount',
         title: '资金金额',
         align: 'center'
     },
     {
-        key: 'tel',
+        key: 'unioncheckorderStatus',
         title: '对账状态',
         align: 'center'
     },
