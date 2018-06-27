@@ -13,7 +13,7 @@
                 </FormItem>
                 <div class="dateSearchQuick">
                     <a @click="dateWeekAction">最近一周</a>
-                    <a>最近30天</a>
+                    <a @click="dateMonthAction">最近30天</a>
                 </div>
             </Form>
             <div>
@@ -140,8 +140,13 @@
                 this.queryParams.billStartTime = parseTime(new Date().getTime() - 7*24*60*60*1000, '{y}-{m}-{d}')
                 this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
             },
+            dateMonthAction() {
+                this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}');
+                this.queryParams.billStartTime = parseTime(new Date().getTime() - 30*24*60*60*1000, '{y}-{m}-{d}')
+                this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
+            },
             getList () {
-                console.log('00000000009999999');
+                console.log(new Date())
                 ajax.refundList({
                     page: 1,
                     limit: 50,

@@ -55,7 +55,7 @@ service.interceptors.response.use(
             return response.data;
         }
     },
-    (error) => {
+    error => {
         iView.$Message.error(error ? error : '未成功请求接口');
         return Promise.reject(error);
     }

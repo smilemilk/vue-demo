@@ -47,15 +47,17 @@
     import Cookies from 'js-cookie';
     import ajax from '@/api/login';
 
-    // import {JsEncrypt} from 'jsencrypt';
-    let RSA = require('@/libs/RSA');
+    import {JsEncrypt} from 'jsencrypt';
+    // let RSA = require('@/libs/RSA');
     // var getPem = require('rsa-pem-from-mod-exp');
 
     // console.log('jse')
     // console.log(this.a)
+    import RSA from '@/libs/RSANode'
     export default {
         data () {
             return {
+                keypair: '',
                 rsaPassWord: '',
                 form: {
                     userName: 'admin',
@@ -80,52 +82,70 @@
                 ajax.getToken({
                     _: new Date().getTime()
                 }).then(response => {
-                    console.log(response)
-                    let b = response.data;
-                    // if (!response.success == true) {
-                    //     this.$Notice.open({
-                    //         title: '登陆验证错误',
-                    //         desc: response.msg ? response.msg : '获取用户认证错误'
-                    //     });
-                    //     return;
-                    // }
-                    console.log(RSA)
-                    // console.log(b.exponent, b.modulus)
-                    // let
-                    // console.log(typeof(rsa.RSAKeyPair()))
-                    var keypair = new RSA.RSAKeyPair(
-                       b.exponent, '', b.modulus, ''
+                    if (!response.success == true) {
+                        this.$Notice.open({
+                            title: '登陆验证错误',
+                            desc: response.msg ? response.msg : '获取用户认证错误'
+                        });
+                        return;
+                    }
+                    let res = response.data;
+                    const keypair= RSA.getKeyPair(
+                        res.exponent, '', res.modulus, ''
                     );
-                    console.log('keypair-----------')
-                    console.log(keypair)
-                    console.log('keypair-----------')
-                    global.Buffer = global.Buffer || require('buffer').Buffer;
-
-                    if (typeof btoa === 'undefined') {
-                        console.log('000000')
-
-                        global.btoa = function (str) {
-                            return new Buffer(str, 'binary').toString('base64');
-                        };
-                    }
-
-                    if (typeof atob === 'undefined') {
-                        global.atob = function (b64Encoded) {
-                            return new Buffer(b64Encoded, 'base64').toString('binary');
-                        };
-                    }
-                    console.log('encry------')
-                    console.log(RSA.RSAAPP.PKCS1Padding)
-                    console.log(RSA.encryptedString(keypair,'type',RSA.RSAAPP.PKCS1Padding, '6666666'))
-                    //
-
-                    //
-                    // var ciphertext = rsa.encryptedString(keypair, 'type',
-                    //     rsa.allParams.RSAAPP.PKCS1Padding, rsa.allParams.RSAAPP.RawEncoding);
-                    // // ciphertext is a string composed of the raw binary data. base-64 encode it.
-                    // console.log('Encrypted String:  ' + btoa(ciphertext));
-                }).catch(() => {
+                    // let keypair = new RSA.RSAKeyPair(
+                    //             res.exponent, '', res.modulus, ''
+                    //         );
+                    this.keypair = keypair;
+                    console.log('keypair-----------');
+                    console.log(keypair);
+                    console.log('keypair-----------');
+                    console.log(RSA.encryptedString(keypair, '6666666'))
+                }).catch(()=> {
+                    // this.$Message.error('未成功请求接口');
                 });
+                // ajax.getToken({
+                //     _: new Date().getTime()
+                // }).then(response => {
+                //     if (!response.success == true) {
+                //         this.$Notice.open({
+                //             title: '登陆验证错误',
+                //             desc: response.msg ? response.msg : '获取用户认证错误'
+                //         });
+                //         return;
+                //     }
+                //     let res = response.data;
+                //     let keypair = new RSA.RSAKeyPair(
+                //         res.exponent, '', res.modulus, ''
+                //     );
+                //     console.log('keypair-----------');
+                //     console.log(keypair);
+                //     console.log('keypair-----------');
+                //     global.Buffer = global.Buffer || require('buffer').Buffer;
+                //
+                //     if (typeof btoa === 'undefined') {
+                //         console.log('2222');
+                //
+                //         global.btoa = function (str) {
+                //             return new Buffer(str, 'binary').toString('base64');
+                //         };
+                //     }
+                //
+                //     if (typeof atob === 'undefined') {
+                //         console.log('1111');
+                //         global.atob = function (b64Encoded) {
+                //             return new Buffer(b64Encoded, 'base64').toString('binary');
+                //         };
+                //     }
+                //     console.log('----------------')
+                //     // console.log(RSA.encryptedString(keypair, 666666));
+                //     console.log('----------------')
+                //     var ciphertext = RSA.encryptedString(keypair, '4444');
+                //     // // ciphertext is a string composed of the raw binary data. base-64 encode it.
+                //     console.log('Encrypted String:  ' + ciphertext);
+                // }).catch(()=> {
+                //     // this.$Message.error('未成功请求接口');
+                // });
                 // ajax.getTokenPK({
                 //     _: new Date().getTime()
                 // }).then(response => {
@@ -191,12 +211,10 @@
             handleSubmit () {
                 this.$refs.form.validate((valid) => {
                     if (valid) {
-                        let encryptor = new JSEncrypt()
-                        // let name = this.rsaPassWord + this.form.password
+                        // let encryptor = new JSEncrypt();
                         ajax.login({
                             login_name: this.form.userName,
-                            login_pwd: encryptor.encrypt(this.form.password)
-                                // encryptor.decrypt(this.rsaPassWord, this.form.password).toString()
+                            login_pwd: RSA.encryptedString(this.keypair, 'this.form.password')
                         }).then(response => {
                             if (!response.success == true) {
                                 this.$Notice.open({
@@ -217,11 +235,12 @@
                             this.$router.push({
                                 name: 'home_index'
                             });
-                        }).catch((err) => {
-                            // console.log(err)
-                            this.$Message.error(err ? err : '未成功请求接口');
+                        }).catch(() => {
+                            this.$Message.error('未成功请求接口');
                         });
 
+                    } else {
+                        return false;
                     }
                 });
             }
@@ -255,7 +274,7 @@
             top: 50%;
             left: 50%;
             width: 340px;
-            transform: translate(-50%,-60%);
+            transform: translate(-50%, -60%);
             background-color: rgba(0, 0, 0, 0.5);
             .ivu-card {
                 background-color: transparent;
@@ -304,6 +323,7 @@
             }
         }
     }
+
     .background {
         position: fixed;
         width: 100%;

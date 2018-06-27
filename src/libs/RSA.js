@@ -389,10 +389,24 @@
         var t = biHighIndex(y);
         var u, uv, k;
 
+
         for (var i = 0; i <= t; ++i) {
+            console.log('laidaozheli')
             c = 0;
             k = i;
+            console.log('t==========')
+            console.log(t)
+            console.log('n==========')
+            console.log(n)
+            console.log('k---------')
+            console.log(k)
+            console.log('j---------')
+            console.log(j)
             for (j = 0; j <= n; ++j, ++k) {
+                console.log('j==========')
+                console.log(j)
+                console.log('----')
+
                 uv = result.digits[k] + x.digits[j] * y.digits[i] + c;
                 result.digits[k] = uv & maxDigitVal;
                 c = uv >>> biRadixBits;
@@ -401,6 +415,7 @@
         }
         // Someone give me a logical xor, please.
         result.isNeg = x.isNeg != y.isNeg;
+        console.log(result)
         return result;
     }
 
@@ -614,6 +629,9 @@
 
     function biMultiplyMod(x, y, m)
     {
+        console.log(x)
+        console.log(y)
+        console.log(m)
         return biModulo(biMultiply(x, y), m);
     }
 
@@ -695,10 +713,6 @@
 
     function BarrettMu_multiplyMod(x, y)
     {
-        /*
-        x = this.modulo(x);
-        y = this.modulo(y);
-        */
         var xy = biMultiply(x, y);
         return this.modulo(xy);
     }
@@ -710,7 +724,8 @@
         var a = x;
         var k = y;
         while (true) {
-            if ((k.digits[0] & 1) != 0) result = this.multiplyMod(result, a);
+            if ((k.digits[0] & 1) != 0)
+                result = this.multiplyMod(result, a);
             k = biShiftRight(k, 1);
             if (k.digits[0] == 0 && biHighIndex(k) == 0) break;
             a = this.multiplyMod(a, a);
@@ -792,7 +807,7 @@
     RSAAPP.NoPadding = "NoPadding";
     RSAAPP.PKCS1Padding = "PKCS1Padding";
     RSAAPP.RawEncoding = "RawEncoding";
-    RSAAPP.NumericEncoding = "NumericEncoding"
+    RSAAPP.NumericEncoding = "NumericEncoding";
 
     /*****************************************************************************/
 
@@ -885,7 +900,7 @@
 
     /*****************************************************************************/
 
-    function encryptedString(key, s, pad, encoding)
+    function encryptedString(key, s)
     /*
     * key                                   The previously-built RSA key whose
     *                                       public key component is to be used to
@@ -1046,31 +1061,31 @@
     {
         var a = new Array();                    // The usual Alice and Bob stuff
         var sl = s.length;                      // Plaintext string length
-        var i, j, k;                            // The usual Fortran index stuff
-        var padtype;                            // Type of padding to do
-        var encodingtype;                       // Type of output encoding
-        var rpad;                               // Random pad
-        var al;                                 // Array length
-        var result = "";                        // Cypthertext result
-        var block;                              // Big integer block to encrypt
-        var crypt;                              // Big integer result
-        var text;                               // Text result
+        var i=0;                            // The usual Fortran index stuff
+        // var padtype;                            // Type of padding to do
+        // var encodingtype;                       // Type of output encoding
+        // var rpad;                               // Random pad
+        // var al;                                 // Array length
+        // var result = "";                        // Cypthertext result
+        // var block;                              // Big integer block to encrypt
+        // var crypt;                              // Big integer result
+        // var text;                               // Text result
         /*
         * Figure out the padding type.
         */
-        if (typeof(pad) == 'string') {
-            if (pad == RSAAPP.NoPadding) { padtype = 1; }
-            else if (pad == RSAAPP.PKCS1Padding) { padtype = 2; }
-            else { padtype = 0; }
-        }
-        else { padtype = 0; }
+        // if (typeof(pad) == 'string') {
+        //     if (pad == RSAAPP.NoPadding) { padtype = 1; }
+        //     else if (pad == RSAAPP.PKCS1Padding) { padtype = 2; }
+        //     else { padtype = 0; }
+        // }
+        // else { padtype = 0; }
         /*
         * Determine encoding type.
         */
-        if (typeof(encoding) == 'string' && encoding == RSAAPP.RawEncoding) {
-            encodingtype = 1;
-        }
-        else { encodingtype = 0; }
+        // if (typeof(encoding) == 'string' && encoding == RSAAPP.RawEncoding) {
+        //     encodingtype = 1;
+        // }
+        // else { encodingtype = 0; }
 
         /*
         * If we're not using Dave's padding method, we need to truncate long
@@ -1079,12 +1094,12 @@
         *       NoPadding    - key length
         *       PKCS1Padding - key length - 11
         */
-        if (padtype == 1) {
-            if (sl > key.chunkSize) { sl = key.chunkSize; }
-        }
-        else if (padtype == 2) {
-            if (sl > (key.chunkSize-11)) { sl = key.chunkSize - 11; }
-        }
+        // if (padtype == 1) {
+        //     if (sl > key.chunkSize) { sl = key.chunkSize; }
+        // }
+        // else if (padtype == 2) {
+        //     if (sl > (key.chunkSize-11)) { sl = key.chunkSize - 11; }
+        // }
         /*
         * Convert the plaintext string to an array of characters so that we can work
         * with individual characters.
@@ -1092,17 +1107,17 @@
         * Note that, if we're talking to a real crypto library at the other end, we
         * reverse the plaintext order to preserve big-endian order.
         */
-        i = 0;
-
-        if (padtype == 2) { j = sl - 1; }
-        else { j = key.chunkSize - 1; }
-
-        while (i < sl) {
-            if (padtype) { a[j] = s.charCodeAt(i); }
-            else { a[i] = s.charCodeAt(i); }
-
-            i++; j--;
-        }
+        // i = 0;
+        //
+        // if (padtype == 2) { j = sl - 1; }
+        // else { j = key.chunkSize - 1; }
+        //
+        // while (i < sl) {
+        //     if (padtype) { a[j] = s.charCodeAt(i); }
+        //     else { a[i] = s.charCodeAt(i); }
+        //
+        //     i++; j--;
+        // }
         /*
         * Now is the time to add the padding.
         *
@@ -1112,22 +1127,22 @@
         *
         * The padding is either a zero byte or a randomly-generated non-zero byte.
         */
-        if (padtype == 1) { i = 0; }
-
-        j = key.chunkSize - (sl % key.chunkSize);
-
-        while (j > 0) {
-            if (padtype == 2) {
-                rpad = Math.floor(Math.random() * 256);
-
-                while (!rpad) { rpad = Math.floor(Math.random() * 256); }
-
-                a[i] = rpad;
-            }
-            else { a[i] = 0; }
-
-            i++; j--;
-        }
+        // if (padtype == 1) { i = 0; }
+        //
+        // j = key.chunkSize - (sl % key.chunkSize);
+        //
+        // while (j > 0) {
+        //     if (padtype == 2) {
+        //         rpad = Math.floor(Math.random() * 256);
+        //
+        //         while (!rpad) { rpad = Math.floor(Math.random() * 256); }
+        //
+        //         a[i] = rpad;
+        //     }
+        //     else { a[i] = 0; }
+        //
+        //     i++; j--;
+        // }
         /*
         * For PKCS1v1.5 padding, we need to fill in the block header.
         *
@@ -1150,46 +1165,99 @@
         * bytes of the encryption block because it was simpler to do so.  We now
         * overwrite them.
         */
-        if (padtype == 2)
-        {
-            a[sl] = 0;
-            a[key.chunkSize-2] = 2;
-            a[key.chunkSize-1] = 0;
-        }
+        // if (padtype == 2)
+        // {
+        //     a[sl] = 0;
+        //     a[key.chunkSize-2] = 2;
+        //     a[key.chunkSize-1] = 0;
+        // }
         /*
         * Carve up the plaintext and encrypt each of the resultant blocks.
         */
-        al = a.length;
+        while (i < sl) {
+            a[i] = s.charCodeAt(i);
+            i++;
+        }
 
+        while (a.length % key.chunkSize != 0) {
+            a[i++] = 0;
+        }
+
+        var al = a.length;
+        var result = "";
+        var j, k, block;
         for (i = 0; i < al; i += key.chunkSize) {
-            /*
-            * Get a block.
-            */
             block = new BigInt();
-
             j = 0;
-
-            for (k = i; k < (i+key.chunkSize); ++j) {
+            for (k = i; k < i + key.chunkSize; ++j) {
                 block.digits[j] = a[k++];
                 block.digits[j] += a[k++] << 8;
             }
-            /*
-            * Encrypt it, convert it to text, and append it to the result.
-            */
-            crypt = key.barrett.powMod(block, key.e);
-            if (encodingtype == 1) {
-                text = biToBytes(crypt);
-            }
-            else {
-                text = (key.radix == 16) ? biToHex(crypt) : biToString(crypt, key.radix);
-            }
-            result += text;
+            var crypt = key.barrett.powMod(block, key.e);
+            var text = key.radix == 16 ? biToHex(crypt) : biToString(crypt, key.radix);
+            result += text + " ";
         }
-        /*
-        * Return the result, removing the last space.
-        */
-        result = (result.substring(0, result.length - 1));
-        return result;
+        return result.substring(0, result.length - 1);
+
+        // for (let i = 0; i < al; i += key.chunkSize) {
+        //     /*
+        //     * Get a block.
+        //     */
+        //     block = new BigInt();
+        //     console.log('block----')
+        //     console.log(new BigInt())
+        //     console.log('block----')
+        //
+        //     j = 0;
+        //
+        //     for (k = i; k < (i+key.chunkSize); ++j) {
+        //         console.log('i------')
+        //         console.log(i)
+        //         console.log('i------')
+        //         console.log('j------')
+        //         console.log(j)
+        //         console.log('j------')
+        //         // console.log('a--------')
+        //         // console.log(a)
+        //         // console.log('a--------')
+        //         console.log('k--------')
+        //         console.log(k)
+        //         console.log('k--------')
+        //         // console.log('k++--------')
+        //         // console.log(k++)
+        //         // console.log('k++--------')
+        //         // console.log('a[k++]--------')
+        //         // console.log(a[k++])
+        //         // console.log('a[k++]--------')
+        //         // console.log('block--------')
+        //         // console.log(block)
+        //         // console.log('block--------')
+        //         block.digits[j] = a[k++];
+        //         block.digits[j] += a[k++] << 8;
+        //         // console.log('block.digits[j]')
+        //         // console.log(block.digits[j])
+        //     }
+        //     /*
+        //     * Encrypt it, convert it to text, and append it to the result.
+        //     */
+        //     console.log('11111')
+        //     console.log(block)
+        //     console.log(key.e)
+        //     console.log('11111')
+        //     crypt = key.barrett.powMod(block, key.e);
+        //     if (encodingtype == 1) {
+        //         text = biToBytes(crypt);
+        //     }
+        //     else {
+        //         text = (key.radix == 16) ? biToHex(crypt) : biToString(crypt, key.radix);
+        //     }
+        //     result += text;
+        // }
+        // /*
+        // * Return the result, removing the last space.
+        // */
+        // result = (result.substring(0, result.length - 1));
+        // return result;
     }
 
     /*****************************************************************************/
@@ -1303,7 +1371,7 @@
         encryptedString: encryptedString
     };
 
-    RSA.setMaxDigits(262)
+    RSA.setMaxDigits(130)
 
     if (typeof module !== 'undefined' && typeof exports === 'object') {
         module.exports = RSA;
