@@ -22,7 +22,7 @@
                     :name="item.name"
                     @on-close="closePage"
                     @click.native="linkTo(item)"
-                    :closable="item.name==='home_index'?false:true"
+                    :closable="item.name==='home'?false:true"
                     :color="item.children?(item.children[0].name===currentPageName?'blue':'default'):(item.name===currentPageName?'blue':'default')"
                 >{{ itemTitle(item) }}</Tag>
             </transition-group>
@@ -64,6 +64,9 @@ export default {
     methods: {
         itemTitle (item) {
             if (typeof item.title === 'object') {
+                if (item.title.i18n == 'home') {
+                    item.title.i18n = '首页';
+                }
                 return item.title.i18n;
             } else {
                 return item.title;
@@ -135,7 +138,7 @@ export default {
             if (type === 'clearAll') {
                 this.$store.commit('clearAllTags');
                 this.$router.push({
-                    name: 'home_index'
+                    name: 'home'
                 });
             } else {
                 this.$store.commit('clearOtherTags', this);

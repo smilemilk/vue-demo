@@ -122,7 +122,7 @@
                                 Cookies.set('access', 1);
                             }
                             this.$router.push({
-                                name: 'home_index'
+                                name: 'home'
                             });
                         }).catch(() => {
                             this.$Message.error('未成功请求接口');
