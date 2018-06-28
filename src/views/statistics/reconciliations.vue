@@ -333,6 +333,7 @@
                 height: 32px;
                 line-height: 32px;
                 margin-right: 15px;
+                font-size: 12px;
                 em {
                     display: inline-block;
                     margin-left: 5px;
@@ -428,6 +429,18 @@
                 &:hover {
                     background-color: rgba(55,55,55,.6);
                     z-index: 10001;
+                }
+            }
+        }
+    }
+    @media screen and (max-height: 786px){
+        .searchBox {
+            .ivu-form-item {
+                margin-bottom: 8px;
+            }
+            form {
+                & + div {
+                    padding-top: 7px;
                 }
             }
         }

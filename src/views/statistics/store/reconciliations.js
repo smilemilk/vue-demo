@@ -11,7 +11,7 @@ export const columnsTable = [
         title: '账单日期',
         align: 'center',
         render: (h, params) => {
-            return h('div', parseTime(params.row.billStartTime, '{y}-{m}-{d}'))
+            return h('div', parseTime(params.row.billStartTime, '{y}-{m}-{d}'));
         }
     },
     {
@@ -28,7 +28,18 @@ export const columnsTable = [
         key: 'unioncheckorderStatus',
         title: '对账状态',
         align: 'center',
-        width: 80
+        width: 120,
+        render: (h, params) => {
+            return h('div', params.row.unioncheckorderStatus ?
+                params.row.unioncheckorderStatus === '0' ? '待对账' :
+                    params.row.unioncheckorderStatus === '1' ? '对账中' :
+                        params.row.unioncheckorderStatus === '2' ? '对账成功' :
+                            params.row.unioncheckorderStatus === '3' ? '对账失败' :
+                                params.row.unioncheckorderStatus === '4' ? '存在异常' :
+                                    params.row.unioncheckorderStatus === '5' ? '待对账勾兑' :
+                                        params.row.unioncheckorderStatus === '6' ? '已归档' :
+                                            params.row.unioncheckorderStatus : '——');
+        }
     },
     {
         key: 'operate',
@@ -44,7 +55,7 @@ export const columnsTable = [
                     },
                     on: {
                         click: () => {
-                            console.log(params)
+                            console.log(params);
                             // this.remove(params)
                         }
                     }
