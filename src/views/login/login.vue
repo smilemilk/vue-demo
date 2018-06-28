@@ -99,16 +99,11 @@
                 });
             },
             handleSubmit () {
-                console.log('--------------')
-                console.log(JSON.stringify(this.keyPair))
-                console.log(RSA.encryptedString(this.keyPair, '666666'))
                 this.$refs.form.validate((valid) => {
                     if (valid) {
                         ajax.login({
                             login_name: this.form.userName,
-                            login_pwd:
-                                // '83a2b985fad1df44bc56483767ecb57be893d61b748c70df93ea6fa08dbeccdaf4664e78fc4f586654a2412ba9cae326aab753f32b00cfd5da144ab59c9f74af4b2052e16cc70e1c754eb2fc650e7a7a9ec8ca9b7275155b6093cb531a916d9a9ae19edd010655f62045dea5fbc2b3ff6a923f39c6564672cad899808ce02aea'
-                                RSA.encryptedString(this.keyPair, this.form.password)
+                            login_pwd: RSA.encryptedString(this.keyPair, this.form.password)
                         }).then(response => {
                             if (!response.success == true) {
                                 this.$Notice.open({
