@@ -27,12 +27,14 @@ export const columnsTable = [
     {
         key: 'unioncheckorderStatus',
         title: '对账状态',
-        align: 'center'
+        align: 'center',
+        width: 80
     },
     {
         key: 'operate',
         title: '操作',
         align: 'center',
+        width: 140,
         render: (h, params) => {
             return h('div', [
                 h('Button', {
@@ -46,7 +48,7 @@ export const columnsTable = [
                             // this.remove(params)
                         }
                     }
-                }, '手工勾对')
+                }, '开始对账')
             ]);
         }
     }

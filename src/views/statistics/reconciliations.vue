@@ -26,9 +26,10 @@
                     </Col>
                     <Col span="12" :md="12" :sm="24" :xs="24">
                         <Button type="primary" @click="getList('queryParams')">查询</Button>
-                        <Button type="primary">导出</Button>
+                        <Button type="primary" @click="exportAction">导出</Button>
                         <Button type="primary" @click="reconciliationsOpera">开始对账</Button>
-                        <Button type="primary">对账结果下载</Button>
+                        <Button type="primary" @click="downloadAction">对账结果下载</Button>
+                        <Button @click="handleSelectAll(true)" style="display:none;">全选</Button>
                     </Col>
                 </Row>
             </div>
@@ -41,13 +42,14 @@
                     :height="tableHeight"
                     highlight-row
                     border
-                    @on-select="selectSomeAction(selection, row)"
+                    @on-selection-change="handleRowChange"
             ></Table>
-            <Button @click="handleSelectAll(true)">Set all selected</Button>
             <Page :total="total"
                   size="small"
                   show-elevator
-                  show-sizer></Page>
+                  show-sizer
+                  @on-change="handleCurrentPageChange"
+                  @on-page-size-change="handlePageSizeChange"></Page>
         </Card>
         <Modal
                 class-name="reconciliationsDialog"
@@ -61,10 +63,17 @@
                 <title>开始对账</title>
             </div>
             <div>
-                <section>
+                <section class="operatorSection">
                     <p>医院账单</p>
                     <div>
-
+                        <div class="operateItem operatorEmpty">
+                            <div class="operateContainer">
+                                <Icon type="clipboard"></Icon>
+                                <p class="operateName">HIS</p>
+                                <p>空</p>
+                            </div>
+                            <Icon type="trash-a" class="hidden" @click="emptyOpera"></Icon>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -79,6 +88,30 @@
                     </Col>
                     <Col span="12">
                         <Button type="primary" size="large">开始对账</Button>
+                    </Col>
+                </Row>
+            </div>
+        </Modal>
+        <Modal
+                class-name="downloadDialog"
+                width="300px"
+                v-model="downloadShowDialog">
+            <div slot="header">
+                <p>对账结果下载</p>
+            </div>
+            <div>
+                <CheckboxGroup @on-change="downloadLabelAction">
+                    <Checkbox label="微脉代收"></Checkbox>
+                    <Checkbox label="支付宝"></Checkbox>
+                    <Checkbox label="支付宝-健康台州"></Checkbox>
+                    <Checkbox label="支付宝-健康台州"></Checkbox>
+                    <Checkbox label="支付宝-微脉"></Checkbox>
+                </CheckboxGroup>
+            </div>
+            <div slot="footer">
+                <Row>
+                    <Col span="24">
+                        <Button type="primary" @click="handleLabelAction">确认</Button>
                     </Col>
                 </Row>
             </div>
@@ -98,23 +131,26 @@
                 searchActive: false,
                 tableHeight: 320,
                 total: 0,
+                multipleSelection: [], // 计算选中项
                 queryParams: {
                     billStartTime: '',
                     billEndTime: '',
-                    page: 1,
-                    limit: 50
+                    page: 1, // 页数
+                    limit: 10 // 一页几条
                 },
                 dateSearch: [],
                 columnsTable: table.columnsTable,
                 dataList: [],
                 initTable3: [],
 
-                showDialog: false
+                showDialog: false,
+                downloadShowDialog: false,
+                downloadLabels: [],
             };
         },
         created () {
             this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}'); // 首次进来默认展示一周数据
-            this.queryParams.billStartTime = parseTime(new Date().getTime() - 7*24*60*60*1000, '{y}-{m}-{d}'); // 首次进来默认展示一周数据
+            this.queryParams.billStartTime = parseTime(new Date().getTime() - 60 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}'); // 首次进来默认展示一周数据
             this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
             this.getList();
         },
@@ -135,21 +171,21 @@
                 if (val) {
                     this.queryParams.billStartTime = parseTime(this.dateSearch[0], '{y}-{m}-{d}');
                     this.queryParams.billEndTime = parseTime(this.dateSearch[1], '{y}-{m}-{d}');
-                    console.log(this.queryParams)
+                    console.log(this.queryParams);
                 } else {
                     this.queryParams.billStartTime = '';
                     this.queryParams.billEndTime = '';
                 }
             },
-            dateWeekAction() {
+            dateWeekAction () {
                 this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}');
-                this.queryParams.billStartTime = parseTime(new Date().getTime() - 7*24*60*60*1000, '{y}-{m}-{d}')
+                this.queryParams.billStartTime = parseTime(new Date().getTime() - 7 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}');
                 this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
                 this.getList();
             },
-            dateMonthAction() {
+            dateMonthAction () {
                 this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}');
-                this.queryParams.billStartTime = parseTime(new Date().getTime() - 30*24*60*60*1000, '{y}-{m}-{d}')
+                this.queryParams.billStartTime = parseTime(new Date().getTime() - 30 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}');
                 this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
                 this.getList();
             },
@@ -158,6 +194,7 @@
                     if (response.success == true) {
                         if (response.data.items) {
                             this.dataList = response.data.items;
+                            this.total = response.data.totalCount;
                         } else {
                             this.dataList = [];
                         }
@@ -167,10 +204,12 @@
                 }).catch(() => {
                 });
             },
-            handleSelectAll(status) {
-                console.log('--------')
-                console.log(status)
-                this.$refs.selection.selectAll(status);
+            handleRowChange (selection) {
+                console.log(selection);
+                this.multipleSelection = selection;
+            },
+            handleSelectAll (status) {
+                this.$refs.table.selectAll(status);
             },
             search (data, argumentObj) {
                 let res = data;
@@ -185,14 +224,81 @@
                 }
                 return res;
             },
+            exportAction () {
+                if (this.multipleSelection.length > 0) {
+                    console.log(this.multipleSelection);
+                } else {
+                    this.$Message.error({
+                        content: '请先选择要导出的账单',
+                        duration: 2,
+                        closable: true
+                    });
+                    return;
+                }
+            },
+            downloadLabelAction (data) {
+                console.log(data);
+                this.downloadLabels = data;
+            },
+            handleLabelAction () {
+                if (this.downloadLabels.length > 0) {
+                    console.log(this.downloadLabels);
+                    // this.$Modal.success({
+                    //     title: '确定要下载' + this.downloadLabels + '账单',
+                    //     content: '确定要下载' + this.downloadLabels + '账单'
+                    // });
+                } else {
+                    this.$Message.error({
+                        content: '请先选择要对账的类目',
+                        duration: 2,
+                        closable: true
+                    });
+                    return;
+                }
+            },
             reconciliationsOpera () {
                 this.showDialog = true;
+            },
+            // 对账内部操作
+            emptyOpera() {
+                this.showDialog = false;
+                this.$Modal.confirm({
+                    content: '确定要删除吗',
+                    okText: '确定',
+                    cancelText: '取消'
+                }).then(
+                ).catch(()=>{
+                    this.showDialog = true;
+                });
+            },
+            downloadAction () {
+                if (this.multipleSelection.length > 0) {
+                    this.downloadShowDialog = true;
+                    console.log(this.multipleSelection);
+                } else {
+                    this.$Message.error({
+                        content: '请先选择要下载的账单',
+                        duration: 2,
+                        closable: true
+                    });
+                    return;
+                }
+            },
+            handleCurrentPageChange (val) {
+                this.queryParams.page = val;
+                this.getList();
+            },
+            handlePageSizeChange (val) {
+                this.queryParams.limit = val;
+                this.getList();
             }
         }
     };
 </script>
 
 <style lang="less" scoped>
+    @import "../../styles/common";
+
     .ivu-card {
         margin-bottom: 10px;
     }
@@ -204,7 +310,7 @@
         form {
             & + div {
                 padding-top: 12px;
-                border-top: 1px solid #e9eaec;
+                border-top: 1px solid @borderLight;
             }
         }
         .dateSearchQuick {
@@ -247,14 +353,82 @@
         margin-top: 15px;
     }
 
+    .downloadDialog {
+        .ivu-checkbox-group-item {
+            display: block;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+    }
+
     .reconciliationsDialog {
         .reconciliationsBottom {
             height: 36px;
             overflow: hidden;
             text-align: left;
             line-height: 36px;
-            label{
+            label {
                 display: inline-block;
+            }
+        }
+    }
+
+    .operatorSection {
+        & > p {
+            background-color: @borderLighter;
+            margin-bottom: 15px;
+            padding: 7px 0 7px 15px;
+            & + div {
+                padding-left: 15px;
+            }
+        }
+        .operateItem {
+            width: 116px;
+            height: 84px;
+            display: inline-block;
+            padding: 5px 15px;
+            border: 1px solid @borderLight;
+            border-radius: 4px;
+            text-align: center;
+            overflow: hidden;
+            .operateContainer {
+                text-align: center;
+            }
+            i {
+                font-size: 28px;
+                color: @borderLight;
+            }
+            p {
+                font-size: 14px;
+                color: @borderLight;
+                &.operateName {
+                    color: #495060;
+                    font-size: 15px;
+                }
+            }
+            &.operatorEmpty {
+
+            }
+            &.operatorHas {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-color: @backgroundDanger;
+                .operateContainer {
+                    display: none;
+                }
+                .hidden {
+                    display: block;
+                }
+                i {
+                    color: @backgroundDanger;
+                    cursor: pointer;
+                    z-index: 10002;
+                }
+                &:hover {
+                    background-color: rgba(55,55,55,.6);
+                    z-index: 10001;
+                }
             }
         }
     }
