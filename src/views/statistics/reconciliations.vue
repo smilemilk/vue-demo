@@ -20,8 +20,8 @@
                 <Row>
                     <Col span="12" :md="12" :sm="24" :xs="24">
                         <figure>
-                            <label>待处理天数:<em>1</em></label>
-                            <label>已归档天数:<em>1</em></label>
+                            <label>待处理天数:<em>{{this.searchDay.item1 ? this.searchDay.item1: 0}}</em></label>
+                            <label>已归档天数:<em>{{this.searchDay.item2 ? this.searchDay.item2: 0}}</em></label>
                         </figure>
                     </Col>
                     <Col span="12" :md="12" :sm="24" :xs="24">
@@ -141,6 +141,10 @@
                 searchActive: false,
                 tableHeight: 320,
                 total: 0,
+                searchDay: {
+                    item1: null,
+                    item2: null
+                },
                 multipleSelection: [], // 计算选中项
                 queryParams: {
                     billStartTime: '',
@@ -191,20 +195,44 @@
                 this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}');
                 this.queryParams.billStartTime = parseTime(new Date().getTime() - 7 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}');
                 this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
-                this.getList();
+                this.searchDay = {
+                    item1: null,
+                    item2: null
+                },
+                    this.getList();
             },
             dateMonthAction () {
-                this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}');
+                this.searchDay = {
+                    item1: null,
+                    item2: null
+                },
+                    this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}');
                 this.queryParams.billStartTime = parseTime(new Date().getTime() - 30 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}');
                 this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
                 this.getList();
             },
             getList () {
-                ajax.refundList(this.queryParams).then(response => {
+                ajax.checkList(this.queryParams).then(response => {
                     if (response.success == true) {
                         if (response.data.items) {
                             this.dataList = response.data.items;
                             this.total = response.data.totalCount;
+                            let item1 = 0;
+                            let item2 = 0;
+                            if (response.data.items) {
+                                response.data.items.map((it) => {
+                                    if (it.unioncheckorderStatus == '4' || it.unioncheckorderStatus == '5') {
+                                        item1 = item1 + 1;
+                                    }
+                                });
+                                response.data.items.map((it) => {
+                                    if (it.unioncheckorderStatus == '6') {
+                                        item2 = item2 + 1;
+                                    }
+                                });
+                                this.searchDay = {...this.searchDay, 'item1': item1, 'item2': item2};
+                            }
+                            // this.searchDay = '';
                         } else {
                             this.dataList = [];
                         }
@@ -237,6 +265,36 @@
             exportAction () {
                 if (this.multipleSelection.length > 0) {
                     console.log(this.multipleSelection);
+                    let num = this.multipleSelection.length;
+                    this.$Modal.confirm({
+                        content: '确定要导出' + num + '条数据?',
+                        okText: '确定',
+                        cancelText: '取消',
+                        loading: true,
+                        onOk: () => {
+                            setTimeout(() => {
+                                ajax.exportCheck(
+                                    {item: [
+
+                                        ]}
+                                ).then(response => {
+                                    if (response.success == true) {
+                                        if (response.data.items) {
+                                            this.dataList = response.data.items;
+                                            this.total = response.data.totalCount;
+                                        } else {
+                                            this.dataList = [];
+                                        }
+                                    } else {
+                                        this.$Message.error(response.msg ? response.msg : '客户统一对账表单请求未成功');
+                                    }
+                                }).catch(() => {
+                                });
+                            }, 2000);
+                        },
+                        onCancel: () => {
+                        }
+                    });
                 } else {
                     this.$Message.error({
                         content: '请先选择要导出的账单',

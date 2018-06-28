@@ -2,7 +2,7 @@ import request from '@/libs/request';
 
 // import qs from 'qs'
 
-export function refundList (params) {
+export function checkList (params) {
     return request({
         url: 'unioncheck/merchantCheck/checkList',
         method: 'get',
@@ -10,6 +10,16 @@ export function refundList (params) {
     });
 }
 
+export function exportCheck (params) {
+    return request({
+        url: 'unioncheck/merchantCheck/downloadMerchantCheck',
+        method: 'post',
+        params: params,
+        data: params
+    });
+}
+
 export default {
-    refundList
+    checkList,
+    exportCheck
 };
