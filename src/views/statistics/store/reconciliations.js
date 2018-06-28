@@ -1,32 +1,30 @@
 import {parseTime, moneyFormat} from '@/filters';
+// import {reconciliationStatus} from 'filters';
 
-export const columnsTable =
-// export default function() {
-//     return {
-//         searchActive: false,
-//         tableHeight: 320,
-//         total: 0,
-//         multipleSelection: [], // 计算选中项
-//         searchDay: {
-//             item1: null,
-//             item2: null
-//         },
-//         queryParams: {
-//             billStartTime: '',
-//             billEndTime: '',
-//             page: 1, // 页数
-//             limit: 10 // 一页几条
-//         },
-//         dateSearch: [],
-//         columnsTable: table.columnsTable,
-//         dataList: [],
-//         initTable3: [],
-//
-//         showDialog: false,
-//         downloadShowDialog: false,
-//         downloadLabels: [],
-//         columnsTable: [
-    [
+export default function () {
+    return {
+        searchActive: false,
+        tableHeight: 320,
+        total: 0,
+        multipleSelection: [], // 计算选中项
+        searchDay: {
+            item1: null,
+            item2: null
+        },
+        queryParams: {
+            billStartTime: '',
+            billEndTime: '',
+            page: 1, // 页数
+            limit: 10 // 一页几条
+        },
+        dataList: [],
+
+        showDialog: false,
+        downloadShowDialog: false,
+        downloadLabels: [],
+        rowOperate: false, // 对账表头时间的替换
+        rowData: '', // row对账的日期
+        columnsTable: [
             {
                 type: 'selection',
                 width: 60,
@@ -53,7 +51,7 @@ export const columnsTable =
                 title: '资金金额(元)',
                 align: 'center',
                 render: (h, params) => {
-                    return h('div', params.row.fundTransactionTotalAmount ? moneyFormat(params.row.fundTransactionTotalAmount/100) : '——');
+                    return h('div', params.row.fundTransactionTotalAmount ? moneyFormat(params.row.fundTransactionTotalAmount / 100) : '——');
                 }
             },
             {
@@ -79,10 +77,9 @@ export const columnsTable =
                 align: 'center',
                 width: 140,
                 render: (h, params) => {
-                    let _this = this;
                     let text = '';
                     let status = params.row.unioncheckorderStatus;
-                    if ( status == '0') {
+                    if (status == '0') {
                         text = '开始对账';
                     } else if (status == '3') {
                         text = '重新对账';
@@ -95,28 +92,26 @@ export const columnsTable =
                         status == '3' ||
                         status == '5' ||
                         status == '6') {
-                        // return(<div>lalalla</div>);
-                        //
-                        // h('div',
-                        //     [h('Button', {
-                        //         props: {
-                        //             type: 'dashed',
-                        //             size: 'small'
-                        //         },
-                        //         on: {
-                        //             click: () => {
-                        //                 if (params.row.unioncheckorderStatus == '0') {
-                        //                     console.log(h)
-                        //                 }
-                        //             }
-                        //         }
-                        //     }, text)
-                        //     ]);
+                       return h('div',
+                            [h('Button', {
+                                props: {
+                                    type: 'dashed',
+                                    size: 'small'
+                                },
+                                on: {
+                                    click: () => {
+                                        if (params.row.unioncheckorderStatus == '0') {
+                                            this.reconciliationsRowAction(params.row);
+                                        }
+                                    }
+                                }
+                            }, text)
+                            ]);
                     }
 
                 }
             }
         ]
-    // }
-// }
+    }
+}
 

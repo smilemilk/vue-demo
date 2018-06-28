@@ -56,9 +56,12 @@
                 width="70%"
                 v-model="showDialog">
             <div slot="header">
-                <figure>
+                <figure v-if="rowOperate === false">
                     <span>{{this.queryParams.billStartTime ? this.queryParams.billStartTime : '——'}}</span>至
                     <span>{{this.queryParams.billEndTime ? this.queryParams.billEndTime : '——'}}</span>
+                </figure>
+                <figure v-else>
+                    <span>{{this.rowData}}</span>
                 </figure>
                 <title>开始对账</title>
             </div>
@@ -130,37 +133,14 @@
 </template>
 
 <script>
-    import * as table from './store/reconciliations';
+    import storeData from './store/reconciliations';
     import {parseTime} from '@/filters';
     import ajax from '@/api/statistics';
 
     export default {
         name: 'searchable-table',
         data () {
-            return {
-                searchActive: false,
-                tableHeight: 320,
-                total: 0,
-                searchDay: {
-                    item1: null,
-                    item2: null
-                },
-                multipleSelection: [], // 计算选中项
-                queryParams: {
-                    billStartTime: '',
-                    billEndTime: '',
-                    page: 1, // 页数
-                    limit: 10 // 一页几条
-                },
-                dateSearch: [],
-                columnsTable: table.columnsTable,
-                dataList: [],
-                initTable3: [],
-
-                showDialog: false,
-                downloadShowDialog: false,
-                downloadLabels: [],
-            };
+            return storeData.apply(this);
         },
         created () {
             this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}'); // 首次进来默认展示一周数据
@@ -325,6 +305,7 @@
                 }
             },
             reconciliationsOpera () {
+                this.rowOperate = false;
                 this.showDialog = true;
             },
             // 对账内部操作
@@ -364,6 +345,15 @@
             handlePageSizeChange (val) {
                 this.queryParams.limit = val;
                 this.getList();
+            },
+            reconciliationsRowAction(row) {
+                let  timeRow;
+                if (row.billStartTime) {
+                    timeRow = parseTime(row.billStartTime, '{y}-{m}-{d}');
+                    this.rowOperate = true;
+                }
+                this.rowData = timeRow || '';
+                this.showDialog = true;
             }
         }
     };
