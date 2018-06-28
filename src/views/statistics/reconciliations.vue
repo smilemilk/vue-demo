@@ -72,6 +72,16 @@
                                 <p class="operateName">HIS</p>
                                 <p>空</p>
                             </div>
+                            <div class="operateHover">
+                                <div class="operateHoverPull">
+                                    <Icon type="android-download"></Icon>
+                                    <p>接口拉取</p>
+                                </div>
+                                <div class="operateHoverPush">
+                                    <Icon type="android-upload"></Icon>
+                                    <p>上传账单</p>
+                                </div>
+                            </div>
                             <Icon type="trash-a" class="hidden" @click="emptyOpera"></Icon>
                         </div>
                     </div>
@@ -260,15 +270,20 @@
                 this.showDialog = true;
             },
             // 对账内部操作
-            emptyOpera() {
+            emptyOpera () {
                 this.showDialog = false;
                 this.$Modal.confirm({
                     content: '确定要删除吗',
                     okText: '确定',
-                    cancelText: '取消'
-                }).then(
-                ).catch(()=>{
-                    this.showDialog = true;
+                    cancelText: '取消',
+                    loading: true,
+                    onOk: () => {
+                        setTimeout(() => {
+                        }, 2000);
+                    },
+                    onCancel: () => {
+                        this.showDialog = true;
+                    }
                 });
             },
             downloadAction () {
@@ -384,6 +399,7 @@
             }
         }
         .operateItem {
+            position: relative;
             width: 116px;
             height: 84px;
             display: inline-block;
@@ -408,7 +424,42 @@
                 }
             }
             &.operatorEmpty {
-
+                &:hover {
+                    .operateContainer {
+                        display: none;
+                    }
+                    .operateHover {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        display: flex;
+                        flex-wrap: nowrap;
+                        width: 116px;
+                        align-items: center;
+                        justify-content: center;
+                        [class^="operateHover"] {
+                            height: 84px;
+                            /*display: flex;*/
+                            /*align-items: center;*/
+                            /*justify-content: center;*/
+                            p {
+                                font-size: 12px;
+                            }
+                        }
+                        .operateHoverPull {
+                            background-color: rgba(55, 55, 55, .8);
+                            i {
+                                color: @backgroundSuccess;
+                            }
+                        }
+                        .operateHoverPush {
+                            background-color: rgba(55, 55, 55, .6);
+                            i {
+                                color: @backgroundWarn;
+                            }
+                        }
+                    }
+                }
             }
             &.operatorHas {
                 display: flex;
@@ -427,13 +478,14 @@
                     z-index: 10002;
                 }
                 &:hover {
-                    background-color: rgba(55,55,55,.6);
+                    background-color: rgba(55, 55, 55, .6);
                     z-index: 10001;
                 }
             }
         }
     }
-    @media screen and (max-height: 786px){
+
+    @media screen and (max-height: 786px) {
         .searchBox {
             .ivu-form-item {
                 margin-bottom: 8px;
