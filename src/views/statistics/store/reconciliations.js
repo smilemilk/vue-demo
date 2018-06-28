@@ -84,17 +84,17 @@ export const columnsTable =
                     let status = params.row.unioncheckorderStatus;
                     if ( status == '0') {
                         text = '开始对账';
-                    } else if (params.row.unioncheckorderStatus == '3') {
+                    } else if (status == '3') {
                         text = '重新对账';
-                    } else if (params.row.unioncheckorderStatus == '5') {
+                    } else if (status == '5') {
                         text = '手工勾对';
-                    } else if (params.row.unioncheckorderStatus == '6') {
+                    } else if (status == '6') {
                         text = '查看';
                     }
-                    if (params.row.unioncheckorderStatus == '0' ||
-                        params.row.unioncheckorderStatus == '3' ||
-                        params.row.unioncheckorderStatus == '5' ||
-                        params.row.unioncheckorderStatus == '6') {
+                    if (status == '0' ||
+                        status == '3' ||
+                        status == '5' ||
+                        status == '6') {
                         // return(<div>lalalla</div>);
                         //
                         // h('div',
