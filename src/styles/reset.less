@@ -13,21 +13,29 @@
     }
 }
 .homeCard {
-    &.ivu-tabs.ivu-tabs-card{
-        &>.ivu-tabs-bar{
+    &.ivu-tabs.ivu-tabs-card {
+        & > .ivu-tabs-bar {
             .ivu-tabs-nav-container {
                 height: 40px;
             }
+            .ivu-tabs-tab {
+                border-color: @borderLight;
+            }
         }
-        &>.ivu-tabs-bar{
+        & > .ivu-tabs-bar {
             .ivu-tabs-tab-active {
                 height: 40px;
                 z-index: 399;
+                color: @fontColor;
+                &.ivu-tabs-tab {
+                    background: rgb(256, 256, 256);
+                }
             }
             .ivu-tabs-tab {
                 height: 39px;
                 line-height: 29px;
                 margin-right: -1px;
+                background: @borderLight;
             }
         }
     }
@@ -35,7 +43,7 @@
         border-bottom: none;
         margin-bottom: 0;
     }
-    &.ivu-tabs{
+    &.ivu-tabs {
         .ivu-tabs-tabpane {
             background-color: #fff;
             min-height: 200px;
@@ -45,8 +53,13 @@
             border: 1px solid @borderLight;
         }
     }
+    .ivu-tabs-nav-container {
+        overflow: initial;
+    }
+    .ivu-tabs-nav {
+        margin: 1px 0 1px 0;
+    }
 }
-
 @media screen and (max-height: 786px){
     .panelBox {
         .ivu-card-body {

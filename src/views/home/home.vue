@@ -11,14 +11,14 @@
                                     <Icon type="social-yen"></Icon>
                                     <p>今日收入</p>
                                 </div>
-                                <em>1111</em>
+                                <em v-if="todayStatistics">{{todayStatistics.in}}</em>
                             </div>
                             <div class="panelItem-bottom">
                                 <div>
                                     <Icon type="ios-cart"></Icon>
                                     <p>今日支出</p>
                                 </div>
-                                <em>1111</em>
+                                <em v-if="todayStatistics">{{todayStatistics.out}}</em>
                             </div>
                         </Card>
                     </Col>
@@ -31,14 +31,14 @@
                                     <Icon type="social-yen"></Icon>
                                     <p>本月收入</p>
                                 </div>
-                                <em>1111</em>
+                                <em v-if="weekStatistics">{{weekStatistics.in}}</em>
                             </div>
                             <div class="panelItem-bottom">
                                 <div>
                                     <Icon type="ios-cart"></Icon>
                                     <p>本月支出</p>
                                 </div>
-                                <em>1111</em>
+                                <em v-if="weekStatistics">{{weekStatistics.out}}</em>
                             </div>
                         </Card>
                     </Col>
@@ -55,38 +55,70 @@
 </template>
 
 <script>
-    // import ajax from '@/api/agency';
+    import ajax from '@/api/home';
     import {parseTime} from '@/filters';
+
     export default {
         name: 'home',
-        components: {
-        },
+        components: {},
         data () {
             return {
-                homeTitle: ''
+                homeTitle: '',
+                todayStatistics: {
+                    in: undefined,
+                    out: undefined
+                },
+                weekStatistics: {
+                    in: undefined,
+                    out: undefined
+                }
             };
         },
         created () {
-            this.homeTitle = parseTime(new Date(), "{y}-{m}-{d}");
-            // this.getList();
+            this.homeTitle = parseTime(new Date(), '{y}-{m}-{d}');
+            this.getTodayList();
+            this.getWeekList();
         },
-        computed: {
-
-        },
+        computed: {},
         methods: {
-            // getList () {
-            //     console.log('00000000009999999');
-            //     ajax.refundList({
-            //         page: 1,
-            //         limit: 10,
-            //         billStartTime: '',
-            //         billEndTime: '',
-            //     }).then(response => {
-            //         console.log('0000000');
-            //         console.log(response);
-            //     }).catch(() => {
-            //     });
-            // }
+            getTodayList () {
+                let queryParam = {
+                    start_time: this.homeTitle,
+                    end_time: this.homeTitle
+                };
+                ajax.statisticsList(queryParam).then(response => {
+                    if (response.success == true) {
+                        if (response.data) {
+                            this.todayStatistics = {
+                                in: response.data.inAmount,
+                                out: response.data.outAmount,
+                            };
+                        }
+                    } else {
+                        this.$Message.error(response.msg ? response.msg : '今日财务信息请求未成功');
+                    }
+                }).catch(() => {
+                });
+            },
+            getWeekList () {
+                let queryParam = {
+                    start_time: this.homeTitle,
+                    end_time: parseTime(new Date().getTime() - 30 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}')
+                };
+                ajax.statisticsList(queryParam).then(response => {
+                    if (response.success == true) {
+                        if (response.data) {
+                            this.weekStatistics = {
+                                in: response.data.inAmount,
+                                out: response.data.outAmount,
+                            };
+                        }
+                    } else {
+                        this.$Message.error(response.msg ? response.msg : '本月财务信息请求未成功');
+                    }
+                }).catch(() => {
+                });
+            }
         }
     };
 </script>
@@ -101,6 +133,7 @@
         margin-top: 15px;
         margin-left: 5px;
     }
+
     .panelBox {
         [class^="panelItem-"] {
             display: flex;
@@ -152,21 +185,8 @@
             }
         }
     }
-    .homeCard {
-        .ivu-tabs-card > .ivu-tabs-content > .ivu-tabs-tabpane {
-            background: #fff;
-            padding: 16px;
-        }
 
-        .ivu-tabs.ivu-tabs-card > .ivu-tabs-bar .ivu-tabs-tab {
-            border-color: transparent;
-        }
-
-        .ivu-tabs-card > .ivu-tabs-bar .ivu-tabs-tab-active {
-            border-color: #fff;
-        }
-    }
-    @media screen and (max-height: 786px){
+    @media screen and (max-height: 786px) {
         .panelBox {
             [class^="panelItem-"] {
                 &.panelItem-top {

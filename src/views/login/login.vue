@@ -46,14 +46,8 @@
 <script>
     import Cookies from 'js-cookie';
     import ajax from '@/api/login';
-
-    import {JsEncrypt} from 'jsencrypt';
-    // let RSA = require('@/libs/RSA');
-    // var getPem = require('rsa-pem-from-mod-exp');
-
-    // console.log('jse')
-    // console.log(this.a)
     import RSA from '@/libs/RSANode'
+
     export default {
         data () {
             return {
@@ -94,7 +88,6 @@
                         res.exponent, '', res.modulus
                     );
                     this.keyPair = keyPair;
-                    console.log(JSON.stringify(this.keyPair))
                 }).catch(()=> {
                 });
             },
