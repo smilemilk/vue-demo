@@ -10,14 +10,14 @@ export function checkList (params) {
     });
 }
 
-export function exportCheck (params) {
-    return request({
-        url: 'unioncheck/merchantCheck/downloadMerchantCheck',
-        method: 'post',
-        params: params,
-        data: params
-    });
-}
+// export function exportCheck (params) {
+//     return request({
+//         url: 'unioncheck/merchantCheck/downloadCheck',
+//         method: 'get',
+//         params: params,
+//         // data: params
+//     });
+// }
 
 export function fundList(params) {
     return request({
@@ -30,6 +30,6 @@ export function fundList(params) {
 
 export default {
     checkList,
-    exportCheck,
-    fundList
+    // exportCheck,
+    fundList,
 };

@@ -109,13 +109,16 @@
                 class-name="downloadDialog"
                 width="300px"
                 v-model="downloadShowDialog"
+                @on-cancel="downloadCancel"
                 >
             <div slot="header">
                 <p>对账结果下载</p>
             </div>
-            <div>
-                <CheckboxGroup @on-change="downloadLabelAction" v-if="fundList" v-for="item in fundList">
-                    <Checkbox :label=item.configName></Checkbox>
+            <div v-if="fundList">
+                <CheckboxGroup @on-change="downloadLabelAction"  v-model="fundListChecked">
+                    <Checkbox :label="item.configName" :key="item.configId" v-for="item in fundList">
+                        <span>{{item.configName}}</span>
+                    </Checkbox>
                 </CheckboxGroup>
             </div>
             <div slot="footer">
@@ -133,6 +136,7 @@
     import storeData from './store/reconciliations';
     import {parseTime} from '@/filters';
     import ajax from '@/api/statistics';
+    import {downloadExcel} from '@/libs/file';
 
     export default {
         name: 'searchable-table',
@@ -242,29 +246,28 @@
                 if (this.multipleSelection.length > 0) {
                     console.log(this.multipleSelection);
                     let num = this.multipleSelection.length;
+                    let queryParam = [];
+                    if (this.multipleSelection) {
+                        this.multipleSelection.forEach(it => {
+                            let item = {
+                                billDate: parseTime(it.billStartTime, '{y}-{m}-{d}'),
+                                fundTransactionTotalAmount: it.fundTransactionTotalAmount,
+                                fundTransactionTotalCount: it.fundTransactionTotalCount,
+                                unioncheckorderStatus: it.unioncheckorderStatus
+                            };
+                            queryParam.push(item);
+                            return queryParam;
+                        });
+                    }
                     this.$Modal.confirm({
                         content: '确定要导出' + num + '条数据?',
                         okText: '确定',
                         cancelText: '取消',
-                        loading: true,
                         onOk: () => {
                             setTimeout(() => {
-                                ajax.exportCheck(
-                                    {item: [
-
-                                        ]}
-                                ).then(response => {
-                                    if (response.success == true) {
-                                        if (response.data.items) {
-                                            this.dataList = response.data.items;
-                                            this.total = response.data.totalCount;
-                                        } else {
-                                            this.dataList = [];
-                                        }
-                                    } else {
-                                        this.$Message.error(response.msg ? response.msg : '客户统一对账表单请求未成功');
-                                    }
-                                }).catch(() => {
+                                downloadExcel({
+                                    url: 'unioncheck/merchantCheck/downloadCheck',
+                                    input: {item: JSON.stringify(queryParam)}
                                 });
                             }, 2000);
                         },
@@ -281,19 +284,45 @@
                 }
             },
             downloadLabelAction (data) {
-                console.log(data);
-                this.downloadLabels = data;
+                this.fundListChecked = data;
+            },
+            downloadCancel() {
+                this.fundListChecked = [];
             },
             handleLabelAction () {
-                if (this.downloadLabels.length > 0) {
-                    console.log(this.downloadLabels);
-                    // this.$Modal.success({
-                    //     title: '确定要下载' + this.downloadLabels + '账单',
-                    //     content: '确定要下载' + this.downloadLabels + '账单'
-                    // });
+                if (this.fundListChecked.length > 0) {
+                    this.downloadShowDialog = false;
+                    this.$Modal.confirm({
+                        content: '确定要下载&nbsp;&nbsp;' + this.fundListChecked + '&nbsp;&nbsp;账单',
+                        okText: '确定',
+                        cancelText: '取消',
+                        onOk: () => {
+                            setTimeout(() => {
+                                let orderNos = [];
+                                if (this.multipleSelection) {
+                                    this.multipleSelection.map(it => {
+                                        orderNos.push(it.checkOrderNo);
+                                        return orderNos;
+                                    });
+                                }
+                                let queryParams = {
+                                    fundNames: this.fundListChecked.join(',') || '',
+                                    checkOrderNos: orderNos.join(',')
+                                };
+                                downloadExcel({
+                                    url: 'unioncheck/merchantCheck/downloadSummaryCheck',
+                                    input: queryParams
+                                });
+                                this.downloadShowDialog = false;
+                            }, 2000);
+                        },
+                        onCancel: () => {
+                            this.downloadShowDialog = true;
+                        }
+                    });
                 } else {
                     this.$Message.error({
-                        content: '请先选择要对账的类目',
+                        content: '请先选择收款通道',
                         duration: 2,
                         closable: true
                     });
@@ -330,10 +359,9 @@
                         if (response.success == true) {
                             if (response.data) {
                                 let res = response.data;
-                                console.log(res)
                                 this.fundList = res;
                             } else {
-
+                                this.$Message.error(response.msg ? response.msg : '收款通道接口数据有异常');
                             }
                         } else {
                             this.$Message.error(response.msg ? response.msg : '收款通道接口未成功');

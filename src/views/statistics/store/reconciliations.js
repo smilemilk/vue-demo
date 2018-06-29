@@ -20,10 +20,10 @@ export default function () {
         dataList: [],
         showDialog: false,
         downloadShowDialog: false,
-        downloadLabels: [],
         rowOperate: false, // 对账表头时间的替换
         rowData: '', // row对账的日期
         fundList: [], //对账结果之前的收款选择
+        fundListChecked: [],
         columnsTable: [
             {
                 type: 'selection',
