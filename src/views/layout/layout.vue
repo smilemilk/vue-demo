@@ -136,10 +136,16 @@
                 } else if (name === 'loginOut') {
                     // 退出登录
                     this.$store.commit('logout', this);
-                    // this.$store.commit('clearOpenedSubmenu');
-                    this.$router.push({
-                        name: 'login'
+                    this.$store.dispatch('loginOut', this).then(() => {
+                        if (this.$store.state.fetching === true) {
+                            this.$router.push({
+                                name: 'login'
+                            });
+                        } else {
+                            this.$Message.error('未退出此次登录');
+                        }
                     });
+                    // this.$store.commit('clearOpenedSubmenu');
                 }
             },
             checkTag (name) {
