@@ -28,8 +28,18 @@ export function fundList(params) {
     });
 }
 
+export function getCheckSummary(params) {
+    return request({
+        url: 'unioncheck/portal/doCheck/getCheckBillDataSummary',
+        method: 'post',
+        params: params,
+        data: params
+    });
+}
+
 export default {
     checkList,
     // exportCheck,
     fundList,
+    getCheckSummary, // 对账 查看配置信息
 };

@@ -66,13 +66,36 @@
                 <title>开始对账</title>
             </div>
             <div>
-                <section class="operatorSection">
+                <section class="operatorSection" v-if="mchConfigArr">
                     <p>医院账单</p>
                     <div>
-                        <div class="operateItem operatorEmpty">
+                        <div class="operateItem operatorEmpty" v-for="item in mchConfigArr">
                             <div class="operateContainer">
                                 <Icon type="clipboard"></Icon>
-                                <p class="operateName">HIS</p>
+                                <p class="operateName">{{item.configName ? item.configName : ''}}</p>
+                                <p>空</p>
+                            </div>
+                            <div class="operateHover">
+                                <div class="operateHoverPull">
+                                    <Icon type="android-download"></Icon>
+                                    <p>接口拉取</p>
+                                </div>
+                                <div class="operateHoverPush">
+                                    <Icon type="android-upload"></Icon>
+                                    <p>上传账单</p>
+                                </div>
+                            </div>
+                            <Icon type="trash-a" class="hidden" @click="emptyOpera"></Icon>
+                        </div>
+                    </div>
+                </section>
+                <section class="operatorSection" v-if="appConfigArr">
+                    <p>医院账单</p>
+                    <div>
+                        <div class="operateItem operatorEmpty" v-for="item in appConfigArr">
+                            <div class="operateContainer">
+                                <Icon type="clipboard"></Icon>
+                                <p class="operateName">{{item.configName ? item.configName : ''}}</p>
                                 <p>空</p>
                             </div>
                             <div class="operateHover">
@@ -332,6 +355,84 @@
             reconciliationsOpera () {
                 this.rowOperate = false;
                 this.showDialog = true;
+                this.billDateRange = {...this.billDateRange,
+                    billStartTime: this.queryParams.billStartTime,
+                    billEndTime: this.queryParams.billEndTime
+                };
+                this.getCheckSummary();
+            },
+            // 对账 查看配置
+            getCheckSummary() {
+                ajax.getCheckSummary(
+                    this.billDateRange
+                ).then(response => {
+                    if (response.success == true) {
+                        if (response.data) {
+                            if (response.data.configList) {
+                                const res = response.data.configList;
+                                console.log(res)
+
+                                let mchConfigArr = [], // HIS 交易方数据
+                                    appConfigArr = [], // 应用数据
+                                    fundConfigArr = []; // 资金通道
+                                res.forEach(function (item) {
+                                    item.numResult = "空";
+                                    item.dataCount = 0;
+                                    item.createUpload = false;
+                                    item.isDelete = false;
+                                    item.isUpload = false;
+                                    item.isPull = false;
+                                    item.uploadClass = "dz-updown";
+                                    if (item.value && JSON.parse(item.value) instanceof Array) {
+                                        var sourceTypes = eval(item.value);
+                                        for (var j in sourceTypes) {
+                                            if (sourceTypes[j].sourceType == '4') {
+                                                item.isUpdown = false;
+                                                item.numResult = "以HIS为准(空)";
+                                            } else if (sourceTypes[j].sourceType == '2') {
+                                                item.isUpdown = true;
+                                                item.isPull = true;
+                                            } else if (sourceTypes[j].sourceType == '1') {
+                                                item.isUpdown = true;
+                                                item.isUpload = true;
+                                            } else {
+                                                item.isUpdown = true;
+                                            }
+                                        }
+
+                                        if ((item.isUpload && !item.isPull) || (!item.isUpload && item.isPull)) {
+                                            item.uploadClass = "dz-updown one";
+                                        }
+                                    } else {
+                                        item.isUpdown = true;
+                                        item.isDelete = false;
+                                    }
+
+                                    if (!item.histroyData) {
+                                        item.histroyData = true;
+                                    }
+                                    if (item.configType === '交易方数据') {
+                                        mchConfigArr.push(item);
+                                    } else if (item.configType === '应用数据') {
+                                        appConfigArr.push(item);
+                                    } else if (item.configType === '收款通道') {
+                                        fundConfigArr.push(item);
+                                    }
+                                });
+                                this.mchConfigArr = mchConfigArr;
+                                this.fundConfigArr = fundConfigArr;
+                                this.appConfigArr = appConfigArr;
+                                console.log(mchConfigArr)
+                                console.log(appConfigArr)
+                            }
+                        } else {
+                            this.$Message.error(response.msg ? response.msg : '对账配置数据有异常');
+                        }
+                    } else {
+                        this.$Message.error(response.msg ? response.msg : '对账配置接口未成功');
+                    }
+                }).catch(() => {
+                });
             },
             // 对账内部操作
             emptyOpera () {

@@ -24,6 +24,13 @@ export default function () {
         rowData: '', // row对账的日期
         fundList: [], //对账结果之前的收款选择
         fundListChecked: [],
+        billDateRange: {
+            billStartTime: '',
+            billEndTime: ''
+        },
+        mchConfigArr: [], // HIS 交易方数据
+        fundConfigArr: [], // 资金通道
+        appConfigArr: [], // 应用数据
         columnsTable: [
             {
                 type: 'selection',
