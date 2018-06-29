@@ -108,17 +108,14 @@
         <Modal
                 class-name="downloadDialog"
                 width="300px"
-                v-model="downloadShowDialog">
+                v-model="downloadShowDialog"
+                >
             <div slot="header">
                 <p>对账结果下载</p>
             </div>
             <div>
-                <CheckboxGroup @on-change="downloadLabelAction">
-                    <Checkbox label="微脉代收"></Checkbox>
-                    <Checkbox label="支付宝"></Checkbox>
-                    <Checkbox label="支付宝-健康台州"></Checkbox>
-                    <Checkbox label="支付宝-健康台州"></Checkbox>
-                    <Checkbox label="支付宝-微脉"></Checkbox>
+                <CheckboxGroup @on-change="downloadLabelAction" v-if="fundList" v-for="item in fundList">
+                    <Checkbox :label=item.configName></Checkbox>
                 </CheckboxGroup>
             </div>
             <div slot="footer">
@@ -212,7 +209,6 @@
                                 });
                                 this.searchDay = {...this.searchDay, 'item1': item1, 'item2': item2};
                             }
-                            // this.searchDay = '';
                         } else {
                             this.dataList = [];
                         }
@@ -328,7 +324,22 @@
             downloadAction () {
                 if (this.multipleSelection.length > 0) {
                     this.downloadShowDialog = true;
-                    console.log(this.multipleSelection);
+                    ajax.fundList(
+                        {configTypes: "收款通道,应用数据"}
+                    ).then(response => {
+                        if (response.success == true) {
+                            if (response.data) {
+                                let res = response.data;
+                                console.log(res)
+                                this.fundList = res;
+                            } else {
+
+                            }
+                        } else {
+                            this.$Message.error(response.msg ? response.msg : '收款通道接口未成功');
+                        }
+                    }).catch(() => {
+                    });
                 } else {
                     this.$Message.error({
                         content: '请先选择要下载的账单',

@@ -19,7 +19,17 @@ export function exportCheck (params) {
     });
 }
 
+export function fundList(params) {
+    return request({
+        url: 'unioncheck/merchantCheck/getUnioncheckAPPAndFundList',
+        method: 'post',
+        params: params,
+        data: params
+    });
+}
+
 export default {
     checkList,
-    exportCheck
+    exportCheck,
+    fundList
 };
