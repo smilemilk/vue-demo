@@ -1,54 +1,54 @@
 <template>
     <div class="home-container">
-        <time class="homeTitle">{{homeTitle}}</time>
+        <time class="homeTitle">{{startDate}}</time>
         <div>
             <Row :gutter="16">
                 <Col span="12" :xs="24" :sm="12" :md="12" :lg="12" style="margin-bottom: 10px;">
-                    <Col span="12" :xs="24" :sm="22" :md="20" :lg="16">
-                        <Card class="panelBox">
-                            <div class="panelItem-top">
-                                <div>
-                                    <Icon type="social-yen"></Icon>
-                                    <p>今日收入</p>
-                                </div>
-                                <em v-if="todayStatistics">{{todayStatistics.in}}</em>
-                            </div>
-                            <div class="panelItem-bottom">
-                                <div>
-                                    <Icon type="ios-cart"></Icon>
-                                    <p>今日支出</p>
-                                </div>
-                                <em v-if="todayStatistics">{{todayStatistics.out}}</em>
-                            </div>
-                        </Card>
-                    </Col>
+                <Col span="12" :xs="24" :sm="22" :md="20" :lg="16">
+                <Card class="panelBox">
+                    <div class="panelItem-top">
+                        <div>
+                            <Icon type="social-yen"></Icon>
+                            <p>今日收入</p>
+                        </div>
+                        <em v-if="todayStatistics">{{todayStatistics.in}}</em>
+                    </div>
+                    <div class="panelItem-bottom">
+                        <div>
+                            <Icon type="ios-cart"></Icon>
+                            <p>今日支出</p>
+                        </div>
+                        <em v-if="todayStatistics">{{todayStatistics.out}}</em>
+                    </div>
+                </Card>
+                </Col>
                 </Col>
                 <Col span="12" :xs="24" :sm="12" :md="12" :lg="12" style="margin-bottom: 10px;">
-                    <Col span="12" :xs="24" :sm="22" :md="20" :lg="16">
-                        <Card class="panelBox">
-                            <div class="panelItem-top">
-                                <div>
-                                    <Icon type="social-yen"></Icon>
-                                    <p>本月收入</p>
-                                </div>
-                                <em v-if="weekStatistics">{{weekStatistics.in}}</em>
-                            </div>
-                            <div class="panelItem-bottom">
-                                <div>
-                                    <Icon type="ios-cart"></Icon>
-                                    <p>本月支出</p>
-                                </div>
-                                <em v-if="weekStatistics">{{weekStatistics.out}}</em>
-                            </div>
-                        </Card>
-                    </Col>
+                <Col span="12" :xs="24" :sm="22" :md="20" :lg="16">
+                <Card class="panelBox">
+                    <div class="panelItem-top">
+                        <div>
+                            <Icon type="social-yen"></Icon>
+                            <p>本月收入</p>
+                        </div>
+                        <em v-if="weekStatistics">{{weekStatistics.in}}</em>
+                    </div>
+                    <div class="panelItem-bottom">
+                        <div>
+                            <Icon type="ios-cart"></Icon>
+                            <p>本月支出</p>
+                        </div>
+                        <em v-if="weekStatistics">{{weekStatistics.out}}</em>
+                    </div>
+                </Card>
+                </Col>
                 </Col>
             </Row>
         </div>
         <div>
             <Tabs type="card" class="homeCard">
-                <TabPane label="日订单">标签一的内容</TabPane>
-                <TabPane label="月订单">标签二的内容</TabPane>
+                <TabPane label="日订单">{{nowDate}}</TabPane>
+                <TabPane label="月订单">{{monthDate}}</TabPane>
             </Tabs>
         </div>
     </div>
@@ -56,14 +56,16 @@
 
 <script>
     import ajax from '@/api/home';
-    import {parseTime} from '@/filters';
+    import {parseTime, moneyFormat} from '@/filters';
 
     export default {
         name: 'home',
         components: {},
         data () {
             return {
-                homeTitle: '',
+                startDate: '',
+                nowDate: '',
+                monthDate: '',
                 todayStatistics: {
                     in: undefined,
                     out: undefined
@@ -75,23 +77,22 @@
             };
         },
         created () {
-            this.homeTitle = parseTime(new Date(), '{y}-{m}-{d}');
-            this.getTodayList();
-            this.getWeekList();
+            this.todayTotal();
         },
-        computed: {},
+        computed: {
+        },
         methods: {
             getTodayList () {
                 let queryParam = {
-                    start_time: this.homeTitle,
-                    end_time: this.homeTitle
+                    start_time: this.startDate,
+                    end_time: this.startDate
                 };
                 ajax.statisticsList(queryParam).then(response => {
                     if (response.success == true) {
                         if (response.data) {
                             this.todayStatistics = {
-                                in: response.data.inAmount,
-                                out: response.data.outAmount,
+                                in: moneyFormat(response.data.inAmount / 100),
+                                out: moneyFormat(response.data.outAmount / 100),
                             };
                         }
                     } else {
@@ -102,15 +103,15 @@
             },
             getWeekList () {
                 let queryParam = {
-                    start_time: this.homeTitle,
+                    start_time: this.startDate,
                     end_time: parseTime(new Date().getTime() - 30 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}')
                 };
                 ajax.statisticsList(queryParam).then(response => {
                     if (response.success == true) {
                         if (response.data) {
                             this.weekStatistics = {
-                                in: response.data.inAmount,
-                                out: response.data.outAmount,
+                                in: moneyFormat(response.data.inAmount / 100),
+                                out: moneyFormat(response.data.outAmount / 100),
                             };
                         }
                     } else {
@@ -118,6 +119,56 @@
                     }
                 }).catch(() => {
                 });
+            },
+            todayTotal(){
+                const today = new Date();
+                this.startDate = today.getFullYear() + "-" + ((today.getMonth() + 1) < 10 ? "0" + (today.getMonth() + 1) : (today.getMonth() + 1)) + "-" + (today.getDate() < 10 ? "0" + today.getDate() : today.getDate());
+                this.getTodayList(this.startDate, this.startDate);
+
+                let monthStartDate = this.getCurrentMonthFirst();
+                let monthEndDate = this.getCurrentMonthLast();
+                let startDateStr = monthStartDate.getFullYear() + "-" + ((monthStartDate.getMonth() + 1) < 10 ? "0" + (monthStartDate.getMonth() + 1) : (monthStartDate.getMonth() + 1)) + "-" + (monthStartDate.getDate() < 10 ? "0" + monthStartDate.getDate() : monthStartDate.getDate());
+                let endDateStr = monthEndDate.getFullYear() + "-" + ((monthEndDate.getMonth() + 1) < 10 ? "0" + (monthEndDate.getMonth() + 1) : (monthEndDate.getMonth() + 1)) + "-" + (monthEndDate.getDate() < 10 ? "0" + monthEndDate.getDate() : monthEndDate.getDate());
+                this.getWeekList(startDateStr, endDateStr);
+
+                this.nowDate = today.getFullYear() + "/" + (today.getMonth() + 1) + "/" + today.getDate(); // line 时间点 当天
+                this.monthDate = today.getFullYear() + "/" + (today.getMonth() + 1); // line 时间点 月
+            },
+            // 获取当前月的第一天
+            getCurrentMonthFirst(){
+                let date = new Date();
+                date.setDate(1);
+                return date;
+            },
+            // 获取当前月的最后一天
+            getCurrentMonthLast(){
+                let date = new Date();
+                let currentMonth = date.getMonth();
+                let nextMonth = ++ currentMonth;
+                let nextMonthFirstDay = new Date(date.getFullYear(), nextMonth, 1);
+                let oneDay = 1000 * 60 * 60 * 24;
+                return new Date(nextMonthFirstDay - oneDay);
+            },
+//            transferDate(dt) {
+//                var d = dt.split(" ");
+//                var dYear = d[0].substring(0, 4);
+//                var dMonth = d[0].substring(5, 7);
+//                var dDate = d[0].substring(8, 10);
+//                var lastLoginDate = dYear + "年" + dMonth + "月" + dDate + "日" + " " + d[1];
+//                return lastLoginDate;
+//            },
+            //缓存指标
+            loadIndexHistory(indexId) {
+                var nowtime = new Date();
+                var pre = nowtime.getFullYear() + nowtime.getMonth() + nowtime.getDate();
+                var indexValue = sessionStorage.getItem(pre + "#" + indexId) == null ? '' : sessionStorage.getItem(pre + "#" + indexId);
+                if (indexValue.indexOf("undefined") > -1) indexValue = "￥0.00";
+            },
+            saveIndexHistory(indexId) {
+                var nowtime = new Date();
+                var pre = nowtime.getFullYear() + nowtime.getMonth() + nowtime.getDate();
+                if (indexValue.indexOf("undefined") > -1) indexValue = "￥0.00";
+                return sessionStorage.setItem(pre + "#" + indexId, indexValue);
             }
         }
     };
