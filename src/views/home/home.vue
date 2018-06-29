@@ -47,9 +47,8 @@
         </div>
         <div>
             <Tabs type="card" class="homeCard">
-                <TabPane label="标签一">标签一的内容</TabPane>
-                <TabPane label="标签二">标签二的内容</TabPane>
-                <TabPane label="标签三">标签三的内容</TabPane>
+                <TabPane label="日订单">标签一的内容</TabPane>
+                <TabPane label="月订单">标签二的内容</TabPane>
             </Tabs>
         </div>
     </div>
@@ -98,8 +97,8 @@
     .homeTitle {
         display: block;
         font-size: 16px;
-        margin-bottom: 10px;
-        margin-top: 20px;
+        margin-bottom: 5px;
+        margin-top: 15px;
         margin-left: 5px;
     }
     .panelBox {
