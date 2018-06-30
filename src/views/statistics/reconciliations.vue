@@ -76,14 +76,24 @@
                              :class="key > 0 ? 'margin-left-10 inline' : 'inline'"
                              :data-link="item.configId">
                             <div
-                                    :class="item.numResult !== '空' ? 'operateItem operatorEmpty borderDark' : 'operateItem operatorEmpty'">
+                                    :class="item.numResult !== '空' ?
+                                    'operateItem operatorEmpty borderDark' :
+                                     'operateItem operatorEmpty'">
                                 <div
-                                        :class="idItem === item.configId && keyItem === key && hoverVisible === true ? 'operateContainer hidden' : 'operateContainer'">
+                                        :class="idItem === item.configId &&
+                                                keyItem === key &&
+                                                hoverVisible === true ?
+                                                'operateContainer hidden' :
+                                                'operateContainer'">
                                     <Icon type="clipboard"></Icon>
                                     <p class="operateName">{{item.configName ? item.configName : ''}}</p>
-                                    <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult : ''}}</p>
+                                    <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult :
+                                        ''}}</p>
                                 </div>
-                                <div v-show="idItem === item.configId && keyItem === key && hoverVisible === true" class="operateHover">
+                                <div v-show="idItem === item.configId &&
+                                             keyItem === key &&
+                                             hoverVisible === true"
+                                     class="operateHover">
                                     <div class="operateHoverPull">
                                         <Icon type="android-download"></Icon>
                                         <p>接口拉取</p>
@@ -93,7 +103,12 @@
                                         <p>上传账单</p>
                                     </div>
                                 </div>
-                                <Icon type="trash-a" :class="deleteStatus === true ? '' : 'hidden'" @click="emptyOpera"></Icon>
+                                <Icon type="close-circled"
+                                      v-show="idItem === item.configId &&
+                                             keyItem === key &&
+                                             deleteStatus === true"
+                                      class="deleteIcon"
+                                      @click="emptyOpera"></Icon>
                             </div>
                         </div>
                     </div>
@@ -101,14 +116,22 @@
                 <section class="operatorSection margin-top-10" v-if="fundConfigArr">
                     <p>资金通道</p>
                     <div>
-                        <div @mouseover="hoverAction(item, key)" @mouseout="hoverHiddenAction(item, key)" v-for="(item,key) in fundConfigArr" :class="key > 0 ? 'margin-left-10 inline' : 'inline'" :data-link="item.configId">
-                            <div :class="item.numResult !== '空' ? 'operateItem operatorEmpty borderDark' : 'operateItem operatorEmpty'">
-                                <div :class="idItem === item.configId && keyItem === key && hoverVisible === true ? 'operateContainer hidden' : 'operateContainer'">
+                        <div @mouseover="hoverAction(item, key)"
+                             @mouseout="hoverHiddenAction(item, key)"
+                             v-for="(item,key) in fundConfigArr" :class="key > 0 ?
+                              'margin-left-10 inline' : 'inline'"
+                             :data-link="item.configId">
+                            <div :class="item.numResult !== '空' ?
+                            'operateItem operatorEmpty borderDark' : 'operateItem operatorEmpty'">
+                                <div :class="idItem === item.configId && keyItem === key && hoverVisible === true ?
+                                'operateContainer hidden' : 'operateContainer'">
                                     <Icon type="clipboard"></Icon>
                                     <p class="operateName">{{item.configName ? item.configName : ''}}</p>
-                                    <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult : ''}}</p>
+                                    <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult :
+                                        ''}}</p>
                                 </div>
-                                <div v-show="idItem === item.configId && keyItem === key && hoverVisible === true" class="operateHover">
+                                <div v-show="idItem === item.configId && keyItem === key && hoverVisible === true"
+                                     class="operateHover">
                                     <div class="operateHoverPull">
                                         <Icon type="android-download"></Icon>
                                         <p>接口拉取</p>
@@ -118,7 +141,12 @@
                                         <p>上传账单</p>
                                     </div>
                                 </div>
-                                <Icon type="trash-a" class="hidden" @click="emptyOpera"></Icon>
+                                <Icon type="close-circled"
+                                      v-show="idItem === item.configId &&
+                                             keyItem === key &&
+                                             deleteStatus === true"
+                                      class="deleteIcon"
+                                      @click="emptyOpera"></Icon>
                             </div>
                         </div>
                     </div>
@@ -126,14 +154,22 @@
                 <section class="operatorSection margin-top-10" v-if="appConfigArr">
                     <p>业务系统账单</p>
                     <div>
-                        <div @mouseover="hoverAction(item, key)" @mouseout="hoverHiddenAction(item, key)" v-for="(item,key) in appConfigArr" :class="key > 0 ? 'margin-left-10 inline' : 'inline'">
-                            <div :class="item.numResult !== '空' ? 'operateItem operatorEmpty borderDark' : 'operateItem operatorEmpty'" >
-                                <div :class="idItem === item.configId && keyItem === key && hoverVisible === true ? 'operateContainer hidden' : 'operateContainer'">
+                        <div @mouseover="hoverAction(item, key)"
+                             @mouseout="hoverHiddenAction(item, key)"
+                             v-for="(item,key) in appConfigArr"
+                             :class="key > 0 ? 'margin-left-10 inline' : 'inline'">
+                            <div :class="item.numResult !== '空' ?
+                            'operateItem operatorEmpty borderDark' : 'operateItem operatorEmpty'">
+                                <div :class="idItem === item.configId && keyItem === key && hoverVisible === true ?
+                                'operateContainer hidden' : 'operateContainer'">
                                     <Icon type="clipboard"></Icon>
                                     <p class="operateName">{{item.configName ? item.configName : ''}}</p>
-                                    <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult : ''}}</p>
+                                    <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult :
+                                        ''}}</p>
                                 </div>
-                                <div v-show="idItem === item.configId && keyItem === key && hoverVisible === true" class="operateHover">
+                                <div
+                                        v-show="idItem === item.configId && keyItem === key && hoverVisible === true"
+                                        class="operateHover">
                                     <div class="operateHoverPull">
                                         <Icon type="android-download"></Icon>
                                         <p>接口拉取</p>
@@ -143,7 +179,12 @@
                                         <p>上传账单</p>
                                     </div>
                                 </div>
-                                <Icon type="trash-a" class="hidden" @click="emptyOpera"></Icon>
+                                <Icon type="close-circled"
+                                      v-show="idItem === item.configId &&
+                                             keyItem === key &&
+                                             deleteStatus === true"
+                                      class="deleteIcon"
+                                      @click="emptyOpera"></Icon>
                             </div>
                         </div>
                     </div>
@@ -169,12 +210,12 @@
                 width="300px"
                 v-model="downloadShowDialog"
                 @on-cancel="downloadCancel"
-                >
+        >
             <div slot="header">
                 <p>对账结果下载</p>
             </div>
             <div v-if="fundList">
-                <CheckboxGroup @on-change="downloadLabelAction"  v-model="fundListChecked">
+                <CheckboxGroup @on-change="downloadLabelAction" v-model="fundListChecked">
                     <Checkbox :label="item.configName" :key="item.configId" v-for="item in fundList">
                         <span>{{item.configName}}</span>
                     </Checkbox>
@@ -345,7 +386,7 @@
             downloadLabelAction (data) {
                 this.fundListChecked = data;
             },
-            downloadCancel() {
+            downloadCancel () {
                 this.fundListChecked = [];
             },
             handleLabelAction () {
@@ -391,14 +432,15 @@
             reconciliationsOpera () {
                 this.rowOperate = false;
                 this.showDialog = true;
-                this.billDateRange = {...this.billDateRange,
+                this.billDateRange = {
+                    ...this.billDateRange,
                     billStartTime: this.queryParams.billStartTime,
                     billEndTime: this.queryParams.billEndTime
                 };
                 this.getCheckSummary();
             },
             // 对账 查看配置
-            getCheckSummary() {
+            getCheckSummary () {
                 ajax.getCheckSummary(
                     this.billDateRange
                 ).then(response => {
@@ -406,25 +448,25 @@
                         if (response.data) {
                             if (response.data.configList) {
                                 const res = response.data.configList;
-                                console.log(res)
+                                console.log(res);
 
                                 let mchConfigArr = [], // HIS 交易方数据
                                     appConfigArr = [], // 应用数据
                                     fundConfigArr = []; // 资金通道
                                 res.forEach((it) => {
-                                    it.numResult = "空";
+                                    it.numResult = '空';
                                     it.dataCount = 0;
                                     it.createUpload = false;
                                     it.isDelete = false;
                                     it.isUpload = false;
                                     it.isPull = false;
-                                    it.uploadClass = "dz-updown";
+                                    it.uploadClass = 'dz-updown';
                                     if (it.value && JSON.parse(it.value) instanceof Array) {
                                         const sourceTypes = eval(it.value);
                                         for (let i in sourceTypes) {
                                             if (sourceTypes[i].sourceType == '4') {
                                                 it.isUpdown = false;
-                                                it.numResult = "以HIS为准(空)";
+                                                it.numResult = '以HIS为准(空)';
                                             } else if (sourceTypes[i].sourceType == '2') {
                                                 it.isUpdown = true;
                                                 it.isPull = true;
@@ -437,7 +479,7 @@
                                         }
 
                                         if ((it.isUpload && !it.isPull) || (!it.isUpload && it.isPull)) {
-                                            it.uploadClass = "dz-updown one";
+                                            it.uploadClass = 'dz-updown one';
                                         }
                                     } else {
                                         it.isUpdown = true;
@@ -458,7 +500,7 @@
                                 this.mchConfigArr = mchConfigArr;
                                 this.fundConfigArr = fundConfigArr;
                                 this.appConfigArr = appConfigArr;
-                                console.log(this.mchConfigArr)
+                                console.log(this.mchConfigArr);
                                 this.getCheckHistory();
                             }
                         } else {
@@ -471,7 +513,7 @@
                 });
             },
             // 对账 历史
-            getCheckHistory() {
+            getCheckHistory () {
                 ajax.getHistoryCheck(
                     this.billDateRange
                 ).then(response => {
@@ -480,28 +522,28 @@
                             if (response.data.f730035ResLists) {
                                 const res = response.data.f730035ResLists;
 
-                                for(let i in res) {
-                                    this.mchConfigArr.map( it => {
-                                        if(it.configId + '' === res[i].configId + ''){
+                                for (let i in res) {
+                                    this.mchConfigArr.map(it => {
+                                        if (it.configId + '' === res[i].configId + '') {
                                             this.$set(it, 'isUpdown', false);
                                             this.$set(it, 'isDelete', false);
-                                            this.$set(it, 'numResult', res[i].count+"条");
+                                            this.$set(it, 'numResult', res[i].count + '条');
                                             this.$set(it, 'operated', 'operated');
                                         }
                                     });
-                                    this.fundConfigArr.map( it => {
-                                        if(it.configId + '' === res[i].configId + ''){
+                                    this.fundConfigArr.map(it => {
+                                        if (it.configId + '' === res[i].configId + '') {
                                             this.$set(it, 'isUpdown', false);
                                             this.$set(it, 'isDelete', false);
-                                            this.$set(it, 'numResult', res[i].count+"条");
+                                            this.$set(it, 'numResult', res[i].count + '条');
                                             this.$set(it, 'operated', 'operated');
                                         }
                                     });
-                                    this.appConfigArr.map( it => {
-                                        if(it.configId + '' === res[i].configId + ''){
+                                    this.appConfigArr.map(it => {
+                                        if (it.configId + '' === res[i].configId + '') {
                                             this.$set(it, 'isUpdown', false);
                                             this.$set(it, 'isDelete', false);
-                                            this.$set(it, 'numResult', res[i].count+"条");
+                                            this.$set(it, 'numResult', res[i].count + '条');
                                             this.$set(it, 'operated', 'operated');
                                         }
                                     });
@@ -517,20 +559,23 @@
                 });
             },
             // 对账 hover上传模块展示
-            hoverAction(item, key) {
+            hoverAction (item, key) {
                 this.keyItem = key;
                 this.idItem = item.configId;
                 this.deleteStatus = item.numResult !== '空' ? true : false;
+                console.log(this.keyItem)
+                console.log(this.idItem)
+                console.log(this.deleteStatus)
                 if (this.deleteStatus === false) {
                     this.hoverVisible = true;
                 } else {
                     this.hoverVisible = false;
                 }
             },
-            hoverHiddenAction(item, key) {
+            hoverHiddenAction (item, key) {
                 this.idItem = item.configId;
                 this.keyItem = key;
-                this.deleteStatus = item.numResult !== '空' ? true : false;
+                this.deleteStatus = item.numResult !== '空' ? false : true;
                 if (this.deleteStatus === false) {
                     this.hoverVisible = false;
                 }
@@ -556,7 +601,7 @@
                 if (this.multipleSelection.length > 0) {
                     this.downloadShowDialog = true;
                     ajax.fundList(
-                        {configTypes: "收款通道,应用数据"}
+                        {configTypes: '收款通道,应用数据'}
                     ).then(response => {
                         if (response.success == true) {
                             if (response.data) {
@@ -587,8 +632,8 @@
                 this.queryParams.limit = val;
                 this.getList();
             },
-            reconciliationsRowAction(row) {
-                let  timeRow;
+            reconciliationsRowAction (row) {
+                let timeRow;
                 if (row.billStartTime) {
                     timeRow = parseTime(row.billStartTime, '{y}-{m}-{d}');
                     this.rowOperate = true;
@@ -721,65 +766,56 @@
             }
             &.operatorEmpty {
                 /*&:hover {*/
-                    /*.operateContainer {*/
-                        /*display: none;*/
-                    /*}*/
-                    .operateHover {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        display: flex;
-                        flex-wrap: nowrap;
-                        width: 116px;
-                        align-items: center;
-                        justify-content: center;
-                        [class^="operateHover"] {
-                            min-width: 58px;
-                            height: 84px;
-                            /*display: flex;*/
-                            /*align-items: center;*/
-                            /*justify-content: center;*/
-                            i {
-                                margin-top: 16px;
-                            }
-                            p {
-                                font-size: 12px;
-                            }
+                /*.operateContainer {*/
+                /*display: none;*/
+                /*}*/
+                .operateHover {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    display: flex;
+                    flex-wrap: nowrap;
+                    width: 116px;
+                    align-items: center;
+                    justify-content: center;
+                    [class^="operateHover"] {
+                        min-width: 58px;
+                        height: 84px;
+                        i {
+                            margin-top: 16px;
                         }
-                        .operateHoverPull {
-                            background-color: rgba(55, 55, 55, .8);
-                            i {
-                                color: @backgroundSuccess;
-                            }
-                        }
-                        .operateHoverPush {
-                            background-color: rgba(55, 55, 55, .6);
-                            i {
-                                color: @backgroundWarn;
-                            }
+                        p {
+                            font-size: 12px;
                         }
                     }
-                /*}*/
+                    .operateHoverPull {
+                        background-color: rgba(55, 55, 55, .8);
+                        i {
+                            color: @backgroundSuccess;
+                        }
+                    }
+                    .operateHoverPush {
+                        background-color: rgba(55, 55, 55, .6);
+                        i {
+                            color: @backgroundWarn;
+                        }
+                    }
+                }
             }
-            &.operatorHas {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-color: @backgroundDanger;
-                .operateContainer {
-                    display: none;
-                }
-                .hidden {
-                    display: block;
-                }
-                i {
-                    color: @backgroundDanger;
+            &.borderDark {
+                position: relative;
+                .deleteIcon {
+                    display: inline-block;
+                    position: absolute;
+                    color: red;
+                    top: 4px;
+                    right: 8px;
                     cursor: pointer;
-                    z-index: 10002;
+                    color: @backgroundDanger;
                 }
-                &:hover {
-                    background-color: rgba(55, 55, 55, .6);
-                    z-index: 10001;
+                &:hover{
+                    border-color: @backgroundDanger;
+                    box-shadow: 0 0 3px @backgroundDanger;
                 }
             }
         }
