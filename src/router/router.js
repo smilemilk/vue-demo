@@ -51,7 +51,7 @@ export const otherRouter = {
     component: Layout,
     children: [
         { path: 'home', title: '首页', name: 'home', component: () => import('@/views/home/home.vue') },
-        { path: 'ownspace', title: '个人中心', name: 'ownspace_index', component: () => import('@/views/personInfo/personInfo.vue') },
+        { path: 'ownspace', title: '商户信息', name: 'ownspace_index', component: () => import('@/views/personInfo/personInfo.vue') },
         { path: 'message', title: '消息中心', name: 'message_index', component: () => import('@/views/message/message.vue') }
     ]
 };

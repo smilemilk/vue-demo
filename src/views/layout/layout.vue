@@ -36,7 +36,7 @@
                                     <Icon type="arrow-down-b"></Icon>
                                 </a>
                                 <DropdownMenu slot="list">
-                                    <DropdownItem name="ownSpace">个人中心</DropdownItem>
+                                    <DropdownItem name="ownSpace">商户信息</DropdownItem>
                                     <DropdownItem name="loginOut" divided>退出登录</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
