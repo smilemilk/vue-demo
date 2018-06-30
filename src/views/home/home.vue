@@ -11,14 +11,14 @@
                             <Icon type="social-yen"></Icon>
                             <p>今日收入</p>
                         </div>
-                        <em v-if="todayStatistics">{{todayStatistics.in}}</em>
+                        <em v-if="todayStatistics.in">{{todayStatistics.in}}</em>
                     </div>
                     <div class="panelItem-bottom">
                         <div>
                             <Icon type="ios-cart"></Icon>
                             <p>今日支出</p>
                         </div>
-                        <em v-if="todayStatistics">{{todayStatistics.out}}</em>
+                        <em v-if="todayStatistics.out">{{todayStatistics.out}}</em>
                     </div>
                 </Card>
                 </Col>
@@ -31,14 +31,14 @@
                             <Icon type="social-yen"></Icon>
                             <p>本月收入</p>
                         </div>
-                        <em v-if="weekStatistics">{{weekStatistics.in}}</em>
+                        <em v-if="weekStatistics.in">{{weekStatistics.in}}</em>
                     </div>
                     <div class="panelItem-bottom">
                         <div>
                             <Icon type="ios-cart"></Icon>
                             <p>本月支出</p>
                         </div>
-                        <em v-if="weekStatistics">{{weekStatistics.out}}</em>
+                        <em v-if="weekStatistics.out">{{weekStatistics.out}}</em>
                     </div>
                 </Card>
                 </Col>
@@ -82,10 +82,10 @@
         computed: {
         },
         methods: {
-            getTodayList () {
+            getTodayList (start, end) {
                 let queryParam = {
-                    start_time: this.startDate,
-                    end_time: this.startDate
+                    start_time: start,
+                    end_time: end
                 };
                 ajax.statisticsList(queryParam).then(response => {
                     if (response.success == true) {
@@ -101,10 +101,10 @@
                 }).catch(() => {
                 });
             },
-            getWeekList () {
+            getWeekList (start, end) {
                 let queryParam = {
-                    start_time: this.startDate,
-                    end_time: parseTime(new Date().getTime() - 30 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}')
+                    start_time: start,
+                    end_time: end
                 };
                 ajax.statisticsList(queryParam).then(response => {
                     if (response.success == true) {
