@@ -130,7 +130,9 @@
                                     <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult :
                                         ''}}</p>
                                 </div>
-                                <div v-show="idItem === item.configId && keyItem === key && hoverVisible === true"
+                                <div v-show="idItem === item.configId &&
+                                             keyItem === key &&
+                                             hoverVisible === true"
                                      class="operateHover">
                                     <div class="operateHoverPull">
                                         <Icon type="android-download"></Icon>
@@ -575,10 +577,8 @@
             hoverHiddenAction (item, key) {
                 this.idItem = item.configId;
                 this.keyItem = key;
-                this.deleteStatus = item.numResult !== '空' ? false : true;
-                if (this.deleteStatus === false) {
-                    this.hoverVisible = false;
-                }
+                this.deleteStatus = false;
+                this.hoverVisible = false;
             },
             // 对账内部操作
             emptyOpera () {
@@ -765,10 +765,6 @@
                 }
             }
             &.operatorEmpty {
-                /*&:hover {*/
-                /*.operateContainer {*/
-                /*display: none;*/
-                /*}*/
                 .operateHover {
                     position: absolute;
                     top: 0;
@@ -781,23 +777,31 @@
                     [class^="operateHover"] {
                         min-width: 58px;
                         height: 84px;
+                        cursor: pointer;
                         i {
                             margin-top: 16px;
+                            color: @borderLight;
                         }
                         p {
                             font-size: 12px;
                         }
                     }
                     .operateHoverPull {
-                        background-color: rgba(55, 55, 55, .8);
-                        i {
-                            color: @backgroundSuccess;
+                        background-color: rgba(55, 55, 55, .3);
+                        &:hover {
+                            background-color: rgba(55, 55, 55, .6);
+                            i {
+                                color: @backgroundSuccess;
+                            }
                         }
                     }
                     .operateHoverPush {
-                        background-color: rgba(55, 55, 55, .6);
-                        i {
-                            color: @backgroundWarn;
+                        background-color: rgba(55, 55, 55, .3);
+                        &:hover {
+                            background-color: rgba(55, 55, 55, .6);
+                            i {
+                                color: @backgroundWarn;
+                            }
                         }
                     }
                 }
