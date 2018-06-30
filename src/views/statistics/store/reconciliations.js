@@ -23,6 +23,10 @@ export default function () {
         rowOperate: false, // 对账表头时间的替换
         rowData: '', // row对账的日期
         fundList: [], //对账结果之前的收款选择
+        hoverVisible: false, // hover操作状态
+        keyItem: null,       // hover key
+        idItem: '',          // hover id
+        deleteStatus: false, // hover 删除状态
         fundListChecked: [],
         billDateRange: {
             billStartTime: '',

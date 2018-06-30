@@ -70,14 +70,20 @@
                 <section class="operatorSection" v-if="mchConfigArr">
                     <p>医院账单</p>
                     <div>
-                        <div v-for="(item,key) in mchConfigArr" :class="key > 0 ? 'margin-left-10 inline' : 'inline'">
-                            <div class="operateItem operatorEmpty" >
-                                <div class="operateContainer">
+                        <div @mouseover="hoverAction(item, key)"
+                             @mouseout="hoverHiddenAction(item, key)"
+                             v-for="(item,key) in mchConfigArr"
+                             :class="key > 0 ? 'margin-left-10 inline' : 'inline'"
+                             :data-link="item.configId">
+                            <div
+                                    :class="item.numResult !== '空' ? 'operateItem operatorEmpty borderDark' : 'operateItem operatorEmpty'">
+                                <div
+                                        :class="idItem === item.configId && keyItem === key && hoverVisible === true ? 'operateContainer hidden' : 'operateContainer'">
                                     <Icon type="clipboard"></Icon>
                                     <p class="operateName">{{item.configName ? item.configName : ''}}</p>
                                     <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult : ''}}</p>
                                 </div>
-                                <div class="operateHover">
+                                <div v-show="idItem === item.configId && keyItem === key && hoverVisible === true" class="operateHover">
                                     <div class="operateHoverPull">
                                         <Icon type="android-download"></Icon>
                                         <p>接口拉取</p>
@@ -87,7 +93,7 @@
                                         <p>上传账单</p>
                                     </div>
                                 </div>
-                                <Icon type="trash-a" class="hidden" @click="emptyOpera"></Icon>
+                                <Icon type="trash-a" :class="deleteStatus === true ? '' : 'hidden'" @click="emptyOpera"></Icon>
                             </div>
                         </div>
                     </div>
@@ -95,14 +101,14 @@
                 <section class="operatorSection margin-top-10" v-if="fundConfigArr">
                     <p>资金通道</p>
                     <div>
-                        <div v-for="(item,key) in fundConfigArr" :class="key > 0 ? 'margin-left-10 inline' : 'inline'">
-                            <div class="operateItem operatorEmpty">
-                                <div class="operateContainer">
+                        <div @mouseover="hoverAction(item, key)" @mouseout="hoverHiddenAction(item, key)" v-for="(item,key) in fundConfigArr" :class="key > 0 ? 'margin-left-10 inline' : 'inline'" :data-link="item.configId">
+                            <div :class="item.numResult !== '空' ? 'operateItem operatorEmpty borderDark' : 'operateItem operatorEmpty'">
+                                <div :class="idItem === item.configId && keyItem === key && hoverVisible === true ? 'operateContainer hidden' : 'operateContainer'">
                                     <Icon type="clipboard"></Icon>
                                     <p class="operateName">{{item.configName ? item.configName : ''}}</p>
                                     <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult : ''}}</p>
                                 </div>
-                                <div class="operateHover">
+                                <div v-show="idItem === item.configId && keyItem === key && hoverVisible === true" class="operateHover">
                                     <div class="operateHoverPull">
                                         <Icon type="android-download"></Icon>
                                         <p>接口拉取</p>
@@ -120,23 +126,25 @@
                 <section class="operatorSection margin-top-10" v-if="appConfigArr">
                     <p>业务系统账单</p>
                     <div>
-                        <div :class="key > 0 ? 'operateItem operatorEmpty margin-left-10' : 'operateItem operatorEmpty'" v-for="(item,key) in appConfigArr">
-                            <div class="operateContainer">
-                                <Icon type="clipboard"></Icon>
-                                <p class="operateName">{{item.configName ? item.configName : ''}}</p>
-                                <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult : ''}}</p>
-                            </div>
-                            <div class="operateHover">
-                                <div class="operateHoverPull">
-                                    <Icon type="android-download"></Icon>
-                                    <p>接口拉取</p>
+                        <div @mouseover="hoverAction(item, key)" @mouseout="hoverHiddenAction(item, key)" v-for="(item,key) in appConfigArr" :class="key > 0 ? 'margin-left-10 inline' : 'inline'">
+                            <div :class="item.numResult !== '空' ? 'operateItem operatorEmpty borderDark' : 'operateItem operatorEmpty'" >
+                                <div :class="idItem === item.configId && keyItem === key && hoverVisible === true ? 'operateContainer hidden' : 'operateContainer'">
+                                    <Icon type="clipboard"></Icon>
+                                    <p class="operateName">{{item.configName ? item.configName : ''}}</p>
+                                    <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult : ''}}</p>
                                 </div>
-                                <div class="operateHoverPush">
-                                    <Icon type="android-upload"></Icon>
-                                    <p>上传账单</p>
+                                <div v-show="idItem === item.configId && keyItem === key && hoverVisible === true" class="operateHover">
+                                    <div class="operateHoverPull">
+                                        <Icon type="android-download"></Icon>
+                                        <p>接口拉取</p>
+                                    </div>
+                                    <div class="operateHoverPush">
+                                        <Icon type="android-upload"></Icon>
+                                        <p>上传账单</p>
+                                    </div>
                                 </div>
+                                <Icon type="trash-a" class="hidden" @click="emptyOpera"></Icon>
                             </div>
-                            <Icon type="trash-a" class="hidden" @click="emptyOpera"></Icon>
                         </div>
                     </div>
                 </section>
@@ -403,7 +411,7 @@
                                 let mchConfigArr = [], // HIS 交易方数据
                                     appConfigArr = [], // 应用数据
                                     fundConfigArr = []; // 资金通道
-                                res.forEach(it => {
+                                res.forEach((it) => {
                                     it.numResult = "空";
                                     it.dataCount = 0;
                                     it.createUpload = false;
@@ -507,6 +515,25 @@
                     }
                 }).catch(() => {
                 });
+            },
+            // 对账 hover上传模块展示
+            hoverAction(item, key) {
+                this.keyItem = key;
+                this.idItem = item.configId;
+                this.deleteStatus = item.numResult !== '空' ? true : false;
+                if (this.deleteStatus === false) {
+                    this.hoverVisible = true;
+                } else {
+                    this.hoverVisible = false;
+                }
+            },
+            hoverHiddenAction(item, key) {
+                this.idItem = item.configId;
+                this.keyItem = key;
+                this.deleteStatus = item.numResult !== '空' ? true : false;
+                if (this.deleteStatus === false) {
+                    this.hoverVisible = false;
+                }
             },
             // 对账内部操作
             emptyOpera () {
@@ -671,8 +698,8 @@
             text-align: center;
             overflow: hidden;
             &.borderDark {
-                border-color: @mainThemeBlue;
-                box-shadow: 0px 1px 1px @mainThemeBlue;
+                border-color: @mainThemeBlueHover;
+                box-shadow: 0px 0px 3px @mainThemeBlue;
             }
             .operateContainer {
                 text-align: center;
@@ -693,10 +720,10 @@
                 }
             }
             &.operatorEmpty {
-                &:hover {
-                    .operateContainer {
-                        display: none;
-                    }
+                /*&:hover {*/
+                    /*.operateContainer {*/
+                        /*display: none;*/
+                    /*}*/
                     .operateHover {
                         position: absolute;
                         top: 0;
@@ -707,10 +734,14 @@
                         align-items: center;
                         justify-content: center;
                         [class^="operateHover"] {
+                            min-width: 58px;
                             height: 84px;
                             /*display: flex;*/
                             /*align-items: center;*/
                             /*justify-content: center;*/
+                            i {
+                                margin-top: 16px;
+                            }
                             p {
                                 font-size: 12px;
                             }
@@ -728,7 +759,7 @@
                             }
                         }
                     }
-                }
+                /*}*/
             }
             &.operatorHas {
                 display: flex;
