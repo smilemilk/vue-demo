@@ -108,7 +108,7 @@
                                              keyItem === key &&
                                              deleteStatus === true"
                                       class="deleteIcon"
-                                      @click="emptyOpera"></Icon>
+                                      @click="emptyOpera(item)"></Icon>
                             </div>
                         </div>
                     </div>
@@ -148,7 +148,7 @@
                                              keyItem === key &&
                                              deleteStatus === true"
                                       class="deleteIcon"
-                                      @click="emptyOpera"></Icon>
+                                      @click="emptyOpera(item)"></Icon>
                             </div>
                         </div>
                     </div>
@@ -186,7 +186,7 @@
                                              keyItem === key &&
                                              deleteStatus === true"
                                       class="deleteIcon"
-                                      @click="emptyOpera"></Icon>
+                                      @click="emptyOpera(item)"></Icon>
                             </div>
                         </div>
                     </div>
@@ -565,9 +565,9 @@
                 this.keyItem = key;
                 this.idItem = item.configId;
                 this.deleteStatus = item.numResult !== '空' ? true : false;
-                console.log(this.keyItem)
-                console.log(this.idItem)
-                console.log(this.deleteStatus)
+                console.log(this.keyItem);
+                console.log(this.idItem);
+                console.log(this.deleteStatus);
                 if (this.deleteStatus === false) {
                     this.hoverVisible = true;
                 } else {
@@ -581,7 +581,7 @@
                 this.hoverVisible = false;
             },
             // 对账内部操作
-            emptyOpera () {
+            emptyOpera (item) {
                 this.showDialog = false;
                 this.$Modal.confirm({
                     content: '确定要删除吗',
@@ -590,6 +590,37 @@
                     loading: true,
                     onOk: () => {
                         setTimeout(() => {
+                            let queryParam = Object.assign({},
+                                                   this.billDateRange, {configId: item.configId || ''});
+                            ajax.deleteCheck(
+                                queryParam
+                            ).then(response => {
+                                if (response.success == true) {
+                                    // $('#config' + config.configId).removeClass('operated');
+                                    // config.numResult = '空';
+                                    // config.isDelete = false;
+                                    // if (isJSON(config.value) && JSON.parse(config.value) instanceof Array) {
+                                    //     var sourceTypes = eval(config.value);
+                                    //     for (var j in sourceTypes) {
+                                    //         if (sourceTypes[j].sourceType == '4') {
+                                    //             config.isUpdown = false;
+                                    //             break;
+                                    //         }
+                                    //     }
+                                    //
+                                    //     config.isUpdown = true;
+                                    // } else {
+                                    //     config.isUpdown = true;
+                                    // }
+                                    this.$Modal.remove();
+                                    this.$Message.success(response.msg ? response.msg : '删除成功');
+                                    this.getCheckSummary();
+                                    this.getCheckHistory();
+                                    this.showDialog = true;
+                                } else {
+                                    this.$Message.error(response.msg ? response.msg : '删除失败');
+                                }
+                            });
                         }, 2000);
                     },
                     onCancel: () => {
@@ -817,7 +848,7 @@
                     cursor: pointer;
                     color: @backgroundDanger;
                 }
-                &:hover{
+                &:hover {
                     border-color: @backgroundDanger;
                     box-shadow: 0 0 3px @backgroundDanger;
                 }

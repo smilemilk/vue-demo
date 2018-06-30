@@ -45,10 +45,20 @@ export function getHistoryCheck(params) {
     });
 }
 
+export function deleteCheck(params) {
+    return request({
+        url: 'unioncheck/portal/doCheck/deleteCheckBillData',
+        method: 'post',
+        params: params,
+        data: params
+    })
+}
+
 export default {
     checkList,
     // exportCheck,
     fundList,
     getCheckSummary, // 对账 查看配置信息
     getHistoryCheck, // 对账 历史对账
+    deleteCheck, // 对账 删除
 };
