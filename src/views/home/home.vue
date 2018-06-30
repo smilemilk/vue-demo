@@ -67,12 +67,12 @@
                 nowDate: '',
                 monthDate: '',
                 todayStatistics: {
-                    in: undefined,
-                    out: undefined
+                    in: null,
+                    out: null
                 },
                 weekStatistics: {
-                    in: undefined,
-                    out: undefined
+                    in: null,
+                    out: null
                 }
             };
         },
