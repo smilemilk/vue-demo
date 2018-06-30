@@ -9,8 +9,10 @@
                     :open-names="openedSubmenuArr"
                     :menu-list="menuList">
                     <div slot="top" class="logo-con" style="margin-top: 10px;">
-                        <img v-show="!shrink"  src="../../images/logo.png" key="max-logo" style="width: 60%; height: 60%;"/>
-                        <img v-show="shrink" src="../../images/logo-min.png" key="min-logo" style="width: 60%; height: 60%;"/>
+                        <img v-show="!shrink" src="../../images/logo.png" key="max-logo"
+                             style="width: 60%; height: 60%;"/>
+                        <img v-show="shrink" src="../../images/logo-min.png" key="min-logo"
+                             style="width: 60%; height: 60%;"/>
                     </div>
                 </shrinkable-menu>
             </scroll-bar>
@@ -18,16 +20,28 @@
         <div class="main-header-con" :style="{paddingLeft: shrink?'60px':'200px'}">
             <div class="main-header">
                 <div class="navicon-con">
-                    <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}" type="text" @click="toggleClick">
+                    <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}" type="text"
+                            @click="toggleClick">
                         <Icon type="navicon" size="32"></Icon>
                     </Button>
+                </div>
+                <div class="alert-con" v-if="this.$route.name === 'home' ? alertWelcome = true : alertWelcome = false">
+                    <transition name="slide-fade">
+                        <Alert type="success"
+                               show-icon
+                               closable
+                               v-if="this.$route.name === 'home' ?
+                                   alertWelcome = true :
+                                   alertWelcome = false"
+                        >欢迎使用微脉在线支付结算平台！
+                        </Alert>
+                    </transition>
                 </div>
                 <div class="header-avator-con">
                     <!--<full-screen v-model="isFullScreen" @on-change="fullscreenChange"></full-screen>-->
                     <!--<lock-screen></lock-screen>-->
                     <!--<message-tip v-model="mesCount"></message-tip>-->
                     <!--<theme-switch></theme-switch>-->
-
                     <div class="user-dropdown-menu-con">
                         <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
                             <Dropdown transfer trigger="click" @on-click="handleClickUserDropdown">
@@ -58,6 +72,7 @@
         </div>
     </div>
 </template>
+
 <script>
     import shrinkableMenu from './components/shrinkable-menu/shrinkable-menu.vue';
     import tagsPageOpened from './components/tags-page-opened.vue';
@@ -79,7 +94,8 @@
         },
         data () {
             return {
-                shrink: false,
+                alertWelcome: true,
+                shrink: true,
                 userName: '',
                 isFullScreen: false,
                 openedSubmenuArr: this.$store.state.app.openedSubmenuArr
@@ -145,7 +161,7 @@
                             this.$Message.error('未退出此次登录');
                         }
                     });
-                     this.$store.commit('clearAllTags');
+                    this.$store.commit('clearAllTags');
                 }
             },
             checkTag (name) {
@@ -191,7 +207,7 @@
             // },
             openedSubmenuArr () {
                 // setTimeout(() => {
-                    // this.scrollBarResize();
+                // this.scrollBarResize();
                 // }, 300);
             }
         },

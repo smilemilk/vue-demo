@@ -37,7 +37,7 @@
             <div>
                 <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33011002011357"
                    style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
-                        src="http://test.weimaipay.com:8070/unioncheck/portal/img/beian.png">浙公网安备 33011002011357号</a>
+                    src="http://test.weimaipay.com:8070/unioncheck/portal/img/beian.png">浙公网安备 33011002011357号</a>
             </div>
         </div>
     </div>
@@ -88,7 +88,7 @@
                         res.exponent, '', res.modulus
                     );
                     this.keyPair = keyPair;
-                }).catch(()=> {
+                }).catch(() => {
                 });
             },
             handleSubmit () {
@@ -127,8 +127,9 @@
                 });
             },
             getUser() {
-                ajax.getUser({
-                }).then(response => {}).catch(()=>{});
+                ajax.getUser({}).then(response => {
+                }).catch(() => {
+                });
             }
         }
     };
@@ -220,4 +221,14 @@
             width: 100%;
         }
     }
+
+    @media screen and (max-height: 786px) {
+        .header {
+            height: 62px;
+            img {
+                height: 32px;
+            }
+        }
+    }
+
 </style>

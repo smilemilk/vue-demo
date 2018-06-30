@@ -1,6 +1,6 @@
 {
   "name": "wm-web",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "iView + axios",
   "main": "index.js",
   "scripts": {

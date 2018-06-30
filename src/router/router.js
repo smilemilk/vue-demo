@@ -52,7 +52,7 @@ export const otherRouter = {
     children: [
         { path: 'home', title: '首页', name: 'home', component: () => import('@/views/home/home.vue') },
         { path: 'ownspace', title: '商户信息', name: 'ownspace_index', component: () => import('@/views/personInfo/personInfo.vue') },
-        { path: 'message', title: '消息中心', name: 'message_index', component: () => import('@/views/message/message.vue') }
+        // { path: 'message', title: '消息中心', name: 'message_index', component: () => import('@/views/message/message.vue') }
     ]
 };
 
@@ -62,10 +62,10 @@ export const appRouter = [
         path: '/statistics',
         icon: 'ios-grid-view',
         name: 'statistics',
-        title: '表格',
+        title: '数据',
         component: Layout,
         children: [
-            { path: 'reconciliations', title: ' 商户统一对账', name: 'reconciliations', icon: 'search', component: () => import('@/views/statistics/reconciliations.vue') }
+            { path: 'reconciliations', title: ' 商户统一对账', name: 'reconciliations', icon: 'clipboard', component: () => import('@/views/statistics/reconciliations.vue') }
         ]
     },
     {
