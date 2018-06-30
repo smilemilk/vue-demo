@@ -16,7 +16,6 @@ export default {
     },
     methods: {
         itemTitle (item) {
-            console.log(item)
             if (typeof item.title === 'object') {
                 return item.title.i18n;
             } else {

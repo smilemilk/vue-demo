@@ -40,7 +40,7 @@
                                     <DropdownItem name="loginOut" divided>退出登录</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
-                            <Avatar :src="avatorPath" style="background: #619fe7;margin-left: 10px;"></Avatar>
+                            <!--<Avatar :src="avatorPath" style="background: #619fe7;margin-left: 10px;"></Avatar>-->
                         </Row>
                     </div>
                 </div>
@@ -136,10 +136,16 @@
                 } else if (name === 'loginOut') {
                     // 退出登录
                     this.$store.commit('logout', this);
-                    // this.$store.commit('clearOpenedSubmenu');
-                    this.$router.push({
-                        name: 'login'
+                    this.$store.dispatch('loginOut', this).then(() => {
+                        if (this.$store.state.fetching === true) {
+                            this.$router.push({
+                                name: 'login'
+                            });
+                        } else {
+                            this.$Message.error('未退出此次登录');
+                        }
                     });
+                     this.$store.commit('clearAllTags');
                 }
             },
             checkTag (name) {

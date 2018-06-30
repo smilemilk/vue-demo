@@ -21,15 +21,34 @@ export function getTokenPK (params) {
 
 export function login (params) {
     return request({
-        url: '/unioncheck/user/mechantlogin',
+        url: 'unioncheck/user/mechantlogin',
         method: 'post',
         data: params,
         params: params
     });
 }
 
+export function getUser (params) {
+    return request({
+        url: 'unioncheck/merchantuser',
+        method: 'get',
+        params: params
+    })
+}
+
+export function loginOut (params) {
+    return request({
+        url: 'unioncheck/user/mechantlogout',
+        method: 'post',
+        data: params,
+        params: params
+    })
+}
+
 export default {
     getToken,
     login,
-    getTokenPK
+    getTokenPK,
+    getUser,
+    loginOut
 };
