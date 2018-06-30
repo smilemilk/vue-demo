@@ -57,7 +57,8 @@
                 v-model="showDialog">
             <div slot="header">
                 <figure v-if="rowOperate === false">
-                    <span>{{this.queryParams.billStartTime ? this.queryParams.billStartTime : '——'}}</span>至
+                    <span>{{this.queryParams.billStartTime ? this.queryParams.billStartTime : '——'}}</span>
+                    至
                     <span>{{this.queryParams.billEndTime ? this.queryParams.billEndTime : '——'}}</span>
                 </figure>
                 <figure v-else>
@@ -69,34 +70,61 @@
                 <section class="operatorSection" v-if="mchConfigArr">
                     <p>医院账单</p>
                     <div>
-                        <div class="operateItem operatorEmpty" v-for="item in mchConfigArr">
-                            <div class="operateContainer">
-                                <Icon type="clipboard"></Icon>
-                                <p class="operateName">{{item.configName ? item.configName : ''}}</p>
-                                <p>空</p>
-                            </div>
-                            <div class="operateHover">
-                                <div class="operateHoverPull">
-                                    <Icon type="android-download"></Icon>
-                                    <p>接口拉取</p>
+                        <div v-for="(item,key) in mchConfigArr" :class="key > 0 ? 'margin-left-10 inline' : 'inline'">
+                            <div class="operateItem operatorEmpty" >
+                                <div class="operateContainer">
+                                    <Icon type="clipboard"></Icon>
+                                    <p class="operateName">{{item.configName ? item.configName : ''}}</p>
+                                    <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult : ''}}</p>
                                 </div>
-                                <div class="operateHoverPush">
-                                    <Icon type="android-upload"></Icon>
-                                    <p>上传账单</p>
+                                <div class="operateHover">
+                                    <div class="operateHoverPull">
+                                        <Icon type="android-download"></Icon>
+                                        <p>接口拉取</p>
+                                    </div>
+                                    <div class="operateHoverPush">
+                                        <Icon type="android-upload"></Icon>
+                                        <p>上传账单</p>
+                                    </div>
                                 </div>
+                                <Icon type="trash-a" class="hidden" @click="emptyOpera"></Icon>
                             </div>
-                            <Icon type="trash-a" class="hidden" @click="emptyOpera"></Icon>
                         </div>
                     </div>
                 </section>
-                <section class="operatorSection" v-if="appConfigArr">
-                    <p>医院账单</p>
+                <section class="operatorSection margin-top-10" v-if="fundConfigArr">
+                    <p>资金通道</p>
                     <div>
-                        <div class="operateItem operatorEmpty" v-for="item in appConfigArr">
+                        <div v-for="(item,key) in fundConfigArr" :class="key > 0 ? 'margin-left-10 inline' : 'inline'">
+                            <div class="operateItem operatorEmpty">
+                                <div class="operateContainer">
+                                    <Icon type="clipboard"></Icon>
+                                    <p class="operateName">{{item.configName ? item.configName : ''}}</p>
+                                    <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult : ''}}</p>
+                                </div>
+                                <div class="operateHover">
+                                    <div class="operateHoverPull">
+                                        <Icon type="android-download"></Icon>
+                                        <p>接口拉取</p>
+                                    </div>
+                                    <div class="operateHoverPush">
+                                        <Icon type="android-upload"></Icon>
+                                        <p>上传账单</p>
+                                    </div>
+                                </div>
+                                <Icon type="trash-a" class="hidden" @click="emptyOpera"></Icon>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="operatorSection margin-top-10" v-if="appConfigArr">
+                    <p>业务系统账单</p>
+                    <div>
+                        <div :class="key > 0 ? 'operateItem operatorEmpty margin-left-10' : 'operateItem operatorEmpty'" v-for="(item,key) in appConfigArr">
                             <div class="operateContainer">
                                 <Icon type="clipboard"></Icon>
                                 <p class="operateName">{{item.configName ? item.configName : ''}}</p>
-                                <p>空</p>
+                                <p :class="item.numResult !== '空' ? 'dark' : ''">{{item.numResult ? item.numResult : ''}}</p>
                             </div>
                             <div class="operateHover">
                                 <div class="operateHoverPull">
@@ -375,61 +403,107 @@
                                 let mchConfigArr = [], // HIS 交易方数据
                                     appConfigArr = [], // 应用数据
                                     fundConfigArr = []; // 资金通道
-                                res.forEach(function (item) {
-                                    item.numResult = "空";
-                                    item.dataCount = 0;
-                                    item.createUpload = false;
-                                    item.isDelete = false;
-                                    item.isUpload = false;
-                                    item.isPull = false;
-                                    item.uploadClass = "dz-updown";
-                                    if (item.value && JSON.parse(item.value) instanceof Array) {
-                                        var sourceTypes = eval(item.value);
-                                        for (var j in sourceTypes) {
-                                            if (sourceTypes[j].sourceType == '4') {
-                                                item.isUpdown = false;
-                                                item.numResult = "以HIS为准(空)";
-                                            } else if (sourceTypes[j].sourceType == '2') {
-                                                item.isUpdown = true;
-                                                item.isPull = true;
-                                            } else if (sourceTypes[j].sourceType == '1') {
-                                                item.isUpdown = true;
-                                                item.isUpload = true;
+                                res.forEach(it => {
+                                    it.numResult = "空";
+                                    it.dataCount = 0;
+                                    it.createUpload = false;
+                                    it.isDelete = false;
+                                    it.isUpload = false;
+                                    it.isPull = false;
+                                    it.uploadClass = "dz-updown";
+                                    if (it.value && JSON.parse(it.value) instanceof Array) {
+                                        const sourceTypes = eval(it.value);
+                                        for (let i in sourceTypes) {
+                                            if (sourceTypes[i].sourceType == '4') {
+                                                it.isUpdown = false;
+                                                it.numResult = "以HIS为准(空)";
+                                            } else if (sourceTypes[i].sourceType == '2') {
+                                                it.isUpdown = true;
+                                                it.isPull = true;
+                                            } else if (sourceTypes[i].sourceType == '1') {
+                                                it.isUpdown = true;
+                                                it.isUpload = true;
                                             } else {
-                                                item.isUpdown = true;
+                                                it.isUpdown = true;
                                             }
                                         }
 
-                                        if ((item.isUpload && !item.isPull) || (!item.isUpload && item.isPull)) {
-                                            item.uploadClass = "dz-updown one";
+                                        if ((it.isUpload && !it.isPull) || (!it.isUpload && it.isPull)) {
+                                            it.uploadClass = "dz-updown one";
                                         }
                                     } else {
-                                        item.isUpdown = true;
-                                        item.isDelete = false;
+                                        it.isUpdown = true;
+                                        it.isDelete = false;
                                     }
 
-                                    if (!item.histroyData) {
-                                        item.histroyData = true;
+                                    if (!it.histroyData) {
+                                        it.histroyData = true;
                                     }
-                                    if (item.configType === '交易方数据') {
-                                        mchConfigArr.push(item);
-                                    } else if (item.configType === '应用数据') {
-                                        appConfigArr.push(item);
-                                    } else if (item.configType === '收款通道') {
-                                        fundConfigArr.push(item);
+                                    if (it.configType === '交易方数据') {
+                                        mchConfigArr.push(it);
+                                    } else if (it.configType === '应用数据') {
+                                        appConfigArr.push(it);
+                                    } else if (it.configType === '收款通道') {
+                                        fundConfigArr.push(it);
                                     }
                                 });
                                 this.mchConfigArr = mchConfigArr;
                                 this.fundConfigArr = fundConfigArr;
                                 this.appConfigArr = appConfigArr;
-                                console.log(mchConfigArr)
-                                console.log(appConfigArr)
+                                console.log(this.mchConfigArr)
+                                this.getCheckHistory();
                             }
                         } else {
                             this.$Message.error(response.msg ? response.msg : '对账配置数据有异常');
                         }
                     } else {
                         this.$Message.error(response.msg ? response.msg : '对账配置接口未成功');
+                    }
+                }).catch(() => {
+                });
+            },
+            // 对账 历史
+            getCheckHistory() {
+                ajax.getHistoryCheck(
+                    this.billDateRange
+                ).then(response => {
+                    if (response.success == true) {
+                        if (response.data) {
+                            if (response.data.f730035ResLists) {
+                                const res = response.data.f730035ResLists;
+
+                                for(let i in res) {
+                                    this.mchConfigArr.map( it => {
+                                        if(it.configId + '' === res[i].configId + ''){
+                                            this.$set(it, 'isUpdown', false);
+                                            this.$set(it, 'isDelete', false);
+                                            this.$set(it, 'numResult', res[i].count+"条");
+                                            this.$set(it, 'operated', 'operated');
+                                        }
+                                    });
+                                    this.fundConfigArr.map( it => {
+                                        if(it.configId + '' === res[i].configId + ''){
+                                            this.$set(it, 'isUpdown', false);
+                                            this.$set(it, 'isDelete', false);
+                                            this.$set(it, 'numResult', res[i].count+"条");
+                                            this.$set(it, 'operated', 'operated');
+                                        }
+                                    });
+                                    this.appConfigArr.map( it => {
+                                        if(it.configId + '' === res[i].configId + ''){
+                                            this.$set(it, 'isUpdown', false);
+                                            this.$set(it, 'isDelete', false);
+                                            this.$set(it, 'numResult', res[i].count+"条");
+                                            this.$set(it, 'operated', 'operated');
+                                        }
+                                    });
+                                }
+                            }
+                        } else {
+                            this.$Message.error(response.msg ? response.msg : '对账历史数据有异常');
+                        }
+                    } else {
+                        this.$Message.error(response.msg ? response.msg : '对账历史接口未成功');
                     }
                 }).catch(() => {
                 });
@@ -591,11 +665,15 @@
             width: 116px;
             height: 84px;
             display: inline-block;
-            padding: 5px 15px;
+            padding: 12px 0;
             border: 1px solid @borderLight;
             border-radius: 4px;
             text-align: center;
             overflow: hidden;
+            &.borderDark {
+                border-color: @mainThemeBlue;
+                box-shadow: 0px 1px 1px @mainThemeBlue;
+            }
             .operateContainer {
                 text-align: center;
             }
@@ -603,12 +681,15 @@
                 font-size: 28px;
                 color: @borderLight;
             }
+            .dark {
+                color: @fontColor;
+            }
             p {
-                font-size: 14px;
+                font-size: 12px;
                 color: @borderLight;
                 &.operateName {
                     color: #495060;
-                    font-size: 15px;
+                    font-size: 13px;
                 }
             }
             &.operatorEmpty {

@@ -37,9 +37,18 @@ export function getCheckSummary(params) {
     });
 }
 
+export function getHistoryCheck(params) {
+    return request({
+        url: 'unioncheck/portal/doCheck/getHistoryRecord',
+        method: 'get',
+        params: params
+    });
+}
+
 export default {
     checkList,
     // exportCheck,
     fundList,
     getCheckSummary, // 对账 查看配置信息
+    getHistoryCheck, // 对账 历史对账
 };
