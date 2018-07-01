@@ -199,10 +199,12 @@
                             <label>历史对账结果</label>
                             <Button :type="keepSuccess === true ? 'primary' : 'default'"
                                     shape="circle" size="small"
-                                    @click="checkToggle(keepSuccess, 1)">保留</Button>
+                                    @click="checkToggle(keepSuccess, 1)">保留
+                            </Button>
                             <Button :type="keepSuccess === false ? 'primary' : 'default'"
                                     shape="circle" size="small"
-                                    @click="checkToggle(keepSuccess, 2)">不保留</Button>
+                                    @click="checkToggle(keepSuccess, 2)">不保留
+                            </Button>
                         </div>
                     </Col>
                     <Col span="12">
@@ -251,7 +253,7 @@
         },
         created () {
             this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}'); // 首次进来默认展示一周数据
-            this.queryParams.billStartTime = parseTime(new Date().getTime() - 60 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}'); // 首次进来默认展示一周数据
+            this.queryParams.billStartTime = parseTime(new Date().getTime() - 7 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}'); // 首次进来默认展示一周数据
             this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
             this.getList();
         },
@@ -302,6 +304,135 @@
                 ajax.checkList(this.queryParams).then(response => {
                     if (response.success == true) {
                         if (response.data.items) {
+                            response = {
+                                'success': true, 'msg': null, 'data': {
+                                    'page': 1,
+                                    'start': 0,
+                                    'limit': 10,
+                                    'jqGrid': true,
+                                    'totalCount': 18,
+                                    'pages': 2,
+                                    'items': [{
+                                        'checkOrderNo': 1711741633298435,
+                                        'mchUserId': 832300237455361,
+                                        'billStartTime': 1530374400000,
+                                        'billEndTime': null,
+                                        'unioncheckorderStatus': '6',
+                                        'mchBusinessTotalAmount': 0,
+                                        'appBusinessTotalAmount': 0,
+                                        'fundTransactionTotalAmount': 0,
+                                        'appBusinessTotalCount': 0,
+                                        'fundTransactionTotalCount': 0
+                                    }, {
+                                        'checkOrderNo': 1711741633298433,
+                                        'mchUserId': 832300237455361,
+                                        'billStartTime': 1530288000000,
+                                        'billEndTime': null,
+                                        'unioncheckorderStatus': '6',
+                                        'mchBusinessTotalAmount': 0,
+                                        'appBusinessTotalAmount': 0,
+                                        'fundTransactionTotalAmount': 0,
+                                        'appBusinessTotalCount': 0,
+                                        'fundTransactionTotalCount': 0
+                                    },
+                                        {
+                                            'checkOrderNo': 1711741901733893,
+                                            'mchUserId': 832300237455361,
+                                            'billStartTime': 1530201600000,
+                                            'billEndTime': null,
+                                            'unioncheckorderStatus': '5',
+                                            'mchBusinessTotalAmount': 0,
+                                            'appBusinessTotalAmount': 1,
+                                            'fundTransactionTotalAmount': 0,
+                                            'appBusinessTotalCount': 1,
+                                            'fundTransactionTotalCount': 0
+                                        }, {
+                                            'checkOrderNo': 1711741901733891,
+                                            'mchUserId': 832300237455361,
+                                            'billStartTime': 1530115200000,
+                                            'billEndTime': null,
+                                            'unioncheckorderStatus': '5',
+                                            'mchBusinessTotalAmount': 0,
+                                            'appBusinessTotalAmount': 0,
+                                            'fundTransactionTotalAmount': 0,
+                                            'appBusinessTotalCount': 0,
+                                            'fundTransactionTotalCount': 0
+                                        }, {
+                                            'checkOrderNo': 1711741901733889,
+                                            'mchUserId': 832300237455361,
+                                            'billStartTime': 1530028800000,
+                                            'billEndTime': null,
+                                            'unioncheckorderStatus': '5',
+                                            'mchBusinessTotalAmount': 0,
+                                            'appBusinessTotalAmount': 1,
+                                            'fundTransactionTotalAmount': 0,
+                                            'appBusinessTotalCount': 1,
+                                            'fundTransactionTotalCount': 0
+                                        }, {
+                                            'checkOrderNo': 1711742103060481,
+                                            'mchUserId': 832300237455361,
+                                            'billStartTime': 1529942400000,
+                                            'billEndTime': null,
+                                            'unioncheckorderStatus': '5',
+                                            'mchBusinessTotalAmount': 0,
+                                            'appBusinessTotalAmount': 0,
+                                            'fundTransactionTotalAmount': 0,
+                                            'appBusinessTotalCount': 0,
+                                            'fundTransactionTotalCount': 0
+                                        }, {
+                                            'checkOrderNo': 1711743445237761,
+                                            'mchUserId': 832300237455361,
+                                            'billStartTime': 1529856000000,
+                                            'billEndTime': null,
+                                            'unioncheckorderStatus': '5',
+                                            'mchBusinessTotalAmount': 0,
+                                            'appBusinessTotalAmount': 0,
+                                            'fundTransactionTotalAmount': 0,
+                                            'appBusinessTotalCount': 0,
+                                            'fundTransactionTotalCount': 0
+                                        }, {
+                                            'checkOrderNo': 1711743713673217,
+                                            'mchUserId': 832300237455361,
+                                            'billStartTime': 1529769600000,
+                                            'billEndTime': null,
+                                            'unioncheckorderStatus': '5',
+                                            'mchBusinessTotalAmount': 0,
+                                            'appBusinessTotalAmount': 0,
+                                            'fundTransactionTotalAmount': 0,
+                                            'appBusinessTotalCount': 0,
+                                            'fundTransactionTotalCount': 0
+                                        }, {
+                                            'checkOrderNo': 1711557620793347,
+                                            'mchUserId': 832300237455361,
+                                            'billStartTime': 1529596800000,
+                                            'billEndTime': null,
+                                            'unioncheckorderStatus': '5',
+                                            'mchBusinessTotalAmount': 0,
+                                            'appBusinessTotalAmount': 0,
+                                            'fundTransactionTotalAmount': 0,
+                                            'appBusinessTotalCount': 0,
+                                            'fundTransactionTotalCount': 0
+                                        }, {
+                                            'checkOrderNo': 1711557620793345,
+                                            'mchUserId': 832300237455361,
+                                            'billStartTime': 1529510400000,
+                                            'billEndTime': null,
+                                            'unioncheckorderStatus': '0',
+                                            'mchBusinessTotalAmount': null,
+                                            'appBusinessTotalAmount': null,
+                                            'fundTransactionTotalAmount': null,
+                                            'appBusinessTotalCount': null,
+                                            'fundTransactionTotalCount': null
+                                        }],
+                                    'orderColumn': null,
+                                    'orderDir': 'DESC',
+                                    'mchUserId': 832300237455361,
+                                    'billStartTime': 1527782400000,
+                                    'billEndTime': 1530460799000,
+                                    'unioncheckorderStatus': '',
+                                    'defaultOrderColumn': null
+                                }
+                            };
                             this.dataList = response.data.items;
                             this.total = response.data.totalCount;
                             let item1 = 0;
@@ -597,7 +728,7 @@
                 this.deleteStatus = false;
                 this.hoverVisible = false;
             },
-            // 对账内部操作 begin
+            // ---对账内部操作 begin ----
             emptyOpera (item) {
                 this.showDialog = false;
                 this.$Modal.confirm({
@@ -639,47 +770,48 @@
             pullCheckAction (item) {
                 this.showDialog = false;
                 this.$Modal.confirm({
-                        content: '确定要接口拉取吗',
-                        okText: '确定',
-                        cancelText: '取消',
-                        loading: true,
-                        onOk: () => {
-                            setTimeout(() => {
-                                let queryParam = Object.assign({},
-                                    this.billDateRange, {configId: item.configId || ''});
-                                ajax.pullCheck(
-                                    queryParam
-                                ).then(response => {
-                                    if (response.success == true) {
-                                        this.$Modal.remove();
-                                        this.$Message.success(response.msg ? response.msg : '接口拉取成功');
-                                        this.getCheckSummary();
-                                        this.getCheckHistory();
-                                        this.showDialog = true;
-                                    } else {
-                                        this.$Modal.remove();
-                                        this.$Message.error({
-                                            content: response.msg ? response.msg : '接口拉取失败',
-                                            duration: 10,
-                                            closable: true
-                                        });
-                                        this.showDialog = true;
-                                    }
-                                });
-                            }, 2000);
-                        },
-                        onCancel: ()=> {
-                            this.showDialog = true;
-                        }
-                    });
+                    content: '确定要接口拉取吗',
+                    okText: '确定',
+                    cancelText: '取消',
+                    loading: true,
+                    onOk: () => {
+                        setTimeout(() => {
+                            let queryParam = Object.assign({},
+                                this.billDateRange, {configId: item.configId || ''});
+                            ajax.pullCheck(
+                                queryParam
+                            ).then(response => {
+                                if (response.success == true) {
+                                    this.$Modal.remove();
+                                    this.$Message.success(response.msg ? response.msg : '接口拉取成功');
+                                    this.getCheckSummary();
+                                    this.getCheckHistory();
+                                    this.showDialog = true;
+                                } else {
+                                    this.$Modal.remove();
+                                    this.$Message.error({
+                                        content: response.msg ? response.msg : '接口拉取失败',
+                                        duration: 10,
+                                        closable: true
+                                    });
+                                    this.showDialog = true;
+                                }
+                            });
+                        }, 2000);
+                    },
+                    onCancel: () => {
+                        this.showDialog = true;
+                    }
+                });
             },
-            submitCheckAction() {
+            submitCheckAction () {
                 if (this.checkBillCount !== 0 || this.checkBillCount !== null) {
                     this.showDialog = false;
                     this.$Modal.confirm({
                         content: '当前选择的对账周期内已存在对账记录，再次发起对账会覆盖原有对账记录，继续对账吗？',
                         okText: '继续',
                         cancelText: '放弃',
+                        loading: true,
                         onOk: () => {
                             this.showDialog = true;
                             setTimeout(() => {
@@ -691,9 +823,10 @@
                                     if (response.success == true) {
                                         this.$Modal.remove();
                                         this.$Message.success(response.msg ? response.msg : '对账成功');
-                                        this.getCheckSummary();
-                                        this.getCheckHistory();
-                                        this.showDialog = true;
+                                        // this.getCheckSummary();
+                                        // this.getCheckHistory();
+                                        this.showDialog = false;
+                                        this.getList();
                                     } else {
                                         this.$Modal.remove();
                                         this.$Message.error({
@@ -713,15 +846,15 @@
                     return;
                 }
             },
-            checkToggle(status, key) {
-                if (key ===  1) {
+            checkToggle (status, key) {
+                if (key === 1) {
                     if (status === true) {
                         this.keepSuccess = false;
                     } else {
                         this.keepSuccess = true;
                     }
                 }
-                if (key ===  2) {
+                if (key === 2) {
                     if (status === true) {
                         this.keepSuccess = false;
                     } else {
@@ -775,8 +908,68 @@
                     this.rowOperate = true;
                 }
                 this.rowData = timeRow || '';
+                this.billDateRange = {
+                    billStartTime: timeRow,
+                    billEndTime: timeRow
+                };
+                this.getCheckSummary();
+                this.getCheckHistory();
                 this.showDialog = true;
+            },
+            handworkTick (row) {
+                let timeRow,
+                    urlParam,
+                    url,
+                    width,
+                    height,
+                    left,
+                    top;
+                if (row.billStartTime) {
+                    timeRow = parseTime(row.billStartTime, '{y}-{m}-{d}');
+                }
+                urlParam = {
+                    checkOrderNo: row.checkOrderNo || '',
+                    startDate: timeRow,
+                    endDate: timeRow
+                };
+                url = '/unioncheck/portal/partner/openwindows.htm#/checkOpera.html/' +
+                    urlParam.checkOrderNo + '/' + urlParam.startDate + '/' + urlParam.endDate;
+                width = document.body.clientWidth;
+                height = document.body.clientHeight;
+                left = (document.body.clientWidth - width - 30) / 2;
+                top = (document.body.clientHeight - height - 10) / 2;
+                window.open(url, '', 'top=' + top + ',left=' + left +
+                    ',scrollbars=yes,dialog=yes,minimizable=yes,modal=open,width=' +
+                    width + ',' + 'height=' +
+                    height + ',resizable=yes');
+            },
+            checkAction (row) {
+                let urlParam,
+                    url,
+                    timeRow,
+                    width,
+                    height,
+                    left,
+                    top;
+                if (row.billStartTime) {
+                    timeRow = (parseTime(row.billStartTime, '{y}-{m}-{d}')).replace(/-/g,'');
+                }
+                urlParam = {
+                    checkOrderNo: row.checkOrderNo || '',
+                    startDate: timeRow,
+                };
+                url = '/unioncheck/portal/partner/openwindows.htm#/checkReportForm.html/' + urlParam.checkOrderNo + '/' + urlParam.startDate;
+                width = document.body.clientWidth * 0.9;
+                height = document.body.clientHeight * 0.9;
+                left = (document.body.clientWidth - width - 30) / 2;
+                top = (document.body.clientHeight - height - 10) / 2;
+                window.open(url, '', 'top=' + top + ',left=' + left + ',scrollbars=yes,dialog=yes,minimizable=yes,modal=open,width=' + width + ',' +
+                    'height=' + height + ',resizable=yes');
+            },
+            resetCheckAction (row) {
+
             }
+            // ---对账内部操作 end ----
         }
     };
 </script>

@@ -88,9 +88,11 @@ export default function () {
                 key: 'operate',
                 title: '操作', // '0' 开始对账，'3'重新对账， '5'手工勾对， '6'查看
                 align: 'center',
-                width: 140,
+                width: 160,
                 render: (h, params) => {
-                    let text = '';
+                    let text = '',
+                        text1 = '',
+                        text2 = '';
                     let status = params.row.unioncheckorderStatus;
                     if (status == '0') {
                         text = '开始对账';
@@ -99,12 +101,12 @@ export default function () {
                     } else if (status == '5') {
                         text = '手工勾对';
                     } else if (status == '6') {
-                        text = '查看';
+                        text1 = '查看';
+                        text2 = '撤销归档'
                     }
                     if (status == '0' ||
                         status == '3' ||
-                        status == '5' ||
-                        status == '6') {
+                        status == '5') {
                        return h('div',
                             [h('Button', {
                                 props: {
@@ -113,13 +115,46 @@ export default function () {
                                 },
                                 on: {
                                     click: () => {
-                                        if (params.row.unioncheckorderStatus == '0') {
+                                        if (status == '0') {
                                             this.reconciliationsRowAction(params.row);
+                                        }
+
+                                        if (status == '5') {
+                                            this.handworkTick(params.row);
                                         }
                                     }
                                 }
                             }, text)
                             ]);
+                       }
+                    if (status == '6') {
+                        return h('div',
+                            [h('Button', {
+                                props: {
+                                    type: 'dashed',
+                                    size: 'small'
+                                },
+                                on: {
+                                    click: () => {
+                                            this.checkAction(params.row);
+                                    }
+                                }
+                            }, text1),
+                                h('Button', {
+                                    props: {
+                                        type: 'dashed',
+                                        size: 'small'
+                                    },
+                                    style: "margin-left: 10px",
+                                    on: {
+                                        click: () => {
+                                            this.resetCheckAction(params.row);
+                                        }
+                                    }
+                                }, text2)
+                            ],
+
+                            );
                     }
 
                 }
