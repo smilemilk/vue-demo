@@ -10,6 +10,15 @@ export function checkList (params) {
     });
 }
 
+export function pullCheck (params) {
+    return request({
+        url: 'unioncheck/portal/doCheck/getManCheckBillDataByInterface',
+        method: 'post',
+        data: params,
+        params: params
+    });
+}
+
 // export function exportCheck (params) {
 //     return request({
 //         url: 'unioncheck/merchantCheck/downloadCheck',
@@ -61,4 +70,5 @@ export default {
     getCheckSummary, // 对账 查看配置信息
     getHistoryCheck, // 对账 历史对账
     deleteCheck, // 对账 删除
+    pullCheck, // 对账 上传
 };

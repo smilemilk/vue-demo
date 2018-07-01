@@ -1,17 +1,17 @@
 import axios from 'axios';
 import _ from 'lodash';
-import iView from 'iview';
+import {Message} from 'iview';
 import store from '../store';
 import {jsCookie} from '@/libs/auth';
 import util from '@/libs/util';
 
-axios.defaults.headers.common['Content-Type'] = 'application/json; charset=UTF-8';
+axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
 
 // 创建axios实例
 const service = axios.create({
     baseURL: util.ajax.baseURL, // api的base_url
-    timeout: 15000, // 请求超时时间
-    contentType: 'application/json; charset=UTF-8',
+    timeout: 50000, // 请求超时时间
+    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
     responseType: 'json',
     withCredentials: false // 是否允许带cookie这些
 });
@@ -56,7 +56,7 @@ service.interceptors.response.use(
         }
     },
     error => {
-        iView.$Message.error(error ? error : '未成功请求接口');
+        Message.error(error ? error : '未成功请求接口');
         return Promise.reject(error);
     }
 );

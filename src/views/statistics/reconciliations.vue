@@ -94,7 +94,7 @@
                                              keyItem === key &&
                                              hoverVisible === true"
                                      class="operateHover">
-                                    <div class="operateHoverPull">
+                                    <div class="operateHoverPull" @click="pullCheckAction(item)">
                                         <Icon type="android-download"></Icon>
                                         <p>接口拉取</p>
                                     </div>
@@ -134,7 +134,7 @@
                                              keyItem === key &&
                                              hoverVisible === true"
                                      class="operateHover">
-                                    <div class="operateHoverPull">
+                                    <div class="operateHoverPull" @click="pullCheckAction(item)">
                                         <Icon type="android-download"></Icon>
                                         <p>接口拉取</p>
                                     </div>
@@ -172,7 +172,7 @@
                                 <div
                                         v-show="idItem === item.configId && keyItem === key && hoverVisible === true"
                                         class="operateHover">
-                                    <div class="operateHoverPull">
+                                    <div class="operateHoverPull" @click="pullCheckAction(item)">
                                         <Icon type="android-download"></Icon>
                                         <p>接口拉取</p>
                                     </div>
@@ -580,7 +580,7 @@
                 this.deleteStatus = false;
                 this.hoverVisible = false;
             },
-            // 对账内部操作
+            // 对账内部操作 begin
             emptyOpera (item) {
                 this.showDialog = false;
                 this.$Modal.confirm({
@@ -591,7 +591,7 @@
                     onOk: () => {
                         setTimeout(() => {
                             let queryParam = Object.assign({},
-                                                   this.billDateRange, {configId: item.configId || ''});
+                                this.billDateRange, {configId: item.configId || ''});
                             ajax.deleteCheck(
                                 queryParam
                             ).then(response => {
@@ -618,7 +618,9 @@
                                     this.getCheckHistory();
                                     this.showDialog = true;
                                 } else {
+                                    this.$Modal.remove();
                                     this.$Message.error(response.msg ? response.msg : '删除失败');
+                                    this.showDialog = true;
                                 }
                             });
                         }, 2000);
@@ -627,6 +629,42 @@
                         this.showDialog = true;
                     }
                 });
+            },
+            // 对账 上传接口 接口拉取
+            pullCheckAction (item) {
+                console.log(item)
+                console.log(item.configId)
+                this.showDialog = false;
+                this.$Modal.confirm({
+                        content: '确定要接口拉取吗',
+                        okText: '确定',
+                        cancelText: '取消',
+                        loading: true,
+                        onOk: () => {
+                            setTimeout(() => {
+                                let queryParam = Object.assign({},
+                                    this.billDateRange, {configId: item.configId || ''});
+                                ajax.pullCheck(
+                                    queryParam
+                                ).then(response => {
+                                    if (response.success == true) {
+                                        this.$Modal.remove();
+                                        this.$Message.success(response.msg ? response.msg : '接口拉取成功');
+                                        this.getCheckSummary();
+                                        this.getCheckHistory();
+                                        this.showDialog = true;
+                                    } else {
+                                        this.$Modal.remove();
+                                        this.$Message.error(response.msg ? response.msg : '接口拉取失败');
+                                        this.showDialog = true;
+                                    }
+                                });
+                            }, 2000);
+                        },
+                        onCancel: ()=> {
+                            this.showDialog = true;
+                        }
+                    });
             },
             downloadAction () {
                 if (this.multipleSelection.length > 0) {
