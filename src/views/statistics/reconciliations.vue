@@ -197,12 +197,16 @@
                     <Col span="12">
                         <div class="reconciliationsBottom">
                             <label>历史对账结果</label>
-                            <Button type="primary" shape="circle" size="small">保留</Button>
-                            <Button type="default" shape="circle" size="small">不保留</Button>
+                            <Button :type="keepSuccess === true ? 'primary' : 'default'"
+                                    shape="circle" size="small"
+                                    @click="checkToggle(keepSuccess, 1)">保留</Button>
+                            <Button :type="keepSuccess === false ? 'primary' : 'default'"
+                                    shape="circle" size="small"
+                                    @click="checkToggle(keepSuccess, 2)">不保留</Button>
                         </div>
                     </Col>
                     <Col span="12">
-                        <Button type="primary" size="large">开始对账</Button>
+                        <Button type="primary" size="large" @click="submitCheckAction">开始对账</Button>
                     </Col>
                 </Row>
             </div>
@@ -319,7 +323,11 @@
                             this.dataList = [];
                         }
                     } else {
-                        this.$Message.error(response.msg ? response.msg : '客户统一对账表单请求未成功');
+                        this.$Message.error({
+                            content: response.msg ? response.msg : '客户统一对账表单请求未成功',
+                            duration: 2,
+                            closable: true
+                        });
                     }
                 }).catch(() => {
                 });
@@ -452,6 +460,7 @@
                                 const res = response.data.configList;
                                 console.log(res);
 
+                                this.checkBillCount = response.data.checkBillCount;
                                 let mchConfigArr = [], // HIS 交易方数据
                                     appConfigArr = [], // 应用数据
                                     fundConfigArr = []; // 资金通道
@@ -506,7 +515,11 @@
                                 this.getCheckHistory();
                             }
                         } else {
-                            this.$Message.error(response.msg ? response.msg : '对账配置数据有异常');
+                            this.$Message.error({
+                                content: response.msg ? response.msg : '对账配置数据有异常',
+                                duration: 10,
+                                closable: true
+                            });
                         }
                     } else {
                         this.$Message.error(response.msg ? response.msg : '对账配置接口未成功');
@@ -552,7 +565,11 @@
                                 }
                             }
                         } else {
-                            this.$Message.error(response.msg ? response.msg : '对账历史数据有异常');
+                            this.$Message.error({
+                                content: response.msg ? response.msg : '对账历史数据有异常',
+                                duration: 10,
+                                closable: true
+                            });
                         }
                     } else {
                         this.$Message.error(response.msg ? response.msg : '对账历史接口未成功');
@@ -596,22 +613,6 @@
                                 queryParam
                             ).then(response => {
                                 if (response.success == true) {
-                                    // $('#config' + config.configId).removeClass('operated');
-                                    // config.numResult = '空';
-                                    // config.isDelete = false;
-                                    // if (isJSON(config.value) && JSON.parse(config.value) instanceof Array) {
-                                    //     var sourceTypes = eval(config.value);
-                                    //     for (var j in sourceTypes) {
-                                    //         if (sourceTypes[j].sourceType == '4') {
-                                    //             config.isUpdown = false;
-                                    //             break;
-                                    //         }
-                                    //     }
-                                    //
-                                    //     config.isUpdown = true;
-                                    // } else {
-                                    //     config.isUpdown = true;
-                                    // }
                                     this.$Modal.remove();
                                     this.$Message.success(response.msg ? response.msg : '删除成功');
                                     this.getCheckSummary();
@@ -619,7 +620,11 @@
                                     this.showDialog = true;
                                 } else {
                                     this.$Modal.remove();
-                                    this.$Message.error(response.msg ? response.msg : '删除失败');
+                                    this.$Message.error({
+                                        content: response.msg ? response.msg : '删除失败',
+                                        duration: 10,
+                                        closable: true
+                                    });
                                     this.showDialog = true;
                                 }
                             });
@@ -632,8 +637,6 @@
             },
             // 对账 上传接口 接口拉取
             pullCheckAction (item) {
-                console.log(item)
-                console.log(item.configId)
                 this.showDialog = false;
                 this.$Modal.confirm({
                         content: '确定要接口拉取吗',
@@ -655,7 +658,11 @@
                                         this.showDialog = true;
                                     } else {
                                         this.$Modal.remove();
-                                        this.$Message.error(response.msg ? response.msg : '接口拉取失败');
+                                        this.$Message.error({
+                                            content: response.msg ? response.msg : '接口拉取失败',
+                                            duration: 10,
+                                            closable: true
+                                        });
                                         this.showDialog = true;
                                     }
                                 });
@@ -665,6 +672,62 @@
                             this.showDialog = true;
                         }
                     });
+            },
+            submitCheckAction() {
+                if (this.checkBillCount !== 0 || this.checkBillCount !== null) {
+                    this.showDialog = false;
+                    this.$Modal.confirm({
+                        content: '当前选择的对账周期内已存在对账记录，再次发起对账会覆盖原有对账记录，继续对账吗？',
+                        okText: '继续',
+                        cancelText: '放弃',
+                        onOk: () => {
+                            this.showDialog = true;
+                            setTimeout(() => {
+                                let queryParam = Object.assign({},
+                                    this.billDateRange, {keepSuccess: this.keepSuccess});
+                                ajax.submitCheck(
+                                    queryParam
+                                ).then(response => {
+                                    if (response.success == true) {
+                                        this.$Modal.remove();
+                                        this.$Message.success(response.msg ? response.msg : '对账成功');
+                                        this.getCheckSummary();
+                                        this.getCheckHistory();
+                                        this.showDialog = true;
+                                    } else {
+                                        this.$Modal.remove();
+                                        this.$Message.error({
+                                            content: response.msg ? response.msg : '对账失败',
+                                            duration: 2,
+                                            closable: true
+                                        });
+                                        this.showDialog = true;
+                                    }
+                                });
+                            }, 2000);
+                        },
+                        onCancel: () => {
+                            this.showDialog = true;
+                        }
+                    });
+                    return;
+                }
+            },
+            checkToggle(status, key) {
+                if (key ===  1) {
+                    if (status === true) {
+                        this.keepSuccess = false;
+                    } else {
+                        this.keepSuccess = true;
+                    }
+                }
+                if (key ===  2) {
+                    if (status === true) {
+                        this.keepSuccess = false;
+                    } else {
+                        this.keepSuccess = true;
+                    }
+                }
             },
             downloadAction () {
                 if (this.multipleSelection.length > 0) {
@@ -680,7 +743,11 @@
                                 this.$Message.error(response.msg ? response.msg : '收款通道接口数据有异常');
                             }
                         } else {
-                            this.$Message.error(response.msg ? response.msg : '收款通道接口未成功');
+                            this.$Message.error({
+                                content: response.msg ? response.msg : '收款通道接口未成功',
+                                duration: 2,
+                                closable: true
+                            });
                         }
                     }).catch(() => {
                     });

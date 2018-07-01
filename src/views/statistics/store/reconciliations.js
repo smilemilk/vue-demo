@@ -27,6 +27,8 @@ export default function () {
         keyItem: null,       // hover key
         idItem: '',          // hover id
         deleteStatus: false, // hover 删除状态
+        checkBillCount: null, // 对账前判断是否已对账
+        keepSuccess: true, // 对账 默认保留
         fundListChecked: [],
         billDateRange: {
             billStartTime: '',
