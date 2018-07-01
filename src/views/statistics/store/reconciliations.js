@@ -119,6 +119,10 @@ export default function () {
                                             this.reconciliationsRowAction(params.row);
                                         }
 
+                                        if (status == '3') {
+                                            this.AgainReconciliationsAction(params.row);
+                                        }
+
                                         if (status == '5') {
                                             this.handworkTick(params.row);
                                         }

@@ -72,6 +72,14 @@ export function submitCheck (params) {
     });
 }
 
+export function cancelCheck (params) {
+    return request({
+        url: 'unioncheck/merchantCheck/cancelArchive',
+        method: 'get',
+        params: params
+    });
+}
+
 export default {
     checkList,
     // exportCheck,
@@ -80,5 +88,6 @@ export default {
     getHistoryCheck, // 对账 历史对账
     deleteCheck, // 对账 删除
     pullCheck, // 对账 上传
-    submitCheck // 开始对账
+    submitCheck, // 开始对账
+    cancelCheck, // 撤销归档
 };

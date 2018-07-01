@@ -317,7 +317,7 @@
                                         'mchUserId': 832300237455361,
                                         'billStartTime': 1530374400000,
                                         'billEndTime': null,
-                                        'unioncheckorderStatus': '6',
+                                        'unioncheckorderStatus': '3',
                                         'mchBusinessTotalAmount': 0,
                                         'appBusinessTotalAmount': 0,
                                         'fundTransactionTotalAmount': 0,
@@ -846,6 +846,7 @@
                     return;
                 }
             },
+            // ---对账内部操作 end ----
             checkToggle (status, key) {
                 if (key === 1) {
                     if (status === true) {
@@ -901,6 +902,7 @@
                 this.queryParams.limit = val;
                 this.getList();
             },
+            // ---列表操作 begin ----
             reconciliationsRowAction (row) {
                 let timeRow;
                 if (row.billStartTime) {
@@ -916,6 +918,7 @@
                 this.getCheckHistory();
                 this.showDialog = true;
             },
+            // 手工勾对
             handworkTick (row) {
                 let timeRow,
                     urlParam,
@@ -943,6 +946,7 @@
                     width + ',' + 'height=' +
                     height + ',resizable=yes');
             },
+            // 查看
             checkAction (row) {
                 let urlParam,
                     url,
@@ -966,10 +970,61 @@
                 window.open(url, '', 'top=' + top + ',left=' + left + ',scrollbars=yes,dialog=yes,minimizable=yes,modal=open,width=' + width + ',' +
                     'height=' + height + ',resizable=yes');
             },
+            // 归档撤销
             resetCheckAction (row) {
-
+                this.$Modal.confirm({
+                    content: '确定要归档撤销吗',
+                    okText: '确定',
+                    cancelText: '取消',
+                    loading: true,
+                    onOk: () => {
+                        setTimeout(() => {
+                            ajax.cancelCheck(
+                                {unioncheckorderNo: row.checkOrderNo || ''}
+                            ).then(response => {
+                                if (response.success == true) {
+                                    this.$Modal.remove();
+                                    this.$Message.success(response.msg ? response.msg : '归档撤销成功');
+                                    this.getList();
+                                } else {
+                                    this.$Modal.remove();
+                                    this.$Message.error({
+                                        content: response.msg ? response.msg : '归档撤销失败',
+                                        duration: 10,
+                                        closable: true
+                                    });
+                                }
+                            });
+                        }, 2000);
+                    },
+                    onCancel: () => {
+                        this.$Message.warning({
+                            content: '已取消归档撤销',
+                            closable: false
+                        });
+                    }
+                });
+            },
+            // 重新对账
+            AgainReconciliationsAction(row) {
+                this.$Modal.confirm({
+                    content: '确定要重新对账吗',
+                    okText: '确定',
+                    cancelText: '取消',
+                    loading: true,
+                    onOk: () => {
+                        this.$Modal.remove();
+                        this.reconciliationsRowAction(row);
+                    },
+                    onCancel: () => {
+                        this.$Message.warning({
+                            content: '已取消重新对账',
+                            closable: false
+                        });
+                    }
+                });
             }
-            // ---对账内部操作 end ----
+            // ---列表操作 end ----
         }
     };
 </script>
