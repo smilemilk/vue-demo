@@ -14,8 +14,8 @@ util.title = function (title) {
 const ajaxUrl = env === 'development'
     ? 'http://test.weimaipay.com:8070/'
     : env === 'production'
-        ? ''
-        : '';
+        ? 'http://www.weimaipay.com:8070/'
+        : 'http://www.weimaipay.com:8070/';
 
 util.ajax = axios.create({
     baseURL: ajaxUrl,

@@ -100,6 +100,14 @@
                                     </div>
                                     <div class="operateHoverPush">
                                         <Icon type="android-upload"></Icon>
+                                        <Upload
+                                                multiple
+                                                :action="uploadUrl"
+                                                accept=".txt,.csv,
+                                                       application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                                                       application/vnd.ms-excel">
+                                            <Button type="ghost">Upload files</Button>
+                                        </Upload>
                                         <p>上传账单</p>
                                     </div>
                                 </div>
@@ -245,6 +253,7 @@
     import {parseTime} from '@/filters';
     import ajax from '@/api/statistics';
     import {downloadExcel} from '@/libs/file';
+    import util from '@/libs/util'
 
     export default {
         name: 'searchable-table',
@@ -256,6 +265,10 @@
             this.queryParams.billStartTime = parseTime(new Date().getTime() - 7 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}'); // 首次进来默认展示一周数据
             this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
             this.getList();
+            console.log('-------------')
+            console.log(this.uploadUrlBase)
+            console.log(util.ajax.baseURL)
+            console.log('-------------')
         },
         computed: {
             // dataListComputed () {
