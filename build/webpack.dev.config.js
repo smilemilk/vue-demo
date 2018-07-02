@@ -8,10 +8,10 @@ const fs = require('fs');
 const config = require('../config');
 const package = require('../package.json');
 
-fs.open('./build/env.js', 'w', function(err, fd) {
-    const buf = 'export default "development";';
-    fs.write(fd, buf, 0, buf.length, 0, function(err, written, buffer) {});
-});
+// fs.open('./build/env.js', 'w', function(err, fd) {
+//     const buf = 'export default "development";';
+//     fs.write(fd, buf, 0, buf.length, 0, function(err, written, buffer) {});
+// });
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -42,6 +42,9 @@ module.exports = merge(webpackBaseConfig, {
         }
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env': require('../config/dev.env')
+        }),
         new ExtractTextPlugin({
             filename: '[name].css',
             allChunks: true

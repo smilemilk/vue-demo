@@ -10,15 +10,16 @@ const os = require('os');
 const fs = require('fs');
 const path = require('path');
 const package = require('../package.json');
+const config = require('../config');
 
-fs.open('./build/env.js', 'w', function(err, fd) {
-    const buf = 'export default "production";';
-    fs.write(fd, buf, 0, buf.length, 0, function(err, written, buffer) {});
-});
+// fs.open('./build/env.js', 'w', function(err, fd) {
+//     const buf = 'export default "production";';
+//     fs.write(fd, buf, 0, buf.length, 0, function(err, written, buffer) {});
+// });
 
 module.exports = merge(webpackBaseConfig, {
     output: {
-        publicPath: '',  // 服务器域名
+        publicPath: config.build.assetsRoot,  // 服务器域名
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].chunk.js'
     },
@@ -36,11 +37,11 @@ module.exports = merge(webpackBaseConfig, {
             name: ['vender-exten', 'vender-base'],
             minChunks: Infinity
         }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"'
-            }
-        }),
+        // new webpack.DefinePlugin({
+        //     'process.env': {
+        //         NODE_ENV: '"production"'
+        //     }
+        // }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
