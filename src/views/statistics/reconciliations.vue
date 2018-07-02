@@ -101,12 +101,14 @@
                                     <div class="operateHoverPush">
                                         <Icon type="android-upload"></Icon>
                                         <Upload
+                                                ref="up"
                                                 multiple
+                                                :headers="headerParam"
                                                 :action="uploadUrl"
                                                 accept=".txt,.csv,
                                                        application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
                                                        application/vnd.ms-excel">
-                                            <Button type="ghost">Upload files</Button>
+                                            <Button type="ghost" @click="uploadCheckAction">Upload files</Button>
                                         </Upload>
                                         <p>上传账单</p>
                                     </div>
@@ -253,22 +255,23 @@
     import {parseTime} from '@/filters';
     import ajax from '@/api/statistics';
     import {downloadExcel} from '@/libs/file';
-    import util from '@/libs/util'
+    import baseUrl from '../../../config/server';
 
     export default {
         name: 'searchable-table',
         data () {
-            return storeData.apply(this);
+            return storeData.call(this);
         },
         created () {
             this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}'); // 首次进来默认展示一周数据
             this.queryParams.billStartTime = parseTime(new Date().getTime() - 7 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}'); // 首次进来默认展示一周数据
             this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
             this.getList();
-            console.log('-------------')
-            console.log(this.uploadUrlBase)
-            console.log(util.ajax.baseURL)
-            console.log('-------------')
+            this.uploadUrl = baseUrl + '/unioncheck/portal/doCheck/uploadFile';
+            console.log('-------------');
+            console.log(baseUrl);
+            console.log(this.uploadUrl);
+            console.log('-------------');
         },
         computed: {
             // dataListComputed () {
@@ -817,6 +820,17 @@
                     }
                 });
             },
+            uploadCheckAction (item) {
+                console.log(item)
+                this.headerParam = Object.assign({}, this.billDateRange,
+                    {
+                        configId: '',
+                        timestamp: ''
+                    }
+                );
+                console.log(this.headerParam)
+
+            },
             submitCheckAction () {
                 if (this.checkBillCount !== 0 || this.checkBillCount !== null) {
                     this.showDialog = false;
@@ -969,7 +983,7 @@
                     left,
                     top;
                 if (row.billStartTime) {
-                    timeRow = (parseTime(row.billStartTime, '{y}-{m}-{d}')).replace(/-/g,'');
+                    timeRow = (parseTime(row.billStartTime, '{y}-{m}-{d}')).replace(/-/g, '');
                 }
                 urlParam = {
                     checkOrderNo: row.checkOrderNo || '',
@@ -1019,7 +1033,7 @@
                 });
             },
             // 重新对账
-            AgainReconciliationsAction(row) {
+            AgainReconciliationsAction (row) {
                 this.$Modal.confirm({
                     content: '确定要重新对账吗',
                     okText: '确定',

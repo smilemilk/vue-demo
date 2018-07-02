@@ -1,5 +1,4 @@
 import {parseTime, moneyFormat} from '@/filters';
-import util from '@/libs/util'
 // import {reconciliationStatus} from 'filters';
 
 export default function () {
@@ -40,8 +39,8 @@ export default function () {
         appConfigArr: [], // 应用数据
         file: null,
         loadingStatus: false,
-        uploadUrlBase: util.ajax.baseURL,
-        uploadUrl: this.uploadUrlBase + '/unioncheck/portal/doCheck/uploadFile',
+        uploadUrl: '',
+        headerParam: {},
         columnsTable: [
             {
                 type: 'selection',
