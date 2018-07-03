@@ -329,10 +329,6 @@
             this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
             this.getList();
             this.uploadUrl = baseUrl + '/unioncheck/portal/doCheck/uploadFile';
-            console.log('-------------');
-            console.log(baseUrl);
-            console.log(this.uploadUrl);
-            console.log('-------------');
         },
         computed: {
             // dataListComputed () {
@@ -415,7 +411,6 @@
                 });
             },
             handleRowChange (selection) {
-                console.log(selection);
                 this.multipleSelection = selection;
             },
             handleSelectAll (status) {

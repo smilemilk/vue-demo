@@ -1,5 +1,20 @@
 <template>
     <div>
+        <Card class="margin-bottom-10 userLoginForm">
+            <div>
+                <Row>
+                    <Col span="12" :xs="24" :sm="12" :md="12" :lg="12">
+                        <span>最后登陆时间：{{this.userForm.lastLoginDatetime ? this.userForm.lastLoginDatetime : '——'}}</span>
+                    </Col>
+                    <Col span="12" :xs="24" :sm="12" :md="12" :lg="12">
+                        <span>最后登陆IP：{{this.userForm.registerIp ? this.userForm.registerIp : '——'}}</span>
+                        <Button type="text" size="small" @click="showIPHistory" class="emFont">
+                            修改密码
+                        </Button>
+                    </Col>
+                </Row>
+            </div>
+        </Card>
         <Card>
             <p slot="title">
                 <Icon type="person"></Icon>
@@ -11,62 +26,64 @@
                     :model="userForm"
                     :label-width="100"
                     label-position="right"
-                    :rules="inforValidate"
+                    class="userForm"
                 >
-                    <FormItem label="用户姓名：" prop="name">
-                        <div style="display:inline-block;width:300px;">
-                            <Input v-model="userForm.name"></Input>
-                        </div>
+                    <FormItem label="商户名：" prop="nameFormat">
+                        <span>
+                            {{userForm.nameFormat}}
+                        </span>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;{{userForm.nameRealStatus=== true ? '已实名' : '未实名'}}</span>
                     </FormItem>
-                    <FormItem label="用户手机：" prop="cellphone">
-                        <div style="display:inline-block;width:204px;">
-                            <Input v-model="userForm.cellphone" @on-keydown="hasChangePhone"></Input>
-                        </div>
-                        <div style="display:inline-block;position:relative;">
-                            <Button @click="getIdentifyCode" :disabled="canGetIdentifyCode">
-                                {{ gettingIdentifyCodeBtnContent }}
-                            </Button>
-                            <div class="own-space-input-identifycode-con" v-if="inputCodeVisible">
-                                <div style="background-color:white;z-index:110;margin:10px;">
-                                    <Input v-model="securityCode" placeholder="请填写短信验证码"></Input>
-                                    <div style="margin-top:10px;text-align:right">
-                                        <Button type="ghost" @click="cancelInputCodeBox">取消</Button>
-                                        <Button type="primary" @click="submitCode" :loading="checkIdentifyCodeLoading">
-                                            确定
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <FormItem label="商户号：">
+                        <span>{{userForm.merchantId ? userForm.merchantId : '——'}}</span>
                     </FormItem>
-                    <FormItem label="公司：">
-                        <span>{{ userForm.company }}</span>
+                    <FormItem label="微脉号：">
+                        <span>{{ userForm.weMayId ? userForm.weMayId : '——'}}</span>
                     </FormItem>
-                    <FormItem label="部门：">
-                        <span>{{ userForm.department }}</span>
-                    </FormItem>
-                    <FormItem label="登录密码：">
+                    <FormItem label="登陆密码：">
                         <Tooltip content="点击修改密码" placement="right">
                             <Button type="text" size="small" @click="showEditPassword" class="emFont">
                                 修改密码
                             </Button>
                         </Tooltip>
-
+                    </FormItem>
+                    <FormItem label="类型：">
+                        <span>商户用户</span>
+                    </FormItem>
+                    <FormItem label="证件号：">
+                        <span>{{ userForm.idcard ? userForm.idcard : '——'}}</span>
+                    </FormItem>
+                    <FormItem label="手机号：">
+                        <span>{{ userForm.mobile ? userForm.mobile : '——'}}</span>
+                    </FormItem>
+                    <FormItem label="邮箱地址：">
+                        <span>{{ userForm.email ? userForm.email : '——'}}</span>
+                    </FormItem>
+                    <FormItem label="地址：">
+                        <span>{{ userForm.userAddress ? userForm.userAddress : '——'}}</span>
+                    </FormItem>
+                    <FormItem label="创建时间：">
+                        <span>{{ userForm.registerDatetime ? userForm.registerDatetime : '——'}}</span>
                     </FormItem>
                     <div>
-                        <Tooltip content="暂未开通此功能" placement="bottom">
-                        <Button type="text" style="width: 100px;"
-                                @click="cancelEditUserInfor"
-                                disabled
-                        >取消</Button>
-                        </Tooltip>
-                        <Tooltip content="暂未开通此功能" placement="bottom">
-                        <Button type="primary" style="width: 100px;"
-                                :loading="save_loading"
-                                @click="saveEdit"
-                                disabled
-                        >保存</Button>
-                        </Tooltip>
+                        <Row>
+                            <Col span="12" :xs="24" :sm="12" :md="12" :lg="12">
+                                <Tooltip content="暂未开通此功能" placement="bottom">
+                                    <Button type="text" style="width: 100px;"
+                                            disabled
+                                    >取消</Button>
+                                </Tooltip>
+                                <Tooltip content="暂未开通此功能" placement="bottom">
+                                    <Button type="primary" style="width: 100px;"
+                                            :loading="save_loading"
+                                            disabled
+                                    >保存</Button>
+                                </Tooltip>
+                            </Col>
+                            <Col span="12" :xs="24" :sm="12" :md="12" :lg="12" class="tipText">
+                                提醒：暂未开放自助修改，如需修改信息请联系您的运营负责人
+                            </Col>
+                        </Row>
                     </div>
                 </Form>
             </div>
@@ -95,10 +112,34 @@
                 >保存</Button>
             </div>
         </Modal>
+        <Modal v-model="ipModal" :closable='true' :footer='false' :mask-closable=false :width="420">
+            <h3 slot="header">历史记录</h3>
+            <Table
+                    ref="table"
+                    :columns="columnIp"
+                    :data="ipList"
+                    :height="tableHeight"
+                    highlight-row
+                    :show-header="false"
+            ></Table>
+            <Page :total="total"
+                  size="small"
+                  show-elevator
+                  class="margin-top-10"
+                  @on-change="handleCurrentPageChange"></Page>
+            <div slot="footer">
+            </div>
+        </Modal>
     </div>
 </template>
 
 <script>
+    import ajax from '@/api/login';
+    import {modPassword, ipHistory} from '../../api/person';
+    import {parseTime} from '../../filters';
+    import RSA from '@/libs/RSANode';
+    import Cookies from 'js-cookie';
+
     export default {
         name: 'ownspace_index',
         data () {
@@ -118,38 +159,25 @@
                 }
             };
             return {
-                userForm: {
-                    name: '',
-                    cellphone: '',
-                    company: '',
-                    department: ''
-                },
-                uid: '', // 登录用户的userId
-                securityCode: '', // 验证码
-                phoneHasChanged: false, // 是否编辑了手机
-                save_loading: false,
-                identifyError: '', // 验证码错误
-                editPasswordModal: false, // 修改密码模态框显示
-                savePassLoading: false,
-                oldPassError: '',
-                identifyCodeRight: false, // 验证码是否正确
-                hasGetIdentifyCode: false, // 是否点了获取验证码
-                canGetIdentifyCode: false, // 是否可点获取验证码
-                checkIdentifyCodeLoading: false,
-                inforValidate: {
-                    name: [
-                        {required: true, message: '请输入姓名', trigger: 'blur'}
-                    ],
-                    cellphone: [
-                        {required: true, message: '请输入手机号码'},
-                        {validator: validePhone}
-                    ]
-                },
+                keyPair: '',
+                userForm: {},
                 editPasswordForm: {
                     oldPass: '',
                     newPass: '',
                     rePass: ''
                 },
+                editPasswordModal: false,
+                savePassLoading: false,
+                save_loading: false,
+                oldPassError: '',
+                ipModal: false,
+                ipList: [],
+                columnIp: [],
+                tableHeight: 300,
+                historyList: {
+                    page: 0
+                },
+                total: 0,
                 passwordValidate: {
                     oldPass: [
                         {required: true, message: '请输入原密码', trigger: 'blur'}
@@ -163,68 +191,70 @@
                         {required: true, message: '请再次输入新密码', trigger: 'blur'},
                         {validator: valideRePassword, trigger: 'blur'}
                     ]
-                },
-                inputCodeVisible: false, // 显示填写验证码box
-                initPhone: '',
-                gettingIdentifyCodeBtnContent: '获取验证码' // “获取验证码”按钮的文字
+                }
             };
         },
+        created() {
+            this.getUser();
+            this.getToken();
+        },
         methods: {
-            getIdentifyCode () {
-                this.hasGetIdentifyCode = true;
-                this.$refs['userForm'].validate((valid) => {
-                    if (valid) {
-                        this.canGetIdentifyCode = true;
-                        let timeLast = 60;
-                        let timer = setInterval(() => {
-                            if (timeLast >= 0) {
-                                this.gettingIdentifyCodeBtnContent = timeLast + '秒后重试';
-                                timeLast -= 1;
-                            } else {
-                                clearInterval(timer);
-                                this.gettingIdentifyCodeBtnContent = '获取验证码';
-                                this.canGetIdentifyCode = false;
-                            }
-                        }, 1000);
-                        this.inputCodeVisible = true;
-                        // you can write ajax request here
+            getUser() {
+                ajax.getUser({}).then(response => {
+                   if (response.success === true) {
+                        this.userForm = response.data || {};
+                        if (response.data && response.data.merchantRealName) {
+                            this.userForm.nameFormat = response.data.merchantRealName;
+                            this.userForm.nameRealStatus = true;
+                        } else {
+                            this.userForm.nameFormat = response.data.merchantName || '';
+                            this.userForm.nameRealStatus = false;
+                        }
+                        if (response.data && response.data.registerDatetime) {
+                            this.userForm.registerDatetime = parseTime(response.data.registerDatetime);
+                        }
+                        this.userForm = {...this.userForm,
+                            nameFormat: this.userForm.nameFormat,
+                            nameRealStatus: this.userForm.nameRealStatus,
+                            registerDatetime: this.userForm.registerDatetime,
+                            lastLoginDatetime: parseTime(response.data.lastLoginDatetime) || ''
+                        };
+                   } else {
+                       this.$Message.error({
+                           content: response.msg ? response.msg : '商户信息未成功获取',
+                           duration: 2,
+                           closable: true
+                       });
+                   }
+                }).catch(() => {
+                    this.$Message.error({
+                        content: '商户信息接口未成功请求',
+                        duration: 2,
+                        closable: true
+                    });
+                });
+            },
+            getToken () {
+                ajax.getToken({
+                    _: new Date().getTime()
+                }).then(response => {
+                    if (!response.success == true) {
+                        this.$Notice.open({
+                            title: '登陆验证错误',
+                            desc: response.msg ? response.msg : '获取用户认证错误'
+                        });
+                        return;
                     }
+                    let res = response.data;
+                    const keyPair = RSA.getKeyPair(
+                        res.exponent, '', res.modulus
+                    );
+                    this.keyPair = keyPair;
+                }).catch(() => {
                 });
             },
             showEditPassword () {
                 this.editPasswordModal = true;
-            },
-            cancelEditUserInfor () {
-//                this.$store.commit('removeTag', 'ownspace_index');
-//                localStorage.pageOpenedList = JSON.stringify(this.$store.state.app.pageOpenedList);
-//                let lastPageName = '';
-//                if (this.$store.state.app.pageOpenedList.length > 1) {
-//                    lastPageName = this.$store.state.app.pageOpenedList[1].name;
-//                } else {
-//                    lastPageName = this.$store.state.app.pageOpenedList[0].name;
-//                }
-//                this.$router.push({
-//                    name: lastPageName
-//                });
-            },
-            saveEdit () {
-//                this.$refs['userForm'].validate((valid) => {
-//                    if (valid) {
-//                        if (this.phoneHasChanged && this.userForm.cellphone !== this.initPhone) { // 手机号码修改过了而且修改之后的手机号和原来的不一样
-//                            if (this.hasGetIdentifyCode) { // 判断是否点了获取验证码
-//                                if (this.identifyCodeRight) { // 判断验证码是否正确
-//                                    this.saveInfoAjax();
-//                                } else {
-//                                    this.$Message.error('验证码错误，请重新输入');
-//                                }
-//                            } else {
-//                                this.$Message.warning('请先点击获取验证码');
-//                            }
-//                        } else {
-//                            this.saveInfoAjax();
-//                        }
-//                    }
-//                });
             },
             cancelEditPass(formName) {
                 if (this.$refs[formName]) {
@@ -234,59 +264,130 @@
             },
             saveEditPass (formName) {
                 this.$refs['editPasswordForm'].validate((valid) => {
-                    if (valid) {
-                        this.savePassLoading = true;
-                        if (this.$refs[formName]) {
-                            this.$refs[formName].resetFields();
-                        }
+                    if (valid=== true) {
+                        modPassword(
+                            {oldPwd: RSA.encryptedString(this.keyPair, this.editPasswordForm.oldPass),
+                            newPwd: RSA.encryptedString(this.keyPair, this.editPasswordForm.newPass)}
+                        ).then(response => {
+                            if (response.success === true) {
+                                this.$Message.success({
+                                    content: response.msg ? response.msg : '修改密码成功，请重新登陆',
+                                    duration: 2,
+                                    closable: true
+                                });
+                                this.editPasswordModal = false;
+                                Cookies.remove('user');
+                                Cookies.remove('password');
+                                Cookies.remove('access');
+                                localStorage.clear();
+                                this.$router.push({
+                                    name: 'login'
+                                });
+                            } else {
+                                this.$Message.error({
+                                    content: response.msg ? '修改失败！' + response.msg : '修改失败,旧密码输入错误！',
+                                    duration: 2,
+                                    closable: true
+                                });
+                            }
+                            this.savePassLoading = true;
+                            if (this.$refs[formName]) {
+                                this.$refs[formName].resetFields();
+                            }
+                        }).catch(() => {
+                            this.$Message.error({
+                                content: '修改密码接口未成功',
+                                duration: 2,
+                                closable: true
+                            });
+                        });
                     }
                 });
             },
-            init () {
-                this.userForm.name = 'Lison';
-                this.userForm.cellphone = '17712345678';
-                this.initPhone = '17712345678';
-                this.userForm.company = 'TalkingData';
-                this.userForm.department = '可视化部门';
+            showIPHistory() {
+                this.ipHistoryList();
+                this.ipModal = true;
             },
-            cancelInputCodeBox () {
-                this.inputCodeVisible = false;
-                this.userForm.cellphone = this.initPhone;
+            ipHistoryList() {
+                ipHistory(
+                    {
+                        start: this.historyList.page,
+                        limit: 10,
+                        login_date_start: this.getLastOneDay(30),
+                        login_date_end: this.getLastOneDay(0)
+                    }
+                ).then(response => {
+                    if (response.success === true) {
+                        if (response.data.items) {
+                            this.ipList = response.data.items;
+                            this.columnIp=[{
+                                key: 'loginDatetime',
+                                width: 200,
+                                align: 'center'
+                            }, {
+                                key: 'loginIp',
+                                align: 'left',
+                                render: (h, params) => {
+                                    return h('div', '登陆IP：' + params.row.loginIp);
+                                }
+                            }];
+                            this.total = response.data.pages;
+                        } else {
+                            this.ipList = [];
+                        }
+                    }
+
+                }).catch(()=>{
+                    this.$Message.error({
+                        content: 'IP历史登陆记录接口未成功请求',
+                        duration: 2,
+                        closable: true
+                    });
+                });
             },
-            submitCode () {
-                let vm = this;
-                vm.checkIdentifyCodeLoading = true;
-                if (this.securityCode.length === 0) {
-                    this.$Message.error('请填写短信验证码');
-                } else {
-                    setTimeout(() => {
-                        this.$Message.success('验证码正确');
-                        this.inputCodeVisible = false;
-                        this.checkIdentifyCodeLoading = false;
-                    }, 1000);
-                }
+            handleCurrentPageChange(val) {
+                this.historyList.page = val;
+                this.ipHistoryList();
             },
-            hasChangePhone () {
-                this.phoneHasChanged = true;
-                this.hasGetIdentifyCode = false;
-                this.identifyCodeRight = false;
-            },
-            saveInfoAjax () {
-                this.save_loading = true;
-                setTimeout(() => {
-                    this.$Message.success('保存成功');
-                    this.save_loading = false;
-                }, 1000);
+            getLastOneDay (days) {
+                var today=new Date();
+
+                    var lastOneDay_milliseconds = today.getTime() - 1000 * 60 * 60 * 24 * days;
+                    var lastOneDay = new Date();
+                    lastOneDay.setTime(lastOneDay_milliseconds);
+                    var strYear = lastOneDay.getFullYear();
+                    var strDay = lastOneDay.getDate();
+                    if (strDay < 10) {
+                        strDay = "0" + strDay;
+                    }
+                    var strMonth = lastOneDay.getMonth() + 1;
+                    if (strMonth < 10) {
+                        strMonth = "0" + strMonth;
+                    }
+                    var lastOneDay = strYear + "-" + strMonth + "-" + strDay;
+                    return lastOneDay;
             }
-        },
-        mounted () {
-            this.init();
         }
     };
 </script>
 
 <style lang="less" scoped>
     @import "../../styles/common";
+    .userLoginForm {
+        span {
+            font-size: 12px;
+            &:nth-child(2) {
+                display: inline-block;
+                padding-left: 30px;
+            }
+        }
+    }
+
+    .userForm {
+        .ivu-form-item {
+            margin-bottom: 8px;
+        }
+    }
 
     .emFont {
         color: @mainThemeBlue;
@@ -328,6 +429,21 @@
             margin-top: -50px;
             border-radius: 4px;
             box-shadow: 0 0 2px 3px rgba(0, 0, 0, .1);
+        }
+    }
+    .tipText {
+        color: @fontColorLight;
+        margin-top: 15px;
+        padding-left: 30px;
+        font-size: 12px;
+    }
+
+
+    @media screen and (max-height: 786px){
+        .userForm {
+            .ivu-form-item {
+                margin-bottom: 2px;
+            }
         }
     }
 </style>
