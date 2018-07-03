@@ -1,14 +1,14 @@
 <template>
-    <div style="width:88%;height:200px;margin-left:6%;border-top-left-radius: 8px;border-top-right-radius: 8px;" id="service_request_con"></div>
+    <div style="width:88%;height:200px;margin-left:6%;border-top-left-radius: 8px;border-top-right-radius: 8px;" id="day_request_con"></div>
 </template>
 
 <script>
     import echarts from 'echarts';
     export default {
-        name: 'serviceRequests',
+        name: 'dayLine',
         mounted () {
             const option = {
-                backgroundColor: '-webkit-linear-gradient(90deg, red, blue)',
+                backgroundColor: '-webkit-linear-gradient(90deg, rgba(246, 171, 96, 1), rgba(246, 171, 96, .8))',
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -20,7 +20,7 @@
                 },
                 grid: {
                     top: 0,
-                    left: 0,
+                    left: -48,
                     right: 0,
                     bottom: 0,
                     height: 200,
@@ -34,7 +34,8 @@
                         type: 'category',
                         boundaryGap: false,
                         show : false,
-                        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                        data: [],
+//                        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
                          axisLabel: {
                             interval: 0
                          }
@@ -69,7 +70,7 @@
                         itemStyle : {
                             normal : {
                                 lineStyle:{
-                                    color:'#2ec7c9' // 折线线条填充的颜色
+                                    color:'rgb(250,189,128)' // 折线线条填充的颜色
                                 }
                             }
                         },
@@ -78,17 +79,17 @@
                                     new echarts.graphic.LinearGradient(
                                     0, 0, 0, 1,
                                     [
-                                        {offset: 0, color: '#2ec7c9'},
-                                        {offset: 0.5, color: '#2ec7c9'},
-                                        {offset: 1, color: '#2ec7c9'}
+                                        {offset: 0, color: 'rgba(250,189,128, 1)'},
+                                        {offset: 0.5, color: 'rgba(250,189,128, .8)'},
+                                        {offset: 1, color: 'rgba(250,189,128, .3)'}
                                     ]
                                 )
                             }},
-                        data: [220, 45, 546, 745, 872, 624, 10002]
+                        data: [820, 45, 546, 745, 872, 624, 1002]
                     }
                 ]
             };
-            const serviceRequestCharts = echarts.init(document.getElementById('service_request_con'));
+            const serviceRequestCharts = echarts.init(document.getElementById('day_request_con'));
             serviceRequestCharts.setOption(option);
             window.addEventListener('resize', function () {
                 serviceRequestCharts.resize();
