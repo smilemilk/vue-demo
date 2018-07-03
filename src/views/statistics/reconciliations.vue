@@ -102,9 +102,11 @@
                                         <Upload
                                             ref="upload"
                                             multiple
-                                            :headers="headerParam"
+                                            :data="headerParam"
                                             :action="uploadUrl"
+                                            :on-format-error="handleFormatError"
                                             :before-upload="handleUpload"
+                                            :on-progress="handleProgress"
                                             :show-upload-list="false"
                                             :on-success="uploadSuccess"
                                             accept=".txt,.csv,
@@ -290,6 +292,9 @@
             //     }
             //     return this.dataList;
             // }
+        },
+        mounted () {
+            // this.uploadList = this.$refs.upload.fileList;
         },
         methods: {
             dateChange (val) {
@@ -839,37 +844,37 @@
             handleUpload (file) { // 上传文件前的事件钩子
                 if (file) {
                     this.showDialog = false;
-                    this.$Modal.confirm({
-                        content: '确定要上传',
-                        okText: '确定',
-                        cancelText: '取消',
-                        onOk: () => {
-                            // 选择文件后 这里判断文件类型 保存文件 自定义一个keyid 值 方便后面删除操作
-                            let keyID = Math.random().toString().substr(2);
-                            file['keyID'] = keyID;
-                            // 保存文件到总展示文件数据里
-                            this.fileList.push(file);
-                            // 保存文件到需要上传的文件数组里
-                            this.uploadFile.push(file);
-                        },
-                        onCancel: () => {
-                            this.file = [];
-                            this.uploadFile = [];
-                        }
-                    });
-                    return false;
+                    this.file = null;
+                    this.headerParam = Object.assign({}, this.headerParam, {timestamp: file.lastModified})
+                    this.fileList.push(file);
+                    // 保存文件到需要上传的文件数组里
+                    this.uploadFile.push(file);
                 }
             },
-            pullUpload(file) {
-                console.log('11111')
-                setTimeout(() => {
-                    this.file = null;
-                    // 返回 falsa 停止自动上传 我们需要手动上传
-                }, 2000);
+            handleProgress (event, file) {
+                this.$Modal.confirm({
+                    content: '文件 ' + file.name + ' 正在上传...',
+                });
+            },
+            handleFormatError (file) {
+                this.$Modal.confirm({
+                    content: '文件 ' + file.name + ' 格式不正确，请选择图片文件。',
+                    okText: '确定',
+                    cancelText: '取消',
+                });
             },
             uploadSuccess (res, file) { // 文件上传回调 上传成功后删除待上传文件
-                console.log(response)
-                console.log(file)
+                if (res.success === true) {
+                    this.$Modal.confirm({
+                        content: '文件 ' + file.name + '上传成功',
+                        okText: '确定',
+                    });
+                } else {
+                    this.$Modal.warning({
+                        content: '文件 ' + file.name + res.msg ? res.msg : '上传失败',
+                        okText: '确定',
+                    });
+                }
             },
             submitCheckAction () {
                 if (this.checkBillCount !== 0 || this.checkBillCount !== null) {
