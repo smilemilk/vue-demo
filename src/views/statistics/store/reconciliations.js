@@ -35,12 +35,14 @@ export default function () {
             billEndTime: ''
         },
         mchConfigArr: [], // HIS 交易方数据
-        fundConfigArr: [], // 资金通道
+        fundConfigArr:[], // 资金通道
         appConfigArr: [], // 应用数据
-        file: null,
         loadingStatus: false,
         uploadUrl: '',
         headerParam: {},
+        file: null,
+        fileList: [],
+        uploadFile: [], // 需要上传的
         columnsTable: [
             {
                 type: 'selection',

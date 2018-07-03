@@ -19,30 +19,30 @@
             <div>
                 <Row>
                     <Col span="12" :md="12" :sm="24" :xs="24">
-                        <figure>
-                            <label>待处理天数:<em>{{this.searchDay.item1 ? this.searchDay.item1: 0}}</em></label>
-                            <label>已归档天数:<em>{{this.searchDay.item2 ? this.searchDay.item2: 0}}</em></label>
-                        </figure>
+                    <figure>
+                        <label>待处理天数:<em>{{this.searchDay.item1 ? this.searchDay.item1 : 0}}</em></label>
+                        <label>已归档天数:<em>{{this.searchDay.item2 ? this.searchDay.item2 : 0}}</em></label>
+                    </figure>
                     </Col>
                     <Col span="12" :md="12" :sm="24" :xs="24">
-                        <Button type="primary" @click="getList('queryParams')">查询</Button>
-                        <Button type="primary" @click="exportAction">导出</Button>
-                        <Button type="primary" @click="reconciliationsOpera">开始对账</Button>
-                        <Button type="primary" @click="downloadAction">对账结果下载</Button>
-                        <Button @click="handleSelectAll(true)" style="display:none;">全选</Button>
+                    <Button type="primary" @click="getList('queryParams')">查询</Button>
+                    <Button type="primary" @click="exportAction">导出</Button>
+                    <Button type="primary" @click="reconciliationsOpera">开始对账</Button>
+                    <Button type="primary" @click="downloadAction">对账结果下载</Button>
+                    <Button @click="handleSelectAll(true)" style="display:none;">全选</Button>
                     </Col>
                 </Row>
             </div>
         </Card>
         <Card>
             <Table
-                    ref="table"
-                    :columns="columnsTable"
-                    :data="dataList"
-                    :height="tableHeight"
-                    highlight-row
-                    border
-                    @on-selection-change="handleRowChange"
+                ref="table"
+                :columns="columnsTable"
+                :data="dataList"
+                :height="tableHeight"
+                highlight-row
+                border
+                @on-selection-change="handleRowChange"
             ></Table>
             <Page :total="total"
                   size="small"
@@ -52,9 +52,9 @@
                   @on-page-size-change="handlePageSizeChange"></Page>
         </Card>
         <Modal
-                class-name="reconciliationsDialog"
-                width="70%"
-                v-model="showDialog">
+            class-name="reconciliationsDialog"
+            width="70%"
+            v-model="showDialog">
             <div slot="header">
                 <figure v-if="rowOperate === false">
                     <span>{{this.queryParams.billStartTime ? this.queryParams.billStartTime : '——'}}</span>
@@ -76,11 +76,11 @@
                              :class="key > 0 ? 'margin-left-10 inline' : 'inline'"
                              :data-link="item.configId">
                             <div
-                                    :class="item.numResult !== '空' ?
+                                :class="item.numResult !== '空' ?
                                     'operateItem operatorEmpty borderDark' :
                                      'operateItem operatorEmpty'">
                                 <div
-                                        :class="idItem === item.configId &&
+                                    :class="idItem === item.configId &&
                                                 keyItem === key &&
                                                 hoverVisible === true ?
                                                 'operateContainer hidden' :
@@ -99,18 +99,22 @@
                                         <p>接口拉取</p>
                                     </div>
                                     <div class="operateHoverPush">
-                                        <Icon type="android-upload"></Icon>
                                         <Upload
-                                                ref="up"
-                                                multiple
-                                                :headers="headerParam"
-                                                :action="uploadUrl"
-                                                accept=".txt,.csv,
+                                            ref="upload"
+                                            multiple
+                                            :headers="headerParam"
+                                            :action="uploadUrl"
+                                            :before-upload="handleUpload"
+                                            :show-upload-list="false"
+                                            :on-success="uploadSuccess"
+                                            accept=".txt,.csv,
                                                        application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
                                                        application/vnd.ms-excel">
-                                            <Button type="ghost" @click="uploadCheckAction">Upload files</Button>
+                                            <div @click="uploadCheckAction(item)">
+                                                <Icon type="android-upload"></Icon>
+                                                <p>上传账单</p>
+                                            </div>
                                         </Upload>
-                                        <p>上传账单</p>
                                     </div>
                                 </div>
                                 <Icon type="close-circled"
@@ -180,8 +184,8 @@
                                         ''}}</p>
                                 </div>
                                 <div
-                                        v-show="idItem === item.configId && keyItem === key && hoverVisible === true"
-                                        class="operateHover">
+                                    v-show="idItem === item.configId && keyItem === key && hoverVisible === true"
+                                    class="operateHover">
                                     <div class="operateHoverPull" @click="pullCheckAction(item)">
                                         <Icon type="android-download"></Icon>
                                         <p>接口拉取</p>
@@ -205,29 +209,31 @@
             <div slot="footer">
                 <Row>
                     <Col span="12">
-                        <div class="reconciliationsBottom">
-                            <label>历史对账结果</label>
-                            <Button :type="keepSuccess === true ? 'primary' : 'default'"
-                                    shape="circle" size="small"
-                                    @click="checkToggle(keepSuccess, 1)">保留
-                            </Button>
-                            <Button :type="keepSuccess === false ? 'primary' : 'default'"
-                                    shape="circle" size="small"
-                                    @click="checkToggle(keepSuccess, 2)">不保留
-                            </Button>
-                        </div>
+                    <div class="reconciliationsBottom">
+                        <label>历史对账结果</label>
+                        <Button :type="keepSuccess === true ? 'primary' : 'default'"
+                                shape="circle" size="small"
+                                @click="checkToggle(keepSuccess, 1)">保留
+
+                        </Button>
+                        <Button :type="keepSuccess === false ? 'primary' : 'default'"
+                                shape="circle" size="small"
+                                @click="checkToggle(keepSuccess, 2)">不保留
+
+                        </Button>
+                    </div>
                     </Col>
                     <Col span="12">
-                        <Button type="primary" size="large" @click="submitCheckAction">开始对账</Button>
+                    <Button type="primary" size="large" @click="submitCheckAction">开始对账</Button>
                     </Col>
                 </Row>
             </div>
         </Modal>
         <Modal
-                class-name="downloadDialog"
-                width="300px"
-                v-model="downloadShowDialog"
-                @on-cancel="downloadCancel"
+            class-name="downloadDialog"
+            width="300px"
+            v-model="downloadShowDialog"
+            @on-cancel="downloadCancel"
         >
             <div slot="header">
                 <p>对账结果下载</p>
@@ -242,7 +248,7 @@
             <div slot="footer">
                 <Row>
                     <Col span="24">
-                        <Button type="primary" @click="handleLabelAction">确认</Button>
+                    <Button type="primary" @click="handleLabelAction">确认</Button>
                     </Col>
                 </Row>
             </div>
@@ -782,7 +788,7 @@
                     }
                 });
             },
-            // 对账 上传接口 接口拉取
+            // 对账 接口拉取
             pullCheckAction (item) {
                 this.showDialog = false;
                 this.$Modal.confirm({
@@ -820,16 +826,50 @@
                     }
                 });
             },
-            uploadCheckAction (item) {
-                console.log(item)
+            uploadCheckAction (item) { // 对账 上传按钮
                 this.headerParam = Object.assign({}, this.billDateRange,
                     {
-                        configId: '',
+                        configId: item.configId || '',
                         timestamp: ''
                     }
                 );
                 console.log(this.headerParam)
 
+            },
+            handleUpload (file) { // 上传文件前的事件钩子
+                if (file) {
+                    this.showDialog = false;
+                    this.$Modal.confirm({
+                        content: '确定要上传',
+                        okText: '确定',
+                        cancelText: '取消',
+                        onOk: () => {
+                            // 选择文件后 这里判断文件类型 保存文件 自定义一个keyid 值 方便后面删除操作
+                            let keyID = Math.random().toString().substr(2);
+                            file['keyID'] = keyID;
+                            // 保存文件到总展示文件数据里
+                            this.fileList.push(file);
+                            // 保存文件到需要上传的文件数组里
+                            this.uploadFile.push(file);
+                        },
+                        onCancel: () => {
+                            this.file = [];
+                            this.uploadFile = [];
+                        }
+                    });
+                    return false;
+                }
+            },
+            pullUpload(file) {
+                console.log('11111')
+                setTimeout(() => {
+                    this.file = null;
+                    // 返回 falsa 停止自动上传 我们需要手动上传
+                }, 2000);
+            },
+            uploadSuccess (res, file) { // 文件上传回调 上传成功后删除待上传文件
+                console.log(response)
+                console.log(file)
             },
             submitCheckAction () {
                 if (this.checkBillCount !== 0 || this.checkBillCount !== null) {
