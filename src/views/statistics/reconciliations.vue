@@ -94,11 +94,18 @@
                                              keyItem === key &&
                                              hoverVisible === true"
                                      class="operateHover">
-                                    <div class="operateHoverPull" @click="pullCheckAction(item)">
+                                    <div class="operateHoverPull"
+                                         @click="pullCheckAction(item)"
+                                         v-if="idItem === item.configId &&
+                                             keyItem === key &&
+                                             item.isPull === true">
                                         <Icon type="android-download"></Icon>
                                         <p>接口拉取</p>
                                     </div>
-                                    <div class="operateHoverPush">
+                                    <div class="operateHoverPush"
+                                         v-if="idItem === item.configId &&
+                                             keyItem === key &&
+                                             item.isUpload === true">
                                         <Upload
                                             ref="upload"
                                             multiple
@@ -150,13 +157,36 @@
                                              keyItem === key &&
                                              hoverVisible === true"
                                      class="operateHover">
-                                    <div class="operateHoverPull" @click="pullCheckAction(item)">
+                                    <div class="operateHoverPull"
+                                         @click="pullCheckAction(item)"
+                                         v-if="idItem === item.configId &&
+                                             keyItem === key &&
+                                             item.isPull === true">
                                         <Icon type="android-download"></Icon>
                                         <p>接口拉取</p>
                                     </div>
-                                    <div class="operateHoverPush">
-                                        <Icon type="android-upload"></Icon>
-                                        <p>上传账单</p>
+                                    <div class="operateHoverPush"
+                                         v-if="idItem === item.configId &&
+                                             keyItem === key &&
+                                             item.isUpload === true">
+                                        <Upload
+                                                ref="upload"
+                                                multiple
+                                                :data="headerParam"
+                                                :action="uploadUrl"
+                                                :on-format-error="handleFormatError"
+                                                :before-upload="handleUpload"
+                                                :on-progress="handleProgress"
+                                                :show-upload-list="false"
+                                                :on-success="uploadSuccess"
+                                                accept=".txt,.csv,
+                                                       application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                                                       application/vnd.ms-excel">
+                                            <div @click="uploadCheckAction(item)">
+                                                <Icon type="android-upload"></Icon>
+                                                <p>上传账单</p>
+                                            </div>
+                                        </Upload>
                                     </div>
                                 </div>
                                 <Icon type="close-circled"
@@ -188,13 +218,36 @@
                                 <div
                                     v-show="idItem === item.configId && keyItem === key && hoverVisible === true"
                                     class="operateHover">
-                                    <div class="operateHoverPull" @click="pullCheckAction(item)">
+                                    <div class="operateHoverPull"
+                                         @click="pullCheckAction(item)"
+                                         v-if="idItem === item.configId &&
+                                             keyItem === key &&
+                                             item.isPull === true">
                                         <Icon type="android-download"></Icon>
                                         <p>接口拉取</p>
                                     </div>
-                                    <div class="operateHoverPush">
-                                        <Icon type="android-upload"></Icon>
-                                        <p>上传账单</p>
+                                    <div class="operateHoverPush"
+                                         v-if="idItem === item.configId &&
+                                             keyItem === key &&
+                                             item.isUpload === true">
+                                        <Upload
+                                                ref="upload"
+                                                multiple
+                                                :data="headerParam"
+                                                :action="uploadUrl"
+                                                :on-format-error="handleFormatError"
+                                                :before-upload="handleUpload"
+                                                :on-progress="handleProgress"
+                                                :show-upload-list="false"
+                                                :on-success="uploadSuccess"
+                                                accept=".txt,.csv,
+                                                       application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                                                       application/vnd.ms-excel">
+                                            <div @click="uploadCheckAction(item)">
+                                                <Icon type="android-upload"></Icon>
+                                                <p>上传账单</p>
+                                            </div>
+                                        </Upload>
                                     </div>
                                 </div>
                                 <Icon type="close-circled"
@@ -331,135 +384,6 @@
                 ajax.checkList(this.queryParams).then(response => {
                     if (response.success == true) {
                         if (response.data.items) {
-                            response = {
-                                'success': true, 'msg': null, 'data': {
-                                    'page': 1,
-                                    'start': 0,
-                                    'limit': 10,
-                                    'jqGrid': true,
-                                    'totalCount': 18,
-                                    'pages': 2,
-                                    'items': [{
-                                        'checkOrderNo': 1711741633298435,
-                                        'mchUserId': 832300237455361,
-                                        'billStartTime': 1530374400000,
-                                        'billEndTime': null,
-                                        'unioncheckorderStatus': '3',
-                                        'mchBusinessTotalAmount': 0,
-                                        'appBusinessTotalAmount': 0,
-                                        'fundTransactionTotalAmount': 0,
-                                        'appBusinessTotalCount': 0,
-                                        'fundTransactionTotalCount': 0
-                                    }, {
-                                        'checkOrderNo': 1711741633298433,
-                                        'mchUserId': 832300237455361,
-                                        'billStartTime': 1530288000000,
-                                        'billEndTime': null,
-                                        'unioncheckorderStatus': '6',
-                                        'mchBusinessTotalAmount': 0,
-                                        'appBusinessTotalAmount': 0,
-                                        'fundTransactionTotalAmount': 0,
-                                        'appBusinessTotalCount': 0,
-                                        'fundTransactionTotalCount': 0
-                                    },
-                                        {
-                                            'checkOrderNo': 1711741901733893,
-                                            'mchUserId': 832300237455361,
-                                            'billStartTime': 1530201600000,
-                                            'billEndTime': null,
-                                            'unioncheckorderStatus': '5',
-                                            'mchBusinessTotalAmount': 0,
-                                            'appBusinessTotalAmount': 1,
-                                            'fundTransactionTotalAmount': 0,
-                                            'appBusinessTotalCount': 1,
-                                            'fundTransactionTotalCount': 0
-                                        }, {
-                                            'checkOrderNo': 1711741901733891,
-                                            'mchUserId': 832300237455361,
-                                            'billStartTime': 1530115200000,
-                                            'billEndTime': null,
-                                            'unioncheckorderStatus': '5',
-                                            'mchBusinessTotalAmount': 0,
-                                            'appBusinessTotalAmount': 0,
-                                            'fundTransactionTotalAmount': 0,
-                                            'appBusinessTotalCount': 0,
-                                            'fundTransactionTotalCount': 0
-                                        }, {
-                                            'checkOrderNo': 1711741901733889,
-                                            'mchUserId': 832300237455361,
-                                            'billStartTime': 1530028800000,
-                                            'billEndTime': null,
-                                            'unioncheckorderStatus': '5',
-                                            'mchBusinessTotalAmount': 0,
-                                            'appBusinessTotalAmount': 1,
-                                            'fundTransactionTotalAmount': 0,
-                                            'appBusinessTotalCount': 1,
-                                            'fundTransactionTotalCount': 0
-                                        }, {
-                                            'checkOrderNo': 1711742103060481,
-                                            'mchUserId': 832300237455361,
-                                            'billStartTime': 1529942400000,
-                                            'billEndTime': null,
-                                            'unioncheckorderStatus': '5',
-                                            'mchBusinessTotalAmount': 0,
-                                            'appBusinessTotalAmount': 0,
-                                            'fundTransactionTotalAmount': 0,
-                                            'appBusinessTotalCount': 0,
-                                            'fundTransactionTotalCount': 0
-                                        }, {
-                                            'checkOrderNo': 1711743445237761,
-                                            'mchUserId': 832300237455361,
-                                            'billStartTime': 1529856000000,
-                                            'billEndTime': null,
-                                            'unioncheckorderStatus': '5',
-                                            'mchBusinessTotalAmount': 0,
-                                            'appBusinessTotalAmount': 0,
-                                            'fundTransactionTotalAmount': 0,
-                                            'appBusinessTotalCount': 0,
-                                            'fundTransactionTotalCount': 0
-                                        }, {
-                                            'checkOrderNo': 1711743713673217,
-                                            'mchUserId': 832300237455361,
-                                            'billStartTime': 1529769600000,
-                                            'billEndTime': null,
-                                            'unioncheckorderStatus': '5',
-                                            'mchBusinessTotalAmount': 0,
-                                            'appBusinessTotalAmount': 0,
-                                            'fundTransactionTotalAmount': 0,
-                                            'appBusinessTotalCount': 0,
-                                            'fundTransactionTotalCount': 0
-                                        }, {
-                                            'checkOrderNo': 1711557620793347,
-                                            'mchUserId': 832300237455361,
-                                            'billStartTime': 1529596800000,
-                                            'billEndTime': null,
-                                            'unioncheckorderStatus': '5',
-                                            'mchBusinessTotalAmount': 0,
-                                            'appBusinessTotalAmount': 0,
-                                            'fundTransactionTotalAmount': 0,
-                                            'appBusinessTotalCount': 0,
-                                            'fundTransactionTotalCount': 0
-                                        }, {
-                                            'checkOrderNo': 1711557620793345,
-                                            'mchUserId': 832300237455361,
-                                            'billStartTime': 1529510400000,
-                                            'billEndTime': null,
-                                            'unioncheckorderStatus': '0',
-                                            'mchBusinessTotalAmount': null,
-                                            'appBusinessTotalAmount': null,
-                                            'fundTransactionTotalAmount': null,
-                                            'appBusinessTotalCount': null,
-                                            'fundTransactionTotalCount': null
-                                        }],
-                                    'orderColumn': null,
-                                    'orderDir': 'DESC',
-                                    'mchUserId': 832300237455361,
-                                    'billStartTime': 1527782400000,
-                                    'billEndTime': 1530460799000,
-                                    'unioncheckorderStatus': '',
-                                    'defaultOrderColumn': null
-                                }
-                            };
                             this.dataList = response.data.items;
                             this.total = response.data.totalCount;
                             let item1 = 0;
@@ -623,40 +547,21 @@
                                     appConfigArr = [], // 应用数据
                                     fundConfigArr = []; // 资金通道
                                 res.forEach((it) => {
-                                    it.numResult = '空';
-                                    it.dataCount = 0;
-                                    it.createUpload = false;
-                                    it.isDelete = false;
-                                    it.isUpload = false;
-                                    it.isPull = false;
-                                    it.uploadClass = 'dz-updown';
+                                    this.$set(it, 'numResult', '空');
+                                    this.$set(it, 'dataCount', 0);
+                                    this.$set(it, 'createUpload', false);
+                                    this.$set(it, 'isUpload', false);
+                                    this.$set(it, 'isDelete', false);
+                                    this.$set(it, 'isPull', false);
                                     if (it.value && JSON.parse(it.value) instanceof Array) {
                                         const sourceTypes = eval(it.value);
-                                        for (let i in sourceTypes) {
-                                            if (sourceTypes[i].sourceType == '4') {
-                                                it.isUpdown = false;
-                                                it.numResult = '以HIS为准(空)';
-                                            } else if (sourceTypes[i].sourceType == '2') {
-                                                it.isUpdown = true;
-                                                it.isPull = true;
-                                            } else if (sourceTypes[i].sourceType == '1') {
-                                                it.isUpdown = true;
-                                                it.isUpload = true;
-                                            } else {
-                                                it.isUpdown = true;
+                                        sourceTypes.map(item => {
+                                            if (item.sourceType==='1' || item.sourceType===1) {
+                                                this.$set(it, 'isPull', true);
+                                            } else if (item.sourceType==='2' || item.sourceType===2) {
+                                                this.$set(it, 'isUpload', true);
                                             }
-                                        }
-
-                                        if ((it.isUpload && !it.isPull) || (!it.isUpload && it.isPull)) {
-                                            it.uploadClass = 'dz-updown one';
-                                        }
-                                    } else {
-                                        it.isUpdown = true;
-                                        it.isDelete = false;
-                                    }
-
-                                    if (!it.histroyData) {
-                                        it.histroyData = true;
+                                        })
                                     }
                                     if (it.configType === '交易方数据') {
                                         mchConfigArr.push(it);
@@ -669,7 +574,6 @@
                                 this.mchConfigArr = mchConfigArr;
                                 this.fundConfigArr = fundConfigArr;
                                 this.appConfigArr = appConfigArr;
-                                console.log(this.mchConfigArr);
                                 this.getCheckHistory();
                             }
                         } else {
@@ -862,6 +766,7 @@
                     okText: '确定',
                     cancelText: '取消',
                 });
+                this.headerParam = {};
             },
             uploadSuccess (res, file) { // 文件上传回调 上传成功后删除待上传文件
                 if (res.success === true) {
@@ -869,11 +774,17 @@
                         content: '文件 ' + file.name + '上传成功',
                         okText: '确定',
                     });
+                    this.getCheckSummary();
+                    this.getCheckHistory();
+                    this.showDialog = true;
+                    this.headerParam = {};
                 } else {
                     this.$Modal.warning({
                         content: '文件 ' + file.name + res.msg ? res.msg : '上传失败',
                         okText: '确定',
                     });
+                    this.showDialog = true;
+                    this.headerParam = {};
                 }
             },
             submitCheckAction () {
