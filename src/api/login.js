@@ -36,6 +36,14 @@ export function getUser (params) {
     })
 }
 
+export function getRule (params) {
+    return request({
+        url: 'unioncheck/user/getperms',
+        method: 'get',
+        params: params
+    })
+}
+
 export function loginOut (params) {
     return request({
         url: 'unioncheck/user/mechantlogout',
@@ -50,5 +58,6 @@ export default {
     login,
     getTokenPK,
     getUser,
+    getRule,
     loginOut
 };
