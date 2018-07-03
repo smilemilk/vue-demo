@@ -47,7 +47,12 @@
         </div>
         <div>
             <Tabs type="card" class="homeCard">
-                <TabPane label="日订单">{{nowDate}}</TabPane>
+                <TabPane label="日订单">
+                    {{nowDate}}
+                    <div class="line-chart-con">
+                        <service-requests></service-requests>
+                    </div>
+                </TabPane>
                 <TabPane label="月订单">{{monthDate}}</TabPane>
             </Tabs>
         </div>
@@ -57,10 +62,13 @@
 <script>
     import ajax from '@/api/home';
     import {parseTime, moneyFormat} from '@/filters';
+    import serviceRequests from './components/serviceRequest';
 
     export default {
         name: 'home',
-        components: {},
+        components: {
+            serviceRequests
+        },
         data () {
             return {
                 startDate: '',
