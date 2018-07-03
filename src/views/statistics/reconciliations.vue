@@ -324,8 +324,8 @@
             return storeData.call(this);
         },
         created () {
-            this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}'); // 首次进来默认展示一周数据
-            this.queryParams.billStartTime = parseTime(new Date().getTime() - 7 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}'); // 首次进来默认展示一周数据
+            this.queryParams.billEndTime = parseTime(new Date().getTime() - 24 * 60 * 60 * 1000, '{y}-{m}-{d}'); // 首次进来默认展示一周数据
+            this.queryParams.billStartTime = parseTime(new Date().getTime() - 8 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}'); // 首次进来默认展示一周数据
             this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
             this.getList();
             this.uploadUrl = baseUrl + '/unioncheck/portal/doCheck/uploadFile';
@@ -357,8 +357,8 @@
                 }
             },
             dateWeekAction () {
-                this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}');
-                this.queryParams.billStartTime = parseTime(new Date().getTime() - 7 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}');
+                this.queryParams.billEndTime = parseTime(new Date().getTime() - 24 * 60 * 60 * 1000, '{y}-{m}-{d}');
+                this.queryParams.billStartTime = parseTime(new Date().getTime() - 8 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}');
                 this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
                 this.searchDay = {
                     item1: null,
@@ -371,8 +371,8 @@
                     item1: null,
                     item2: null
                 },
-                    this.queryParams.billEndTime = parseTime(new Date(), '{y}-{m}-{d}');
-                this.queryParams.billStartTime = parseTime(new Date().getTime() - 30 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}');
+                    this.queryParams.billEndTime = parseTime(new Date().getTime() - 24 * 60 * 60 * 1000, '{y}-{m}-{d}');
+                this.queryParams.billStartTime = parseTime(new Date().getTime() - 31 * 24 * 60 * 60 * 1000, '{y}-{m}-{d}');
                 this.dateSearch = [this.queryParams.billStartTime, this.queryParams.billEndTime];
                 this.getList();
             },

@@ -313,7 +313,7 @@
                     {
                         start: this.historyList.page,
                         limit: 10,
-                        login_date_start: this.getLastOneDay(30),
+                        login_date_start: this.getLastOneDay(6),
                         login_date_end: this.getLastOneDay(0)
                     }
                 ).then(response => {
