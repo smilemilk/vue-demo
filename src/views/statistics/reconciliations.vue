@@ -330,20 +330,22 @@
             this.getList();
             this.uploadUrl = baseUrl + '/unioncheck/portal/doCheck/uploadFile';
         },
-        computed: {
-            // dataListComputed () {
-            //     if (this.$refs.table) {
-            //         this.tableHeight =
-            //             window.innerHeight - this.$refs.table.$el.offsetTop - 400;
-            //         if (this.tableHeight < 200) {
-            //             this.tableHeight = 200;
-            //         }
-            //     }
-            //     return this.dataList;
-            // }
-        },
         mounted () {
+            let maxHeight = window.innerHeight - this.$refs.table.$el.offsetTop
+                - 128 - document.querySelector('.searchBox').clientHeight;
+            let tableCount;
+            if (window.screen.availHeight < 768) {
+                tableCount = 32 * 11;
+            } else {
+                tableCount = 48 * 11;
+            }
+            console.log(window.screen.availHeight)
             // this.uploadList = this.$refs.upload.fileList;
+
+            if (maxHeight > tableCount) {
+                maxHeight = tableCount;
+            }
+            this.tableHeight = maxHeight;
         },
         methods: {
             dateChange (val) {
@@ -739,8 +741,6 @@
                         timestamp: ''
                     }
                 );
-                console.log(this.headerParam)
-
             },
             handleUpload (file) { // 上传文件前的事件钩子
                 if (file) {
