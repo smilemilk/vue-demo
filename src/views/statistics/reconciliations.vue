@@ -339,20 +339,17 @@
             } else {
                 tableCount = 48 * 11;
             }
-            console.log(window.screen.availHeight)
-            // this.uploadList = this.$refs.upload.fileList;
-
             if (maxHeight > tableCount) {
                 maxHeight = tableCount;
             }
             this.tableHeight = maxHeight;
+            // this.uploadList = this.$refs.upload.fileList;
         },
         methods: {
             dateChange (val) {
                 if (val) {
                     this.queryParams.billStartTime = parseTime(this.dateSearch[0], '{y}-{m}-{d}');
                     this.queryParams.billEndTime = parseTime(this.dateSearch[1], '{y}-{m}-{d}');
-                    console.log(this.queryParams);
                 } else {
                     this.queryParams.billStartTime = '';
                     this.queryParams.billEndTime = '';
@@ -433,7 +430,6 @@
             },
             exportAction () {
                 if (this.multipleSelection.length > 0) {
-                    console.log(this.multipleSelection);
                     let num = this.multipleSelection.length;
                     let queryParam = [];
                     if (this.multipleSelection) {
@@ -539,7 +535,6 @@
                         if (response.data) {
                             if (response.data.configList) {
                                 const res = response.data.configList;
-                                console.log(res);
 
                                 this.checkBillCount = response.data.checkBillCount;
                                 let mchConfigArr = [], // HIS 交易方数据
@@ -643,9 +638,6 @@
                 this.keyItem = key;
                 this.idItem = item.configId;
                 this.deleteStatus = item.numResult !== '空' ? true : false;
-                console.log(this.keyItem);
-                console.log(this.idItem);
-                console.log(this.deleteStatus);
                 if (this.deleteStatus === false) {
                     this.hoverVisible = true;
                 } else {
