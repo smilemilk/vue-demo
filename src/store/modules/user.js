@@ -17,8 +17,7 @@ const user = {
         async loginOut() {
             await ajax.loginOut({}).then(() => {
                 this.state.fetching = true;
-            }).catch(err => {
-                console.log(err);
+            }).catch(() => {
             });
         }
     }

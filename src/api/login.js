@@ -39,8 +39,9 @@ export function getUser (params) {
 export function getRule (params) {
     return request({
         url: 'unioncheck/user/getperms',
-        method: 'get',
-        params: params
+        method: 'post',
+        params: params,
+        data: params
     })
 }
 

@@ -3,11 +3,11 @@
         <div class="sidebar-menu-con" :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
             <scroll-bar ref="scrollBar">
                 <shrinkable-menu
-                    :shrink="shrink"
-                    @on-change="handleSubmenuChange"
-                    :before-push="beforePush"
-                    :open-names="openedSubmenuArr"
-                    :menu-list="menuList">
+                        :shrink="shrink"
+                        @on-change="handleSubmenuChange"
+                        :before-push="beforePush"
+                        :open-names="openedSubmenuArr"
+                        :menu-list="menuList">
                     <div slot="top" class="logo-con" style="margin-top: 10px;">
                         <img v-show="!shrink" src="../../images/logo.png" key="max-logo"
                              style="width: 60%; height: 60%;"/>
@@ -40,7 +40,6 @@
                 </div>
                 <div class="header-avator-con">
                     <!--<full-screen v-model="isFullScreen" @on-change="fullscreenChange"></full-screen>-->
-                    <!--<lock-screen></lock-screen>-->
                     <!--<message-tip v-model="mesCount"></message-tip>-->
                     <!--<theme-switch></theme-switch>-->
                     <div class="user-dropdown-menu-con">
@@ -71,6 +70,7 @@
                 </keep-alive>
             </div>
         </div>
+        <!--<lock-screen v-if="lockStatus === true"></lock-screen>-->
     </div>
 </template>
 
@@ -78,7 +78,7 @@
     import shrinkableMenu from './components/shrinkable-menu/shrinkable-menu.vue';
     import tagsPageOpened from './components/tags-page-opened.vue';
     // import fullScreen from './layout/fullscreen.vue';
-    import lockScreen from './components/lockscreen/lockscreen.vue';
+    // import lockScreen from './components/lockscreen/components/locking-page.vue';
     import messageTip from './components/message-tip.vue';
     import Cookies from 'js-cookie';
     import util from '@/libs/util.js';
@@ -89,7 +89,7 @@
             shrinkableMenu,
             tagsPageOpened,
             // fullScreen,
-            lockScreen,
+            // lockScreen,
             messageTip,
             scrollBar
         },
@@ -98,7 +98,8 @@
                 alertWelcome: true,
                 shrink: true,
                 userName: '',
-                isFullScreen: false,
+                lockStatus: false,
+                // isFullScreen: false,
                 openedSubmenuArr: this.$store.state.app.openedSubmenuArr
             };
         },
@@ -140,39 +141,6 @@
                 this.messageCount = messageCount.toString();
                 this.checkTag(this.$route.name);
                 this.$store.commit('setMessageCount', 3);
-               setInterval(
-                   this.$store.dispatch('userInfo', this).then((response) => {
-                       console.log('000000')
-                       if (this.$store.state.userFetching === true) {
-//                            this.$router.push({
-//                                name: 'login'
-//                            });
-                           if (response) {
-
-                               //响应成功
-                               // if (data != null && data != "" && data.data != null && data.data != "") {
-                               //     $scope.user = data.data;
-                               //     if($scope.user.isPersonalPortal=="1") {//自定义个性化信息（logo等）
-                               //         //修改登录页
-                               //         container.loginUrl = "/unioncheck/portal/partner/loginhis.htm";
-                               //     }
-                               // }
-                               // else {
-                               //     if ($scope.user != null) {
-                               //         $(".lockDiv").show();
-                               //     }
-                               //     else {
-                               //         $window.location.href = container.loginUrl;
-                               //     }
-                               // }
-
-                           }
-                       } else {
-                           this.$Message.error('');
-                       }
-                   }).catch(() => {
-                       this.$Message.error('权限接口未请求成功');
-                   }), 60000);
             },
             toggleClick () {
                 this.shrink = !this.shrink;
@@ -208,8 +176,29 @@
                     util.openNewPage(this, name, this.$route.params || {}, this.$route.query || {});
                 }
             },
-            fullScreenService() {
+            lockService () {
+                // let self = this;
+                // setInterval(getUserInfo, 600000000);
+                // function getUserInfo() {
+                    console.log('---------')
+                    this.$store.dispatch('userInfo', this).then(() => {
+                        // console.log(this.$store.state.userInfo)
+                        if (this.$store.state.userFetching === true) {
+                            const data = this.$store.state.userInfo;
+                            if (data != null && data !='' && data !={} && data.data != {}) {
+                                console.log(data.data)
+                                this.lockStatus = true;
+                            } else {
 
+                            }
+                        } else {
+                            this.$Message.error('');
+                        }
+                    }).catch(() => {
+                        this.$Message.error('权限接口未请求成功');
+                    });
+                // }
+                // getUserInfo();
             },
             handleSubmenuChange (val) {
                 // console.log(val)
@@ -255,9 +244,7 @@
         created () {
             // 显示打开的页面的列表
             this.$store.commit('setOpenedList');
-        },
-        dispatch () {
-            // window.removeEventListener('resize', this.scrollBarResize);
+            this.lockService();
         }
     };
 </script>

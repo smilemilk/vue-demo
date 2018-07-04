@@ -12,7 +12,7 @@ module.exports = {
     proxyTable: {
       '/unioncheck':
           'http://test.weimaipay.com:8070/',
-          // 'http://172.16.21.184:8070/' //甘松香ip
+          //'http://172.16.21.184:8070/' 甘松香ip
     },
 
     // Various Dev Server settings

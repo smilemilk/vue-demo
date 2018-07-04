@@ -37,7 +37,7 @@
             <div>
                 <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33011002011357"
                    style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
-                    src="http://test.weimaipay.com:8070/unioncheck/portal/img/beian.png">浙公网安备 33011002011357号</a>
+                        src="http://test.weimaipay.com:8070/unioncheck/portal/img/beian.png">浙公网安备 33011002011357号</a>
             </div>
         </div>
     </div>
@@ -46,7 +46,7 @@
 <script>
     import Cookies from 'js-cookie';
     import ajax from '@/api/login';
-    import RSA from '@/libs/RSANode'
+    import RSA from '@/libs/RSANode';
 
     export default {
         data () {
@@ -105,15 +105,8 @@
                                 return;
                             }
                             this.getUser();
-                            this.getRule();
                             Cookies.set('user', this.form.userName);
                             Cookies.set('password', this.form.password);
-//                            this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
-//                            if (this.form.userName === 'admin') {
-//                                Cookies.set('access', 0);
-//                            } else {
-//                                Cookies.set('access', 1);
-//                            }
                             this.$router.push({
                                 name: 'home'
                             });
@@ -126,15 +119,34 @@
                     }
                 });
             },
-            getRule() {
-                ajax.getRule({}).then(response => {
-                    console.log(response)
-                }).catch(()=> {
+            getRule (param) {
+                ajax.getRule({userName: param}).then(response => {
+                    if (response.success === true) {
+                        if (response.data) {
+                            Cookies.set('rule', response.data)
+                        } else {
+                            this.$Message.error('权限数据为空');
+                        }
+                    } else {
+                        this.$Message.error('权限接口未成功');
+                    }
+                    //this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
+//                            if (this.form.userName === 'admin') {
+//                                Cookies.set('access', 0);
+//                            } else {
+//                                Cookies.set('access', 1);
+//                            }
+                }).catch(() => {
                     this.$Message.error('权限请求未成功');
                 });
             },
-            getUser() {
+            getUser () {
                 ajax.getUser({}).then(response => {
+                    if (response.data.merchantName) {
+                        this.getRule(response.data.merchantName);
+                    } else {
+                        this.$Message.error(response.msg ? response.msg : '用户信息数据返回有问题');
+                    }
                 }).catch(() => {
                     this.$Message.error('用户信息请求未成功');
                 });

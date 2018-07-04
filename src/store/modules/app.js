@@ -33,6 +33,7 @@ const app = {
         messageCount: 0,
         dontCache: ['text-editor', 'artical-publish'], // 在这里定义不想要缓存的页面的name属性值(参见路由配置router.js)
         userFetching: false, // getUser 接口查询状态
+        userInfo: {} // getUser 接口返回的数据
     },
     mutations: {
         setTagsList (state, list) {
@@ -171,9 +172,9 @@ const app = {
         setCurrentPageName (state, name) {
             state.currentPageName = name;
         },
-        setAvator (state, path) {
-            localStorage.avatorImgPath = path;
-        },
+        // setAvator (state, path) {
+        //     localStorage.avatorImgPath = path;
+        // },
         setMessageCount (state, count) {
             state.messageCount = count;
         },
@@ -188,10 +189,11 @@ const app = {
     },
     actions: {
         async userInfo() {
-            await ajax.getUser({}).then(() => {
+            await ajax.getUser({}).then((response) => {
                 this.state.userFetching = true;
-            }).catch(err => {
-                console.log(err);
+                this.state.userInfo = response;
+            }).catch(() => {
+                this.state.userFetching = false;
             });
         }
     }
