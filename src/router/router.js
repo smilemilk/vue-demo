@@ -67,16 +67,6 @@ export const appRouter = [
         children: [
             { path: 'reconciliations', title: ' 商户统一对账', name: 'reconciliations', icon: 'clipboard', component: () => import('@/views/statistics/reconciliations.vue') }
         ]
-    },
-    {
-        path: '/error',
-        icon: 'android-sad',
-        title: '错误页面',
-        name: 'errorpage',
-        component: Layout,
-        children: [
-            { path: 'index', title: '错误页面', name: 'error_index', component: () => import('@/views/error/error.vue') }
-        ]
     }
 ];
 

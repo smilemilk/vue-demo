@@ -140,17 +140,39 @@
                 this.messageCount = messageCount.toString();
                 this.checkTag(this.$route.name);
                 this.$store.commit('setMessageCount', 3);
-//                setInterval(
-//                    this.$store.dispatch('userInfo', this).then(() => {
-//                        console.log('000000')
-//                        if (this.$store.state.fetching === true) {
-////                            this.$router.push({
-////                                name: 'login'
-////                            });
-//                        } else {
-//                            this.$Message.error('');
-//                        }
-//                    }), 60000);
+               setInterval(
+                   this.$store.dispatch('userInfo', this).then((response) => {
+                       console.log('000000')
+                       if (this.$store.state.userFetching === true) {
+//                            this.$router.push({
+//                                name: 'login'
+//                            });
+                           if (response) {
+
+                               //响应成功
+                               // if (data != null && data != "" && data.data != null && data.data != "") {
+                               //     $scope.user = data.data;
+                               //     if($scope.user.isPersonalPortal=="1") {//自定义个性化信息（logo等）
+                               //         //修改登录页
+                               //         container.loginUrl = "/unioncheck/portal/partner/loginhis.htm";
+                               //     }
+                               // }
+                               // else {
+                               //     if ($scope.user != null) {
+                               //         $(".lockDiv").show();
+                               //     }
+                               //     else {
+                               //         $window.location.href = container.loginUrl;
+                               //     }
+                               // }
+
+                           }
+                       } else {
+                           this.$Message.error('');
+                       }
+                   }).catch(() => {
+                       this.$Message.error('权限接口未请求成功');
+                   }), 60000);
             },
             toggleClick () {
                 this.shrink = !this.shrink;
