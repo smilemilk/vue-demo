@@ -2,7 +2,8 @@
     <transition name="show-unlock">
         <div class="unlock-body-con" v-if="showUnlock" @keydown.enter="handleUnlock">
             <div @click="handleClickAvator" class="unlock-avator-con" :style="{marginLeft: avatorLeft}">
-                <img class="unlock-avator-img" :src="avatorPath">
+                <!--<img class="unlock-avator-img" :src="avatorPath">-->
+                <p class="userName">{{userName}}</p>
                 <div  class="unlock-avator-cover">
                     <span><Icon type="unlocked" :size="30"></Icon></span>
                     <p>解锁</p>
@@ -41,9 +42,12 @@ export default {
         }
     },
     computed: {
-        avatorPath () {
-            return localStorage.avatorImgPath;
+        'userName':  ()=> {
+            return Cookies.get('user') || ''
         }
+        // avatorPath () {
+        //     return localStorage.avatorImgPath;
+        // }
     },
     methods: {
         validator () {
@@ -101,11 +105,22 @@ export default {
             transition: all .5s;
             z-index: 12;
             box-shadow: 0 0 10px 2px rgba(255, 255, 255, .3);
-            .unlock-avator-img{
-                width: 100%;
-                height: 100%;
-                display: block;
-                z-index: 7;
+            /*.unlock-avator-img{*/
+                /*width: 100%;*/
+                /*height: 100%;*/
+                /*display: block;*/
+                /*z-index: 7;*/
+            /*}*/
+            .userName {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 18px;
+                text-align: center;
+                max-width: 80px;
+                color: #fff;
+                overflow: hidden;
             }
             .unlock-avator-cover{
                 width: 100%;
@@ -136,14 +151,14 @@ export default {
         }
         .unlock-avator-under-back{
             position: absolute;
-            left: 50%;
+            left: 48.5%;
             top: 50%;
             transform: translate(-45px,-50%);
             box-sizing: border-box;
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background: #667aa6;
+            background: #2d8cf0;
             transition: all .5s;
             z-index: 5;
         }

@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 100%;height: 100%;background: #667aa6">
+    <div style="width: 100%;height: 100%;background: #363e4f;">
         <div class="unlock-con">
             <unlock :show-unlock="showUnlock" @on-unlock="handleUnlock"></unlock>
         </div>
@@ -23,7 +23,7 @@ export default {
             let lockScreenBack = document.getElementById('lock_screen_back');
             this.showUnlock = false;
             lockScreenBack.style.zIndex = -1;
-            lockScreenBack.style.boxShadow = '0 0 0 0 #667aa6 inset';
+            lockScreenBack.style.boxShadow = '0 0 0 0 #2d8cf0 inset';
             this.$router.push({
                 name: Cookies.get('last_page_name') // 解锁之后跳转到锁屏之前的页面
             });

@@ -3,12 +3,12 @@
         <time class="homeTitle">{{startDate}}</time>
         <div>
             <Row :gutter="16">
-                <Col span="12" :xs="24" :sm="12" :md="12" :lg="12" style="margin-bottom: 10px;">
-                <Col span="12" :xs="24" :sm="22" :md="20" :lg="16">
+                <Col span="12" :xs="24" :sm="12" :md="12" :lg="12" style="margin-bottom: 20px;">
+                <Col span="12" :xs="24" :sm="22" :md="22" :lg="18">
                 <Card class="panelBox">
                     <div class="panelItem-top">
                         <div>
-                            <Icon type="social-yen"></Icon>
+                            <i class="iconfont icon-03f"></i>
                             <p>今日收入</p>
                         </div>
                         <em v-if="todayStatistics.in">{{todayStatistics.in}}</em>
@@ -23,8 +23,8 @@
                 </Card>
                 </Col>
                 </Col>
-                <Col span="12" :xs="24" :sm="12" :md="12" :lg="12" style="margin-bottom: 10px;">
-                <Col span="12" :xs="24" :sm="22" :md="20" :lg="16">
+                <Col span="12" :xs="24" :sm="12" :md="12" :lg="12" style="margin-bottom: 20px;">
+                <Col span="12" :xs="24" :sm="22" :md="22" :lg="18">
                 <Card class="panelBox">
                     <div class="panelItem-top">
                         <div>
@@ -210,6 +210,9 @@
 
 <style lang="less" scoped>
     @import "../../styles/common";
+    .home-container {
+        padding: 5px 10px 10px;
+    }
 
     .homeTitle {
         display: block;
@@ -226,7 +229,7 @@
             justify-content: space-between;
             align-items: center;
             i {
-                font-size: 28px;
+                font-size: 25px;
                 margin-left: 8px;
             }
             p {
@@ -250,7 +253,7 @@
                 }
             }
             &.panelItem-top {
-                margin-bottom: 15px;
+                margin-bottom: 20px;
                 i {
                     color: @backgroundSuccess;
                 }
@@ -259,7 +262,7 @@
                 }
             }
             &.panelItem-bottom {
-                padding-top: 15px;
+                padding-top: 20px;
                 border-top: 1px solid @borderLight;
                 i {
                     color: @backgroundDanger;
@@ -314,10 +317,10 @@
         .panelBox {
             [class^="panelItem-"] {
                 &.panelItem-top {
-                    margin-bottom: 10px;
+                    margin-bottom: 18px;
                 }
                 &.panelItem-bottom {
-                    padding-top: 10px;
+                    padding-top: 18px;
                 }
             }
         }
