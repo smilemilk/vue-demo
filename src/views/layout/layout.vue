@@ -34,6 +34,7 @@
                                    alertWelcome = true :
                                    alertWelcome = false"
                         >欢迎使用微脉在线支付结算平台！
+
                         </Alert>
                     </transition>
                 </div>
@@ -139,6 +140,17 @@
                 this.messageCount = messageCount.toString();
                 this.checkTag(this.$route.name);
                 this.$store.commit('setMessageCount', 3);
+//                setInterval(
+//                    this.$store.dispatch('userInfo', this).then(() => {
+//                        console.log('000000')
+//                        if (this.$store.state.fetching === true) {
+////                            this.$router.push({
+////                                name: 'login'
+////                            });
+//                        } else {
+//                            this.$Message.error('');
+//                        }
+//                    }), 60000);
             },
             toggleClick () {
                 this.shrink = !this.shrink;
@@ -173,6 +185,9 @@
                 if (!openpageHasTag) { //  解决关闭当前标签后再点击回退按钮会退到当前页时没有标签的问题
                     util.openNewPage(this, name, this.$route.params || {}, this.$route.query || {});
                 }
+            },
+            fullScreenService() {
+
             },
             handleSubmenuChange (val) {
                 // console.log(val)

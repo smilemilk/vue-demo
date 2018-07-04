@@ -501,10 +501,12 @@
                                     input: queryParams
                                 });
                                 this.downloadShowDialog = false;
+                                this.fundListChecked = [];
                             }, 2000);
                         },
                         onCancel: () => {
                             this.downloadShowDialog = true;
+                            this.fundListChecked = [];
                         }
                     });
                 } else {

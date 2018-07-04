@@ -1,6 +1,7 @@
 import {otherRouter, appRouter} from '@/router/router';
 import Util from '@/libs/util';
 import Cookies from 'js-cookie';
+import ajax from '@/api/login';
 import Vue from 'vue';
 
 const app = {
@@ -182,6 +183,14 @@ const app = {
             }
             state.pageOpenedList.push(tagObj);
             localStorage.pageOpenedList = JSON.stringify(state.pageOpenedList);
+        }
+    },
+    actions: {
+        async userInfo() {
+            await ajax.getUser({}).then(() => {
+            }).catch(err => {
+                console.log(err);
+            });
         }
     }
 };

@@ -9,7 +9,7 @@
                     <Col span="12" :xs="24" :sm="12" :md="12" :lg="12">
                         <span>最后登陆IP：{{this.userForm.registerIp ? this.userForm.registerIp : '——'}}</span>
                         <Button type="text" size="small" @click="showIPHistory" class="emFont">
-                            修改密码
+                            查看记录
                         </Button>
                     </Col>
                 </Row>
