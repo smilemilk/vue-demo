@@ -20,7 +20,7 @@ module.exports = {
     port: 8040, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
-    notifyOnErrors: false,
+    notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
     useEslint: true,
     showEslintErrorsInOverlay: false,

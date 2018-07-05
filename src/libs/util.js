@@ -1,5 +1,5 @@
 import axios from 'axios';
-import env from '../../build/env';
+// import env from '../../build/env';
 import semver from 'semver';
 import packjson from '../../package.json';
 
@@ -11,14 +11,14 @@ util.title = function (title) {
     window.document.title = title;
 };
 
-const ajaxUrl = env === 'development'
-    ? 'http://test.weimaipay.com:8070/'
-    : env === 'production'
-        ? 'http://www.weimaipay.com:8070/'
-        : 'http://www.weimaipay.com:8070/';
+// const ajaxUrl = env === 'development'
+//     ? 'http://test.weimaipay.com:8070/'
+//     : env === 'production'
+//         ? 'http://www.weimaipay.com:8070/'
+//         : 'http://www.weimaipay.com:8070/';
 
 util.ajax = axios.create({
-    baseURL: ajaxUrl,
+    baseURL: process.env.BASE_API,
     timeout: 15000
 });
 
