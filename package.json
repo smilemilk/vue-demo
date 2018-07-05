@@ -57,6 +57,7 @@
     "babel-preset-stage-3": "^6.24.1",
     "babel-runtime": "^6.11.6",
     "clean-webpack-plugin": "^0.1.17",
+    "compression-webpack-plugin": "^1.1.11",
     "copy-webpack-plugin": "^4.3.1",
     "css-hot-loader": "^1.3.5",
     "css-loader": "^0.28.8",
@@ -85,6 +86,7 @@
     "vue-style-loader": "^3.0.3",
     "vue-template-compiler": "^2.5.13",
     "webpack": "^3.10.0",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-dev-server": "^2.10.1",
     "webpack-merge": "^4.1.1",
     "webpack-uglify-parallel": "^0.1.4"

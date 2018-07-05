@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const utils = require('./utils')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -9,53 +10,37 @@ const webpackBaseConfig = require('./webpack.base.config.js');
 const os = require('os');
 const fs = require('fs');
 const path = require('path');
-const package = require('../package.json');
 const config = require('../config');
 
-// fs.open('./build/env.js', 'w', function(err, fd) {
-//     const buf = 'export default "production";';
-//     fs.write(fd, buf, 0, buf.length, 0, function(err, written, buffer) {});
-// });
+function resolve (dir) {
+    return path.join(__dirname, '..', dir)
+}
 
-module.exports = merge(webpackBaseConfig, {
+const env = require('../config/prod.env')
+
+const webpackConfig = merge(webpackBaseConfig, {
     output: {
         publicPath: config.build.assetsRoot,  // 服务器域名
-        filename: '[name].[hash].js',
-        chunkFilename: '[name].[hash].chunk.js'
+        filename: utils.assetsPath('js/[name].[chunkhash].js'),
+        chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
     },
     plugins: [
         new cleanWebpackPlugin(['dist/*'], {
             root: path.resolve(__dirname, '../')
         }),
         new ExtractTextPlugin({
-            filename: '[name].[hash].css',
+            filename: utils.assetsPath('css/[name].[contenthash].css'),
             allChunks: true
         }),
         new webpack.optimize.CommonsChunkPlugin({
-            // name: 'vendors',
-            // filename: 'vendors.[hash].js'
             name: ['vender-exten', 'vender-base'],
             minChunks: Infinity
         }),
-        // new webpack.DefinePlugin({
-        //     'process.env': {
-        //         NODE_ENV: '"production"'
-        //     }
-        // }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
             }
         }),
-        // new UglifyJsParallelPlugin({
-        //     workers: os.cpus().length,
-        //     mangle: true,
-        //     compressor: {
-        //       warnings: false,
-        //       drop_console: true,
-        //       drop_debugger: true
-        //      }
-        // }),
         new CopyWebpackPlugin([
             {
                 from: 'favicon.ico'
@@ -63,21 +48,48 @@ module.exports = merge(webpackBaseConfig, {
             {
                 from: 'src/styles/fonts',
                 to: 'fonts'
+            },
+            {
+                from: path.resolve(__dirname, '../static'),
+                to: config.build.assetsSubDirectory,
+                ignore: ['.*']
             }]),
-            // {
-                // from: 'src/components/text-editor/tinymce' // 暂时用不到text-editor
-            // }
-        // ], {
-            // ignore: [
-                // 'text-editor.vue'  // 暂时用不到text-editor
-            // ]
-        // }),
         new HtmlWebpackPlugin({
-            title: '版本' + package.version,
-            favicon: './favicon.ico',
-            filename: '../index.html',
-            template: '!!ejs-loader!./src/template/index.ejs',
-            inject: false
+            title: '微脉在线支付结算平台',
+            favicon: 'favicon.ico',
+            filename: config.build.index,
+            template: 'index.html',
+            // minify: {
+            //     removeComments: true,
+            //     collapseWhitespace: true,
+            //     removeAttributeQuotes: true
+            // },
+            inject: true
         })
     ]
 });
+
+if (config.build.productionGzip) {
+    const CompressionWebpackPlugin = require('compression-webpack-plugin')
+
+    webpackConfig.plugins.push(
+        new CompressionWebpackPlugin({
+            asset: '[path].gz[query]',
+            algorithm: 'gzip',
+            test: new RegExp(
+                '\\.(' +
+                config.build.productionGzipExtensions.join('|') +
+                ')$'
+            ),
+            threshold: 10240,
+            minRatio: 0.8
+        })
+    )
+}
+
+if (config.build.bundleAnalyzerReport) {
+    const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+    webpackConfig.plugins.push(new BundleAnalyzerPlugin())
+}
+
+module.exports = webpackConfig

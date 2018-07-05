@@ -1,5 +1,7 @@
 const path = require('path');
 const os = require('os');
+const utils = require('./utils')
+const config = require('../config')
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HappyPack = require('happypack');
@@ -14,7 +16,7 @@ module.exports = {
         'vender-exten': '@/vendors/vendors.exten.js'
     },
     output: {
-        path: path.resolve(__dirname, '../dist/dist')
+        path: path.resolve(__dirname, '../dist')
     },
     module: {
         rules: [
@@ -63,7 +65,11 @@ module.exports = {
             },
             {
                 test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
-                loader: 'url-loader?limit=1024'
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    name: utils.assetsPath('img/[name].[hash:7].[ext]')
+                }
             },
             {
                 test: /\.(html|tpl)$/,
