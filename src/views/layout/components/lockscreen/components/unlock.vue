@@ -25,6 +25,9 @@
 
 <script>
 import Cookies from 'js-cookie';
+import ajax from '@/api/login';
+import RSA from '@/libs/RSANode';
+
 export default {
     name: 'Unlock',
     data () {
@@ -49,9 +52,55 @@ export default {
         //     return localStorage.avatorImgPath;
         // }
     },
+    created() {
+        this.getToken();
+    },
     methods: {
+        getToken () {
+            ajax.getToken({
+                _: new Date().getTime()
+            }).then(response => {
+                if (!response.success == true) {
+                    this.$Notice.open({
+                        title: '登陆验证错误',
+                        desc: response.msg ? response.msg : '获取用户认证错误'
+                    });
+                    return;
+                }
+                let res = response.data;
+                const keyPair = RSA.getKeyPair(
+                    res.exponent, '', res.modulus
+                );
+                this.keyPair = keyPair;
+            }).catch(() => {
+            });
+        },
         validator () {
-            return true; // 你可以在这里写密码验证方式，如发起ajax请求将用户输入的密码this.password与数据库用户密码对比
+            if (!this.password.trim()) {
+                this.$Message.error('密码不能为空');
+                return;
+            }
+            ajax.login({
+                login_name: Cookies.get('user') || '',
+                login_pwd: RSA.encryptedString(this.keyPair, this.password)
+            }).then(response => {
+                if (!response.success == true) {
+                    this.$Notice.open({
+                        title: '登陆出错',
+                        desc: response.msg ? response.msg : '登陆出错'
+                    });
+                    return;
+                }
+                Cookies.set('user', Cookies.get('user'));
+                Cookies.set('password', this.password);
+                Cookies.set('locking', '0');
+                this.$emit('on-unlock');
+                this.$router.push({
+                    name: 'home'
+                });
+            }).catch(() => {
+                this.$Message.error('未成功提交登陆');
+            });
         },
         handleClickAvator () {
             this.avatorLeft = '-180px';
@@ -65,9 +114,10 @@ export default {
                 this.password = '';
                 Cookies.set('locking', '0');
                 this.$emit('on-unlock');
-            } else {
-                this.$Message.error('密码错误,请重新输入。如果忘了密码，清除浏览器缓存重新登录即可，这里没有做后端验证');
             }
+            // else {
+            //     this.$Message.error('密码错误,请重新输入');
+            // }
         },
         unlockMousedown () {
             this.$refs.unlockBtn.className = 'unlock-btn click-unlock-btn';
