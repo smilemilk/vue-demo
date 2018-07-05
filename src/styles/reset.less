@@ -14,6 +14,9 @@
 }
 .homeCard {
     &.ivu-tabs.ivu-tabs-card {
+        .ivu-tabs-nav-container:focus .ivu-tabs-tab-focused {
+            border-color: @borderLight !important;
+        }
         & > .ivu-tabs-bar {
             .ivu-tabs-nav-container {
                 height: 40px;
@@ -27,6 +30,7 @@
                 height: 40px;
                 z-index: 399;
                 color: @fontColor;
+                border-color: @borderLight;
                 &.ivu-tabs-tab {
                     background: rgb(256, 256, 256);
                 }

@@ -8,14 +8,14 @@
                 <Card class="panelBox">
                     <div class="panelItem-top">
                         <div>
-                            <i class="iconfont icon-03f"></i>
+                            <i class="iconfont icon-qian1"></i>
                             <p>今日收入</p>
                         </div>
                         <em v-if="todayStatistics.in">{{todayStatistics.in}}</em>
                     </div>
                     <div class="panelItem-bottom">
                         <div>
-                            <Icon type="ios-cart"></Icon>
+                            <i class="iconfont icon-gouwuche"></i>
                             <p>今日支出</p>
                         </div>
                         <em v-if="todayStatistics.out">{{todayStatistics.out}}</em>
@@ -28,14 +28,14 @@
                 <Card class="panelBox">
                     <div class="panelItem-top">
                         <div>
-                            <Icon type="social-yen"></Icon>
+                            <i class="iconfont icon-qian1"></i>
                             <p>本月收入</p>
                         </div>
                         <em v-if="monthStatistics.in">{{monthStatistics.in}}</em>
                     </div>
                     <div class="panelItem-bottom">
                         <div>
-                            <Icon type="ios-cart"></Icon>
+                            <i class="iconfont icon-gouwuche"></i>
                             <p>本月支出</p>
                         </div>
                         <em v-if="monthStatistics.out">{{monthStatistics.out}}</em>
@@ -253,7 +253,7 @@
                 }
             }
             &.panelItem-top {
-                margin-bottom: 20px;
+                margin-bottom: 16px;
                 i {
                     color: @backgroundSuccess;
                 }
@@ -262,7 +262,7 @@
                 }
             }
             &.panelItem-bottom {
-                padding-top: 20px;
+                padding-top: 16px;
                 border-top: 1px solid @borderLight;
                 i {
                     color: @backgroundDanger;
@@ -317,10 +317,10 @@
         .panelBox {
             [class^="panelItem-"] {
                 &.panelItem-top {
-                    margin-bottom: 18px;
+                    margin-bottom: 14px;
                 }
                 &.panelItem-bottom {
-                    padding-top: 18px;
+                    padding-top: 14px;
                 }
             }
         }
