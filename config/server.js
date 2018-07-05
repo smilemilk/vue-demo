@@ -1,1 +1,1 @@
-module.exports = ""
+module.exports = "http://test.weimaipay.com:8070/"

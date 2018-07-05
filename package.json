@@ -6,8 +6,6 @@
   "scripts": {
     "dev": "node config/changeServer.js development && webpack-dev-server  --open --inline --hot --compress --config build/webpack.dev.config.js",
     "build": "node config/changeServer.js build && node build/build.js",
-    "yfb": "node config/changeServer.js yfb && node build/build.js",
-    "production": "node config/changeServer.js production && node build/build.js",
     "init": "webpack --progress --config build/webpack.dev.config.js",
     "lint": "eslint --fix --ext .js,.vue src",
     "test": "npm run lint"
