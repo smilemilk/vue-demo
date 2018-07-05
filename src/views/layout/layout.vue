@@ -171,8 +171,6 @@
                         const data = this.$store.state.userInfo;
                         if (data != null && data != '' && data != {} && data.data != {}) {
                             this.lockStatus = false;
-                            this.lockStatus = true;
-                            Cookies.set('locking', 1);
                         } else {
                             this.lockStatus = true;
                             Cookies.set('locking', 1);
