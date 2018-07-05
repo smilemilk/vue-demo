@@ -63,15 +63,15 @@ module.exports = merge(webpackBaseConfig, {
             {
                 from: 'src/styles/fonts',
                 to: 'fonts'
-            },
-            {
-                from: 'src/components/text-editor/tinymce'
-            }
-        ], {
-            ignore: [
-                'text-editor.vue'
-            ]
-        }),
+            }]),
+            // {
+                // from: 'src/components/text-editor/tinymce' // 暂时用不到text-editor
+            // }
+        // ], {
+            // ignore: [
+                // 'text-editor.vue'  // 暂时用不到text-editor
+            // ]
+        // }),
         new HtmlWebpackPlugin({
             title: '版本' + package.version,
             favicon: './favicon.ico',

@@ -58,14 +58,14 @@ module.exports = merge(webpackBaseConfig, {
             filename: '../index.html',
             inject: false
         }),
-        new CopyWebpackPlugin([
-            {
-                from: 'src/components/text-editor/tinymce'
-            }
-        ], {
-            ignore: [
-                'text-editor.vue'
-            ]
-        })
+        // new CopyWebpackPlugin([
+        //     {
+                // from: 'src/components/text-editor/tinymce'  // 暂时用不到text-editor
+            // }
+        // ], {
+        //     ignore: [
+                // 'text-editor.vue'  // 暂时用不到text-editor
+            // ]
+        // })
     ]
 });
