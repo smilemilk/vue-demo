@@ -52,6 +52,7 @@ module.exports = {
 
     // you can set by youself according to actual condition
     assetsPublicPath: './',
+    assetsStaticPath: './static',
 
     /**
      * Source Maps

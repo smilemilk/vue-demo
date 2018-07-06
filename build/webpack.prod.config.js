@@ -20,7 +20,7 @@ const env = require('../config/prod.env')
 
 const webpackConfig = merge(webpackBaseConfig, {
     output: {
-        publicPath: config.build.assetsRoot,  // 服务器域名
+        publicPath: './',
         filename: utils.assetsPath('js/[name].[chunkhash].js'),
         chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
     },
@@ -42,29 +42,31 @@ const webpackConfig = merge(webpackBaseConfig, {
             }
         }),
         new CopyWebpackPlugin([
-            {
-                from: 'favicon.ico'
-            },
+            // {
+            //     from: 'favicon.ico'
+            // },
             {
                 from: 'src/styles/fonts',
                 to: 'fonts'
             },
-            {
-                from: path.resolve(__dirname, '../static'),
-                to: config.build.assetsSubDirectory,
-                ignore: ['.*']
-            }]),
+            // {
+            //     from: path.resolve(__dirname, '../static'),
+            //     to: config.build.assetsStaticPath,
+            //     ignore: ['.*']
+            // }
+            ]),
         new HtmlWebpackPlugin({
             title: '微脉在线支付结算平台',
             favicon: 'favicon.ico',
             filename: config.build.index,
-            template: 'index.html',
-            // minify: {
-            //     removeComments: true,
-            //     collapseWhitespace: true,
-            //     removeAttributeQuotes: true
-            // },
-            inject: true
+            template: '!!ejs-loader!./src/template/index.ejs',
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+            },
+            cache: true,
+            inject: false
         })
     ]
 });
